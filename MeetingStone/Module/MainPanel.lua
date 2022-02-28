@@ -345,8 +345,10 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         if activity:GetLeaderHonorLevel() then
             tooltip:AddLine(format(L['队长荣誉等级：|cffffffff%s|r'], activity:GetLeaderHonorLevel()))
         end
-        if activity:GetLeaderPvPRating() then
-            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], activity:GetLeaderPvPRating()))
+		
+		local pvpRating = activity:GetLeaderPvpRating() or 0
+        if pvpRating > 0 then
+            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], pvpRating))
         end
 
         local score = activity:GetLeaderScore() or 0
