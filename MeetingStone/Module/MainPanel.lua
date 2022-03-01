@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20220226')
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20220301')
     self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -345,8 +345,10 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         if activity:GetLeaderHonorLevel() then
             tooltip:AddLine(format(L['队长荣誉等级：|cffffffff%s|r'], activity:GetLeaderHonorLevel()))
         end
-        if activity:GetLeaderPvPRating() then
-            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], activity:GetLeaderPvPRating()))
+		
+		local pvpRating = activity:GetLeaderPvpRating() or 0
+        if pvpRating > 0 then
+            tooltip:AddLine(format(L['队长PvP 等级：|cffffffff%s|r'], pvpRating))
         end
 
         local score = activity:GetLeaderScore() or 0

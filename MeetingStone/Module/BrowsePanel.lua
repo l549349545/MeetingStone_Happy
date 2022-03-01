@@ -199,20 +199,35 @@ function BrowsePanel:OnInitialize()
                 end,
             },{
                 key = 'LeaderScore',
-                text = L['大秘评分'],
-                style = 'LEFT',
+                text = L['分数'],
                 width = 90,
                 textHandler = function(activity)
-                    local score = activity:GetLeaderScore()
-                    if not score or score == 0 then
-                        return NONE, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
-                    else
-                        local color = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
-                        return score, color.r, color.g, color.b
-                    end
+				     if activity:IsArenaActivity() then
+                         local pvpRating = activity:GetLeaderPvpRating()
+                         if pvpRating == 0 then
+                             return NONE, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+                         else
+                             local color = activity:IsUnusable() and GRAY_FONT_COLOR or activity:IsPvPRatingValid() and
+                                               GREEN_FONT_COLOR or RED_FONT_COLOR
+                             return floor(pvpRating), color.r, color.g, color.b
+                         end
+                     else
+				
+						local score = activity:GetLeaderScore()
+						if not score or score == 0 then
+							return NONE, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+						else
+							local color = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
+							return score, color.r, color.g, color.b
+						end
+					end
                 end,
                 sortHandler = function(activity)
-                    return 0xFFFF - activity:GetLeaderScore()
+				    if activity:IsArenaActivity() then
+						return 0xFFFF - activity:GetLeaderPvpRating()
+					else
+						return 0xFFFF - activity:GetLeaderOverallDungeonScore()
+					end
                 end,
             }, {
                 key = 'Summary',

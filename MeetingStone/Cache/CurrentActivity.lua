@@ -6,6 +6,9 @@ CurrentActivity = Addon:NewClass('CurrentActivity', BaseActivity)
 CurrentActivity:InitAttr{
     'Title',
     'PrivateGroup',
+	'QuestID',
+	'MythicPlusRating',
+	'PvpRating'
 }
 
 function CurrentActivity:FromAddon(data)
@@ -33,6 +36,8 @@ function CurrentActivity:UpdateBySystem(info)
     self:SetActivityID(info.activityID)
     self:SetItemLevel(info.requiredItemLevel)
     self:SetHonorLevel(info.requiredHonorLevel)
+    self:SetMythicPlusRating(info.requiredDungeonScore)
+    self:SetPvpRating(info.requiredPvpRating)
     self:SetVoiceChat(info.voiceChat)
     self:UpdateCustomData(info.comment, info.name)
     self:SetPrivateGroup(info.privateGroup)
@@ -48,5 +53,9 @@ function CurrentActivity:GetCreateArguments(autoAccept)
             self:GetItemLevel(),
             self:GetHonorLevel(),
             autoAccept,
-            self:GetPrivateGroup()
+            self:GetPrivateGroup(),
+            self:GetQuestID(),
+            self:GetMythicPlusRating(),
+            self:GetPvpRating()
+			
 end

@@ -80,24 +80,31 @@ local APPLICANT_LIST_HEADER = {
                 end
                 return
             end
-            local level = applicant:GetLevel()
-            if applicant:GetResult() then
-                local activity = CreatePanel:GetCurrentActivity()
-                if activity and activity:IsMeetingStone() and (level < activity:GetMinLevel() or level > activity:GetMaxLevel()) then
-                    return level, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b
-                else
-                    return level
-                end
-            else
-                return applicant:GetLevel(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
-            end
+			
+          
+			local pvPRating = applicant:GetPvPRating()
+			return pvPRating
+			
+			
+            --local level = applicant:GetLevel()
+            --if applicant:GetResult() then
+                --local activity = CreatePanel:GetCurrentActivity()
+                --if activity and activity:IsMeetingStone() and (level < activity:GetMinLevel() or level > activity:GetMaxLevel()) then
+                    --return level, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b
+                --else
+                    --return level
+                --end
+            --else
+                --return applicant:GetLevel(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+            --end
         end,
         sortHandler = function(applicant)
             local score = applicant:GetDungeonScore()
+			local pvPRating = applicant:GetPvPRating()
             if applicant:IsMythicPlusActivity() or score > 0 then
                 return _PartySortHandler(applicant) or tostring(9999 - score)
             else
-                return _PartySortHandler(applicant) or tostring(999 - applicant:GetLevel())
+                return _PartySortHandler(applicant) or tostring(999 - pvPRating)
             end
         end
     },
@@ -147,7 +154,8 @@ local APPLICANT_LIST_HEADER = {
     {
         key = 'Msg',
         text = L['描述'],
-        width = 102+44,
+		--by 易安玥 修正宽度，适配VV修改的宽度
+        width = 102+44+50,
         style = 'LEFT',
         showHandler = function(applicant)
             if applicant:GetResult() then
@@ -213,8 +221,9 @@ function ApplicantPanel:OnInitialize()
 
     local AutoInvite = GUI:GetClass('CheckBox'):New(self)
     do
-        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -200, 7)
-        AutoInvite:SetText(L['自动邀请(需要开启语言过滤器)'])
+		--by 易安玥 修正位置和描述，适配VV修改的宽度
+        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -150, 7)
+        AutoInvite:SetText(L['自动邀请(需开语言过滤)'])
         AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
         AutoInvite:SetScript('OnClick', function()
             Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())
@@ -262,10 +271,12 @@ function ApplicantPanel:UpdateApplicantsList()
     local applicants = C_LFGList.GetApplicants()
 
     if applicants and C_LFGList.HasActiveEntryInfo() then
+        local activityID = C_LFGList.GetActiveEntryInfo().activityID
+        local isMythicPlusActivity = select(13, C_LFGList.GetActivityInfo(activityID))
         for i, id in ipairs(applicants) do
             local numMembers = C_LFGList.GetApplicantInfo(id).numMembers
             for i = 1, numMembers do
-                tinsert(list, Applicant:New(id, i, C_LFGList.GetActiveEntryInfo().activityID))
+                tinsert(list, Applicant:New(id, i, activityID, isMythicPlusActivity))
             end
         end
 

@@ -67,6 +67,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore = C_LFGList.GetApplicantMemberInfo(id, index)
     local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
     local msg, isMeetingStone, progression, pvpRating, source  = DecodeDescriptionData(comment)
+	local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityId)
 
     self:SetID(id)
     self:SetActivityID(activityId)
@@ -95,7 +96,9 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetBestDungeonScore(bestDungeonScoreForEntry)
 
     self:SetIsMeetingStone(isMeetingStone)
-    self:SetPvPRating(isMeetingStone and tonumber(pvpRating) or 0)
+	if(pvpRatingInfo) then
+		self:SetPvPRating(pvpRatingInfo.rating)
+	end
     self:SetSource(source)
     if isMeetingStone then
         self:SetProgression(progression)

@@ -178,6 +178,12 @@ end
 function IsUseHonorLevel(activityId)
     return activityId and select(11, C_LFGList.GetActivityInfo(activityId))
 end
+function IsMythicPlusActivity (activityId)
+    return activityId and select(13, C_LFGList.GetActivityInfo(activityId))
+end
+function IsRatedPvpActivity (activityId)
+    return activityId and select(14, C_LFGList.GetActivityInfo(activityId))
+end
 
 local PVP_INDEXS = {[6] = 1, [7] = 1, [8] = 1, [19] = 2}
 
