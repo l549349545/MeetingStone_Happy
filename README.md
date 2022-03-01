@@ -1,5 +1,5 @@
 # MeetingStone_开心快乐版
-https://gitee.com/xmmmmm/meeting-stone_-happy
+下载地址：https://wwi.lanzout.com/iHXir00utb5g
 
 #### 介绍
 魔兽世界集合石插件魔改
