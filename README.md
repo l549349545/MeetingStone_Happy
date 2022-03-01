@@ -1,4 +1,5 @@
 # MeetingStone_开心快乐版
+https://gitee.com/xmmmmm/meeting-stone_-happy
 
 #### 介绍
 魔兽世界集合石插件魔改
@@ -6,7 +7,7 @@
 2022-03-01
 更新插件：Meeting Stone EX by https://bbs.nga.cn/read.php?tid=30841564
 更新PVP等级显示 by VV
-更新 塔扎维什：琳彩天街、塔扎维什：索·莉亚的宏图、初诞者圣墓（下周） 显示 by VV
+更新 塔扎维什：琳彩天街、塔扎维什：索·莉亚的宏图、初诞者圣墓（下周） 显示 by 易安玥
 
 2022-02-27 
 修复刷新显示2条的问题 by NGA.雨夜独行客 uid=2464069
