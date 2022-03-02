@@ -154,7 +154,8 @@ local APPLICANT_LIST_HEADER = {
     {
         key = 'Msg',
         text = L['描述'],
-        width = 102+44,
+		--by 易安玥 修正宽度，适配VV修改的宽度
+        width = 102+44+50,
         style = 'LEFT',
         showHandler = function(applicant)
             if applicant:GetResult() then
@@ -220,8 +221,9 @@ function ApplicantPanel:OnInitialize()
 
     local AutoInvite = GUI:GetClass('CheckBox'):New(self)
     do
-        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -200, 7)
-        AutoInvite:SetText(L['自动邀请(需要开启语言过滤器)'])
+		--by 易安玥 修正位置和描述，适配VV修改的宽度
+        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -150, 7)
+        AutoInvite:SetText(L['自动邀请(需开语言过滤)'])
         AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
         AutoInvite:SetScript('OnClick', function()
             Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())

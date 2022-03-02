@@ -34,7 +34,8 @@ function ManagerPanel:OnInitialize()
 
     local ApplicantListBlocker = Addon:GetClass('Cover'):New(self) do
 	-- 遮罩层宽度
-        ApplicantListBlocker:SetPoint('TOPLEFT', 249, 0)
+	-- 20220301 by 易安玥 修改遮罩层宽度，匹配VV修改
+        ApplicantListBlocker:SetPoint('TOPLEFT', 180, 0)
         ApplicantListBlocker:SetPoint('BOTTOMRIGHT')
         ApplicantListBlocker:SetStyle('LINE')
         ApplicantListBlocker:Hide()

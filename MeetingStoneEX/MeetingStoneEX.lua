@@ -113,7 +113,7 @@ function BrowsePanel:CreateExSearchPanel()
     -- body
     local ExSearchPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate') do
         GUI:Embed(ExSearchPanel, 'Refresh')
-        ExSearchPanel:SetSize(200, 320)
+        ExSearchPanel:SetSize(250, 320)
         ExSearchPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -30)
         ExSearchPanel:SetFrameLevel(self.ActivityList:GetFrameLevel()+5)
         ExSearchPanel:EnableMouse(true)
@@ -140,6 +140,8 @@ function BrowsePanel:CreateExSearchPanel()
         ,'赎罪大厅'
         ,'赤红深渊'
         ,'通灵战潮'
+        ,'塔扎维什：琳彩天街'
+        ,'塔扎维什：索·莉亚的宏图'
     }
 
     local function RefreshExSearch()
