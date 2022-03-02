@@ -226,7 +226,7 @@ function BrowsePanel:OnInitialize()
 				    if activity:IsArenaActivity() then
 						return 0xFFFF - activity:GetLeaderPvpRating()
 					else
-						return 0xFFFF - activity:GetLeaderOverallDungeonScore()
+						return 0xFFFF - activity:GetLeaderScore()
 					end
                 end,
             }, {
