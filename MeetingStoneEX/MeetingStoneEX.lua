@@ -57,11 +57,12 @@ end
 --添加过滤功能
 BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             local leader = activity:GetLeader()
+            local displayType = activity:GetDisplayType()
             if leader == nil then
                 return false
             end
             local data = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
-            if data then
+            if data and displayType == Enum.LfgListDisplayType.RoleEnumerate then
                 if MEETINGSTONE_UI_DB.FILTER_TANK and  data.TANK > 0 then
                     return false
                 end
