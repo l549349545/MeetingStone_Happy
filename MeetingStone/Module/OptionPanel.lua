@@ -79,6 +79,13 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
+			-- 增加设置选项
+            showclassico = {
+                type = 'toggle',
+                name = L['显示职业图标(需要重载UI /RL)'],
+                width = 'full',
+                order = order(),
+            },
             uiScale = {
                 type = 'range',
                 name = L['界面缩放比例'],

@@ -484,3 +484,143 @@ function ApplyUrlButton(button, url)
     button:SetScript('OnClick', UrlButtonOnClick)
     button.url = url
 end
+
+
+--------------------------
+-- NDui MOD
+--------------------------
+local _G = _G
+local wipe = wipe
+local select = select
+local sort = sort
+
+local UnitClass = UnitClass
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned
+local C_LFGList_GetSearchResultMemberInfo = C_LFGList.GetSearchResultMemberInfo
+local hooksecurefunc = hooksecurefunc
+
+local roleCache = {}
+local roleOrder = {
+    ["TANK"] = 1,
+    ["HEALER"] = 2,
+    ["DAMAGER"] = 3,
+}
+local roleAtlas = {
+    [1] = "groupfinder-icon-role-large-tank",
+    [2] = "groupfinder-icon-role-large-heal",
+    [3] = "groupfinder-icon-role-large-dps",
+}
+
+local function sortRoleOrder(a, b)
+    if a and b then
+        return a[1] < b[1]
+    end
+end
+
+local function GetPartyMemberInfo(index)
+    local unit = "player"
+    if index > 1 then unit = "party" .. (index - 1) end
+    
+    local class = select(2, UnitClass(unit))
+    if not class then return end
+    local role = UnitGroupRolesAssigned(unit)
+    if role == "NONE" then role = "DAMAGER" end
+    return role, class
+end
+
+local function GetCorrectRoleInfo(frame, i)
+    if frame.resultID then
+        return C_LFGList_GetSearchResultMemberInfo(frame.resultID, i)
+    elseif frame == ApplicationViewerFrame then
+        return GetPartyMemberInfo(i)
+    end
+end
+
+local function UpdateGroupRoles(self)
+    wipe(roleCache)
+    if not self.__owner then
+        self.__owner = self:GetParent():GetParent()
+    end
+    
+    local count = 0
+    for i = 1, 5 do
+        local role, class = GetCorrectRoleInfo(self.__owner, i)
+        local roleIndex = role and roleOrder[role]
+        if roleIndex then
+            count = count + 1
+            if not roleCache[count] then roleCache[count] = {} end
+            roleCache[count][1] = roleIndex
+            roleCache[count][2] = class
+            roleCache[count][3] = i == 1
+        end
+    end
+    
+    sort(roleCache, sortRoleOrder)
+end
+
+local function ReplaceGroupRoles(self, numPlayers, _, disabled)
+    UpdateGroupRoles(self)
+    for i = 1, 5 do
+        local icon = self.Icons[i]
+        if not icon.role then
+            if i == 1 then
+                icon:SetPoint("RIGHT", -5, -2)
+            else
+                icon:ClearAllPoints()
+                icon:SetPoint("RIGHT", self.Icons[i - 1], "LEFT", 2, 0)
+            end
+            icon:SetSize(26, 26)
+            
+            icon.role = self:CreateTexture(nil, "OVERLAY")
+            icon.role:SetSize(16, 16)
+            icon.role:SetPoint("TOPLEFT", icon, -4, 5)
+            
+            icon.leader = self:CreateTexture(nil, "OVERLAY")
+            icon.leader:SetSize(13, 13)
+            icon.leader:SetPoint("TOP", icon, 3, 7)
+            icon.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
+            icon.leader:SetRotation(rad(-15))
+        end
+        
+        if i > numPlayers then
+            icon.role:Hide()
+        else
+            icon.role:Show()
+            icon.role:SetDesaturated(disabled)
+            icon.role:SetAlpha(disabled and .5 or 1)
+            icon.leader:SetDesaturated(disabled)
+            icon.leader:SetAlpha(disabled and .5 or 1)
+        end
+        icon.leader:Hide()
+    end
+    
+    local iconIndex = numPlayers
+    for i = 1, #roleCache do
+        local roleInfo = roleCache[i]
+        if roleInfo then
+            local icon = self.Icons[iconIndex]
+            icon:SetAtlas(LFG_LIST_GROUP_DATA_ATLASES[roleInfo[2]])
+            icon.role:SetAtlas(roleAtlas[roleInfo[1]])
+            icon.leader:SetShown(roleInfo[3])
+            iconIndex = iconIndex - 1
+        end
+    end
+    
+    for i = 1, iconIndex do
+        self.Icons[i].role:SetAtlas(nil)
+    end
+end
+
+function InitMeetingStoneClass()	
+    Profile:OnInitialize()
+    local showico = Profile:GetSetting('showclassico')
+    if showico==nil or showico==false then return end
+    hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ReplaceGroupRoles)
+    local MSEnv = _G.LibStub("NetEaseEnv-1.0")._NSList.MeetingStone
+    local MemberDisplay = MSEnv.MemberDisplay
+    local origSetActivity = MemberDisplay.SetActivity
+    MemberDisplay.SetActivity = function(self, activity)
+        self.resultID = activity and activity.GetID and activity:GetID()
+        origSetActivity(self, activity)
+    end
+end
