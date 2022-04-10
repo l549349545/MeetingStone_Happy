@@ -19,6 +19,7 @@
  - **2022-04-10**
 
 > MeetingStone:更新版本号儿、增加职业图标显示（代码段来源于NDui，与Wind工具箱预组建队伍美化冲突，需二选一） by 易安玥
+> 更新最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)，移除修改版集合石本体的右键拉黑队长功能
 
  - **2022-03-13**
 
