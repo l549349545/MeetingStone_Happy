@@ -142,7 +142,7 @@ function DataBroker:MEETINGSTONE_SETTING_CHANGED(_, key, value, onUser)
         --     Addon:DisableModule('Misc')
         -- end
         -- IgnoreList_Update()
-    end
+	end
 end
 
 function DataBroker:MEETINGSTONE_NEW_VERSION(_, _, _, isSupport)

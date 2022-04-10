@@ -56,3 +56,4 @@ function MemberDisplay:SetActivity(activity)
         self.DataDisplay:Hide()
     end
 end
+

@@ -1055,15 +1055,15 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 },
             },
         },
-        {
-            text = L['拉黑队长名'],
-            func = function()
-               local name = C_LFGList.GetSearchResultInfo(activity:GetID()).leaderName
-               table.insert(MEETINGSTONE_UI_BLACKLISTEDLEADERS,name)
-               print("已加入"..name.."到黑名单")
-               BrowsePanel:DoSearch()
-            end,
-        },
+        -- {
+            -- text = L['拉黑队长名'],
+            -- func = function()
+               -- local name = C_LFGList.GetSearchResultInfo(activity:GetID()).leaderName
+               -- table.insert(MEETINGSTONE_UI_BLACKLISTEDLEADERS,name)
+               -- print("已加入"..name.."到黑名单")
+               -- BrowsePanel:DoSearch()
+            -- end,
+        -- },
         -- {
         --     text = L['加入关键字过滤'],
         --     func = function()

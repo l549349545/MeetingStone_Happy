@@ -150,19 +150,19 @@ function SettingPanel:OnInitialize()
                 func = function()
                     Profile:ClearHistory()
                 end
-            },
-            clearBlackListedLeaders = {
-                type = 'execute',
-                name = L['清理队长黑名单列表'],
-                width = 'full',
-                order = order(),
-                confirm = function()
-                    return L['你确定要清理已拉黑的队长吗？']
-                end,
-                func = function()
-                    _G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"] = {}
-                end
             }
+            -- ,clearBlackListedLeaders = {
+                -- type = 'execute',
+                -- name = L['清理队长黑名单列表'],
+                -- width = 'full',
+                -- order = order(),
+                -- confirm = function()
+                    -- return L['你确定要清理已拉黑的队长吗？']
+                -- end,
+                -- func = function()
+                    -- _G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"] = {}
+                -- end
+            -- }
         }
     }
 

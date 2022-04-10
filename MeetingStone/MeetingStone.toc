@@ -5,7 +5,7 @@
 ## Title-zhTW: |cffff565e[開心快樂每一天]|r 集合石修改版
 ## Notes-zhCN: |cff00ff00MeetingStone|r|n|cffbc8f8f帮助您更好的组建队伍。|r
 ## Notes-zhTW: |cff00ff00MeetingStone|r|n|cffbc8f8f幫助您更好的組建隊伍。|r
-## SavedVariables: MEETINGSTONE_UI_DB,MEETINGSTONE_UI_E_POINTS,MEETINGSTONE_UI_BLACKLISTEDLEADERS
+## SavedVariables: MEETINGSTONE_UI_DB,MEETINGSTONE_UI_E_POINTS
 ## SavedVariablesPerCharacter: MEETINGSTONE_CHARACTER_DB
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
