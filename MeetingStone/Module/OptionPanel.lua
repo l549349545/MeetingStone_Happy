@@ -79,6 +79,13 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
+			-- 增加设置选项
+            showclassico = {
+                type = 'toggle',
+                name = L['显示职业图标(需要重载UI /RL)'],
+                width = 'full',
+                order = order(),
+            },
             uiScale = {
                 type = 'range',
                 name = L['界面缩放比例'],
@@ -143,19 +150,19 @@ function SettingPanel:OnInitialize()
                 func = function()
                     Profile:ClearHistory()
                 end
-            },
-            clearBlackListedLeaders = {
-                type = 'execute',
-                name = L['清理队长黑名单列表'],
-                width = 'full',
-                order = order(),
-                confirm = function()
-                    return L['你确定要清理已拉黑的队长吗？']
-                end,
-                func = function()
-                    _G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"] = {}
-                end
             }
+            -- ,clearBlackListedLeaders = {
+                -- type = 'execute',
+                -- name = L['清理队长黑名单列表'],
+                -- width = 'full',
+                -- order = order(),
+                -- confirm = function()
+                    -- return L['你确定要清理已拉黑的队长吗？']
+                -- end,
+                -- func = function()
+                    -- _G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"] = {}
+                -- end
+            -- }
         }
     }
 

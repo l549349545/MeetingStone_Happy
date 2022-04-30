@@ -37,6 +37,8 @@ function Addon:OnInitialize()
     if lfgTooManyDialog and lfgTooManyDialog.text and strlenutf8(lfgTooManyDialog.text) == #lfgTooManyDialog.text then
         lfgTooManyDialog.text = L['你的队伍成员已经达到当前活动的人数上限，活动已经自动解散。']
     end
+	--显示职业图标
+	InitMeetingStoneClass()
 end
 
 function Addon:OnEnable()

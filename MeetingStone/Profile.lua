@@ -42,6 +42,7 @@ function Profile:OnInitialize()
                 ignore    = true,
                 spamWord  = true,
                 packedPvp = true,
+				showclassico = true,
                 spamLengthEnabled = true,
                 spamLength = 20,
             },
@@ -101,6 +102,7 @@ function Profile:OnEnable()
         'ignore',
         'spamWord',
         'packedPvp',
+        'showclassico',
         'spamLengthEnabled',
         'spamLength',
     }

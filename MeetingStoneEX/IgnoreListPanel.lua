@@ -96,6 +96,7 @@ function IgnoreListPanel:OnInitialize()
                     tb.selected = nil
                     table.remove(MEETINGSTONE_UI_DB.IGNORE_LIST,i)
                     BrowsePanel.IgnoreWithLeader[tb.leader] = nil
+                    BrowsePanel.IgnoreLeaderOnly[tb.leader] = nil
                 end
             end
             for check,v in pairs(self.checkBoxs) do

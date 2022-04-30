@@ -281,16 +281,16 @@ function Activity:Match(filters)
     end
 
     -- 过滤条件:队长名
-    local searchResultInfo = C_LFGList.GetSearchResultInfo(self:GetID())
-    if (searchResultInfo ~= nil and searchResultInfo.leaderName ~= nil) then
-        local leaderName = searchResultInfo.leaderName
-        for k, v in ipairs(_G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"]) do
-            if (leaderName == v) then
-                -- print("Filtered:Blacklisted Leader:"..v)
-                return false
-            end
-        end
-    end
+    -- local searchResultInfo = C_LFGList.GetSearchResultInfo(self:GetID())
+    -- if (searchResultInfo ~= nil and searchResultInfo.leaderName ~= nil) then
+        -- local leaderName = searchResultInfo.leaderName
+        -- for k, v in ipairs(_G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"]) do
+            -- if (leaderName == v) then
+                -- -- print("Filtered:Blacklisted Leader:"..v)
+                -- return false
+            -- end
+        -- end
+    -- end
     return true
 end
 
