@@ -147,7 +147,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                             t = 1,
                         })
                     if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        print('标题 '..title..' 传染屏蔽 '..leader)
+                        --print('标题 '..title..' 传染屏蔽 '..leader)
                     end
                 end
                 return false
@@ -156,7 +156,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 if not BrowsePanel.IgnoreWithTitle[title] then
                     BrowsePanel.IgnoreWithTitle[title] = true
                     if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        print('账号 '..leader..' 传染屏蔽 '..title)
+                        --print('账号 '..leader..' 传染屏蔽 '..title)
                     end
                 end
                 return false

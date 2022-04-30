@@ -15,6 +15,37 @@ function MemberDisplay:Constructor()
     self.DataDisplay = DataDisplay
 end
 
+local function LFGListGroupDataDisplay_Update(self, activityID, displayData, disabled)
+    local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
+   	if(not activityInfo) then
+   		return;
+   	end
+    if activityInfo.displayType == Enum.LfgListDisplayType.RoleCount or activityInfo.displayType == Enum.LfgListDisplayType.HideAll then
+        self.RoleCount:Show()
+        self.Enumerate:Hide()
+        self.PlayerCount:Hide()
+        LFGListGroupDataDisplayRoleCount_Update(self.RoleCount, displayData, disabled)
+    elseif activityInfo.displayType == Enum.LfgListDisplayType.RoleEnumerate then
+        self.RoleCount:Hide()
+        self.Enumerate:Show()
+        self.PlayerCount:Hide()
+        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, activityInfo.maxNumPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_ROLE_ORDER)
+    elseif activityInfo.displayType == Enum.LfgListDisplayType.ClassEnumerate then
+        self.RoleCount:Hide()
+        self.Enumerate:Show()
+        self.PlayerCount:Hide()
+        LFGListGroupDataDisplayEnumerate_Update(self.Enumerate, activityInfo.maxNumPlayers, displayData, disabled, LFG_LIST_GROUP_DATA_CLASS_ORDER)
+    elseif activityInfo.displayType == Enum.LfgListDisplayType.PlayerCount then
+        self.RoleCount:Hide()
+        self.Enumerate:Hide()
+        self.PlayerCount:Show()
+        LFGListGroupDataDisplayPlayerCount_Update(self.PlayerCount, displayData, disabled)
+    else
+        self.RoleCount:Hide()
+        self.Enumerate:Hide()
+        self.PlayerCount:Hide()
+    end
+end
 
 function MemberDisplay:SetActivity(activity)
     local displayData = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
