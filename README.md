@@ -17,7 +17,7 @@
 
 #### 更新历史
 
- - **2022-04-10**
+ - **2022-05-12**
 
 > 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)
 
