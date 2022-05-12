@@ -98,11 +98,9 @@ end
 --添加过滤功能
 BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             local leader = activity:GetLeader()
-			local displayType = activity:GetDisplayType()
             if leader == nil then
                 return false
             end
-
             if BrowsePanel.IgnoreLeaderOnly[leader] then
                 local ist = true
                 for i,v in ipairs(MEETINGSTONE_UI_DB.IGNORE_LIST) do
@@ -147,7 +145,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                             t = 1,
                         })
                     if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        --print('标题 '..title..' 传染屏蔽 '..leader)
+                        print('标题 '..title..' 传染屏蔽 '..leader)
                     end
                 end
                 return false
@@ -156,7 +154,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 if not BrowsePanel.IgnoreWithTitle[title] then
                     BrowsePanel.IgnoreWithTitle[title] = true
                     if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        --print('账号 '..leader..' 传染屏蔽 '..title)
+                        print('账号 '..leader..' 传染屏蔽 '..title)
                     end
                 end
                 return false
