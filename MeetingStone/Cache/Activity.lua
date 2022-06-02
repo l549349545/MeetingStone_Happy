@@ -29,6 +29,8 @@ Activity:InitAttr{
     'LeaderScoreInfo',
 	'LeaderPvpRating',
 	'PvpRating',
+    'CrossFactionListing',
+    'LeaderFactionGroup',
 }
 
 Activity._Objects = setmetatable({}, {__mode = 'v'})
@@ -76,6 +78,10 @@ function Activity:Update()
 	if leaderPvpRatingInfo then
 		leaderPvpRating = leaderPvpRatingInfo.rating
 	end
+	--9.2.5
+	local crossFactionListing = info.crossFactionListing
+    local leaderFactionGroup = info.leaderFactionGroup
+	
     if not activityId then
         return false
     end
@@ -116,6 +122,8 @@ function Activity:Update()
     self:SetLeaderScoreInfo(leaderDungeonScoreInfo)
 	self:SetLeaderPvpRating(leaderPvpRating)
 	self:SetPvpRating(requiredPvpRating or 0)
+	self:SetCrossFactionListing(crossFactionListing)
+    self:SetLeaderFactionGroup(leaderFactionGroup)
 
     if not self:UpdateCustomData(comment, title) then
         return false
