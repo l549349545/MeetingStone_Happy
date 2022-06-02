@@ -17,6 +17,13 @@
 
 #### 更新历史
 
+ - **2022-06-02**
+
+> 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)
+> 更新版本号儿
+> 修复那什么和那什么 by VV
+
+
  - **2022-05-12**
 
 > 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)

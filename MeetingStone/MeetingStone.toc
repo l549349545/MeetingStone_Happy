@@ -1,5 +1,5 @@
-## Interface: 90200
-## Version: 90200.02
+## Interface: 90205
+## Version: 90250.01
 ## Title: Meeting Stone
 ## Title-zhCN: |cffff565e[开心快乐每一天]|r 集合石修改版
 ## Title-zhTW: |cffff565e[開心快樂每一天]|r 集合石修改版
