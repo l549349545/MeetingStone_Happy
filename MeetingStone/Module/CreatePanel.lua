@@ -653,9 +653,9 @@ function CreatePanel:UpdateActivityView()
             atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'questing')
         end
 
-        if bit.band(filters, LE_LFG_LIST_FILTER_PVE) ~= 0 then
+        if bit.band(filters, Enum.LFGListFilter.PvE) ~= 0 then
             suffix = '-pve'
-        elseif bit.band(filters, LE_LFG_LIST_FILTER_PVP) ~= 0 then
+        elseif bit.band(filters, Enum.LFGListFilter.PvP) ~= 0 then
             suffix = '-pvp'
         end
     end

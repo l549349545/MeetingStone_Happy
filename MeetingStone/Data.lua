@@ -648,14 +648,14 @@ ZONE_ACTIVITY_MAP = {
 }
 
 CATEGORY_BASEFILTERS = {
-    [1] = LE_LFG_LIST_FILTER_PVE,
-    [2] = LE_LFG_LIST_FILTER_PVE,
-    [3] = LE_LFG_LIST_FILTER_PVE,
-    [4] = LE_LFG_LIST_FILTER_PVP,
-    [5] = LE_LFG_LIST_FILTER_PVE,
-    [6] = LE_LFG_LIST_FILTER_PVE,
-    [7] = LE_LFG_LIST_FILTER_PVP,
-    [8] = LE_LFG_LIST_FILTER_PVP,
-    [9] = LE_LFG_LIST_FILTER_PVP,
-    [10] = LE_LFG_LIST_FILTER_PVP,
+    [1] = Enum.LFGListFilter.PvE,
+    [2] = Enum.LFGListFilter.PvE,
+    [3] = Enum.LFGListFilter.PvE,
+    [4] = Enum.LFGListFilter.PvP,
+    [5] = Enum.LFGListFilter.PvE,
+    [6] = Enum.LFGListFilter.PvE,
+    [7] = Enum.LFGListFilter.PvP,
+    [8] = Enum.LFGListFilter.PvP,
+    [9] = Enum.LFGListFilter.PvP,
+    [10] = Enum.LFGListFilter.PvP,
 }
