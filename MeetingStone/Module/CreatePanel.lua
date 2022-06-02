@@ -466,7 +466,16 @@ function CreatePanel:UpdateControlState()
     self.ActivityType:SetEnabled(isLeader and not isCreated)
 
     self.PrivateGroup:SetEnabled(editable)
-    self.CrossFactionGroup:SetEnabled(editable)
+		
+	self.CrossFactionGroup:SetEnabled(editable)
+	
+	-- 任务和自定义不可跨阵营，清空值并置为不可用
+	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+	if categoryId == 6 or categoryId == 1 then
+		self.CrossFactionGroup:SetChecked(false)
+		self.CrossFactionGroup:SetEnabled(false)
+	end
+    
     self.ItemLevel:SetEnabled(editable)
     self.VoiceBox:SetEnabled(editable)
     self.TitleBox:SetEnabled(editable)
@@ -565,8 +574,11 @@ function CreatePanel:CreateActivity()
 	if IsRatedPvpActivity(activityItem and activityItem.activityId) then
 		pScore = self.Score:GetNumber()
 	end
-
-
+	
+	
+	--local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+	--print(categoryId)
+	
     local activity = CurrentActivity:FromAddon({
         ActivityID = activityItem.activityId,
         CustomID = activityItem.customId or 0,
