@@ -337,6 +337,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddSepatator()
 
     if activity:GetLeader() then
+		local prefix = ""
 		if activity:GetCrossFactionListing() then
             local faction
             if activity:GetLeaderFactionGroup() == 0 then

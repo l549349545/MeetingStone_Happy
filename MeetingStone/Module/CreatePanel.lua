@@ -267,7 +267,24 @@ function CreatePanel:OnInitialize()
         PrivateGroup:SetNormalFontObject('GameFontHighlightSmall')
         PrivateGroup:SetHighlightFontObject('GameFontNormalSmall')
         PrivateGroup:SetDisabledFontObject('GameFontDisableSmall')
-        PrivateGroup:SetText(L['仅好友和公会成员可见'])
+        PrivateGroup:SetText(L['仅好友'])
+    end
+	
+	local CrossFactionGroup = CreateFrame('CheckButton', nil, VoiceItemLevelWidget) do
+        CrossFactionGroup:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
+        CrossFactionGroup:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
+        CrossFactionGroup:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
+        CrossFactionGroup:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
+        CrossFactionGroup:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
+        CrossFactionGroup:SetSize(22, 22)
+        CrossFactionGroup:SetPoint('TOPLEFT', VoiceBox, 'BOTTOMLEFT',10 , 0)
+        local text = CrossFactionGroup:CreateFontString(nil, 'ARTWORK')
+        text:SetPoint('LEFT', CrossFactionGroup, 'RIGHT', 2, 0)
+        CrossFactionGroup:SetFontString(text)
+        CrossFactionGroup:SetNormalFontObject('GameFontHighlightSmall')
+        CrossFactionGroup:SetHighlightFontObject('GameFontNormalSmall')
+        CrossFactionGroup:SetDisabledFontObject('GameFontDisableSmall')
+        CrossFactionGroup:SetText(L['跨阵营'])
     end
 
     --- summary
@@ -404,6 +421,7 @@ function CreatePanel:OnInitialize()
     self.ActivityType = ActivityType
     self.Score = Score
     self.PrivateGroup = PrivateGroup
+    self.CrossFactionGroup = CrossFactionGroup
 
     self.ViewBoardWidget = ViewBoardWidget
     self.InfoWidget = InfoWidget
@@ -448,6 +466,7 @@ function CreatePanel:UpdateControlState()
     self.ActivityType:SetEnabled(isLeader and not isCreated)
 
     self.PrivateGroup:SetEnabled(editable)
+    self.CrossFactionGroup:SetEnabled(editable)
     self.ItemLevel:SetEnabled(editable)
     self.VoiceBox:SetEnabled(editable)
     self.TitleBox:SetEnabled(editable)
@@ -558,6 +577,7 @@ function CreatePanel:CreateActivity()
 		MythicPlusRating = mScore,
 		PvpRating = pScore,
         PrivateGroup = self.PrivateGroup:GetChecked(),
+		CrossFactionGroup = self.CrossFactionGroup:GetChecked()
     })
     if self:Create(activity, true) then
         self.CreateButton:Disable()
@@ -595,6 +615,7 @@ function CreatePanel:ClearAllContent()
     self.Score:SetNumber(0)
     self.ActivityType:SetValue(nil)
     self.PrivateGroup:SetChecked(false)
+    self.CrossFactionGroup:SetChecked(false)
 end
 
 function CreatePanel:UpdateActivity()
@@ -612,6 +633,7 @@ function CreatePanel:UpdateActivity()
 	  
 	self.Score:SetText(activity:GetMythicPlusRating() or activity:GetPvpRating() or '')
     self.PrivateGroup:SetChecked(activity:GetPrivateGroup())
+	self.CrossFactionGroup:SetChecked(activity:GetCrossFactionGroup())
 end
 
 function CreatePanel:UpdateActivityView()

@@ -8,7 +8,8 @@ CurrentActivity:InitAttr{
     'PrivateGroup',
 	'QuestID',
 	'MythicPlusRating',
-	'PvpRating'
+	'PvpRating',
+	'CrossFactionGroup'
 }
 
 function CurrentActivity:FromAddon(data)
@@ -41,6 +42,7 @@ function CurrentActivity:UpdateBySystem(info)
     self:SetVoiceChat(info.voiceChat)
     self:UpdateCustomData(info.comment, info.name)
     self:SetPrivateGroup(info.privateGroup)
+    self:SetCrossFactionGroup(info.isCrossFactionListing)
 end
 
 function CurrentActivity:GetTitle()
@@ -56,6 +58,8 @@ function CurrentActivity:GetCreateArguments(autoAccept)
             self:GetPrivateGroup(),
             self:GetQuestID(),
             self:GetMythicPlusRating(),
-            self:GetPvpRating()
+            self:GetPvpRating(),
+			1,
+            self:GetCrossFactionGroup()
 			
 end
