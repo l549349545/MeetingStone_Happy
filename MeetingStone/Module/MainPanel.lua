@@ -337,7 +337,19 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddSepatator()
 
     if activity:GetLeader() then
-        tooltip:AddLine(format(LFG_LIST_TOOLTIP_LEADER, activity:GetLeaderText()))
+		if activity:GetCrossFactionListing() then
+            local faction
+            if activity:GetLeaderFactionGroup() == 0 then
+                faction = "horde"
+            elseif activity:GetLeaderFactionGroup() == 1 then
+                faction = "alliance"
+            end
+            if faction then
+                prefix = format("|Tinterface/battlefieldframe/battleground-%s:20:20:0:0|t", faction)
+                --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
+            end
+        end
+        tooltip:AddLine(format(LFG_LIST_TOOLTIP_LEADER, prefix .. activity:GetLeaderText()))
 
         if activity:GetLeaderItemLevel() then
             tooltip:AddLine(format(L['队长物品等级：|cffffffff%s|r'], activity:GetLeaderItemLevel()))
