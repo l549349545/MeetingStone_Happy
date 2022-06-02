@@ -13,7 +13,6 @@ Applicant:InitAttr{
     'IsNew',
     'Msg',
     'OrderID',
-
     'Index',
     'Name',
     'ShortName',
@@ -32,7 +31,6 @@ Applicant:InitAttr{
     'Progression',
     'IsMeetingStone',
     'Source',
-
     'Result',
     'Touchy',
     'RoleID',
@@ -40,6 +38,7 @@ Applicant:InitAttr{
     'ActivityID',
 	'DungeonScore',
     'BestDungeonScore',
+    'FactionIndex',
 }
 
 local APPLICANT_HAD_RESULT = {
@@ -65,7 +64,12 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     local comment = info.comment
     local orderID = info.displayOrderID
     local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore = C_LFGList.GetApplicantMemberInfo(id, index)
+	local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID  = C_LFGList.GetApplicantMemberInfo(id, index)
+	
+	
     local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
+	--local userFactionIndex  = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
+	local userFactionIndex  = factionGroup
     local msg, isMeetingStone, progression, pvpRating, source  = DecodeDescriptionData(comment)
 	local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityId)
 
@@ -94,6 +98,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetIsMythicPlusActivity(isMythicPlusActivity)
     self:SetDungeonScore(dungeonScore or 0)
     self:SetBestDungeonScore(bestDungeonScoreForEntry)
+    self:SetFactionIndex(userFactionIndex)
 
     self:SetIsMeetingStone(isMeetingStone)
 	if(pvpRatingInfo) then

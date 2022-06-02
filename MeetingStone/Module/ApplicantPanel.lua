@@ -56,6 +56,22 @@ local APPLICANT_LIST_HEADER = {
         end
     },
     {
+        key = 'FactionGroup',
+        text = L['阵营'],
+        width = 40,
+        style = 'ICON:32:32',		
+        iconHandler = function(applicant)
+			if applicant:GetFactionIndex() == 0 then
+				return [[INTERFACE\BATTLEFIELDFRAME\BATTLEGROUND-HORDE]]
+			else
+				return [[INTERFACE\BATTLEFIELDFRAME\BATTLEGROUND-ALLIANCE]]
+			end
+        end,
+        sortHandler = function(applicant)
+            return _PartySortHandler(applicant) or applicant:GetFactionIndex()
+        end
+    },
+    {
         key = 'Level',
         text = L['等级或分数'],
         width = 40 + 50 + 50,
@@ -155,7 +171,8 @@ local APPLICANT_LIST_HEADER = {
         key = 'Msg',
         text = L['描述'],
 		--by 易安玥 修正宽度，适配VV修改的宽度
-        width = 102+44+50,
+		--by 易安玥 缩小一下，显示阵营
+        width = 102+44+50-40,
         style = 'LEFT',
         showHandler = function(applicant)
             if applicant:GetResult() then
