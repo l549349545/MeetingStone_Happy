@@ -19,10 +19,9 @@
 
  - **2022-06-02**
 
-> 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)
-> 更新版本号儿
-> 修复那什么和那什么 by VV
-
+> 更新版本号儿 by 易安玥
+> 修复LE_LFG_LIST_FILTER_PVE,LE_LFG_LIST_FILTER_PVP变动 by VV
+> 加入队长阵营判断，直接一个copy爱不易 by VV
 
  - **2022-05-12**
 
