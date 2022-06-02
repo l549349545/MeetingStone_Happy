@@ -206,7 +206,7 @@ function BrowsePanel:OnInitialize()
                                 --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
                             end
                         end
-                        return prefix .. activity:GetLeaderFullName(), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
+                        return prefix .. activity:GetLeaderShort(), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
                                HIGHLIGHT_FONT_COLOR.b --此处copy于爱不易
                     end
                 end,
