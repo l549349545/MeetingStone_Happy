@@ -22,6 +22,9 @@
 > 更新版本号儿 by 易安玥
 > 修复LE_LFG_LIST_FILTER_PVE,LE_LFG_LIST_FILTER_PVP变动 by VV
 > 加入队长阵营判断，直接一个copy爱不易 by VV
+> 增加跨阵营选项(但是没有用，等暴雪修复API) by VV
+> 更新标题的更新日期 by 易安玥
+> 移除残疾的Action by 易安玥
 
  - **2022-05-12**
 
