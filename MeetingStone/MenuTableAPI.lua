@@ -7,6 +7,7 @@ local currentCodeCache
 
 local historyMenuTables
 local activityCodeCaches
+local LE_LFG_LIST_FILTER_PVE,LE_LFG_LIST_FILTER_PVP = 4, 8 --傻逼暴雪不知道改了啥 这两个值读不到了
 
 do
     local function f()
