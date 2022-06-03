@@ -410,23 +410,23 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         for i = 1, activity:GetNumMembers() do
             local role, class, classLocalized , specLocalized  = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
             if (class) then
-                classInfo[class] = {
+                classInfo[class..specLocalized] = {
                     name = classLocalized,
                     color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR ,
-					spec = specLocalized
+					spec =specLocalized
                 }
                 if not roles[role] then roles[role] = {} end
-                if not roles[role][class] then roles[role][class] = 0 end
-                roles[role][class] = roles[role][class] + 1
+                if not roles[role][class..specLocalized] then roles[role][class..specLocalized] = 0 end
+                roles[role][class..specLocalized] = roles[role][class..specLocalized] + 1
             end
         end
     
         for role, classes in pairs(roles) do
             tooltip:AddLine(_G[role]..": ")
-            for class, count in pairs(classes) do
+            for classAndspec, count in pairs(classes) do
                 local text = "   "
                 if count > 1 then text = text .. count .. " " else text = text .. "   " end
-                text = text .. "|c" .. classInfo[class].color.colorStr ..  classInfo[class].name .. " - " .. classInfo[class].spec .. "|r "
+                text = text .. "|c" .. classInfo[classAndspec].color.colorStr ..  classInfo[classAndspec].name .. " - " .. classInfo[classAndspec].spec .. "|r "
                 tooltip:AddLine(text)
             end
         end
