@@ -436,35 +436,41 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
             tooltipOnButton = true,
             tooltipWhileDisabled = true,
         }, {
-            text = LFG_LIST_REPORT_GROUP_FOR,
-            hasArrow = true,
-            menuTable = {
-                {
-                    text = '不当的说明',
-                    func = function()
-                        C_LFGList.ReportSearchResult(activity:GetID(),
-                                                     activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname')
-                    end,
-                }, {
-                    text = LFG_LIST_BAD_DESCRIPTION,
-                    func = function()
-                        C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment')
-                    end,
-                    disabled = activity:IsMeetingStone() or not activity:GetComment(),
-                }, {
-                    text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
-                    func = function()
-                        C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat')
-                    end,
-                    disabled = not activity:GetVoiceChat(),
-                }, {
-                    text = LFG_LIST_BAD_LEADER_NAME,
-                    func = function()
-                        C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername')
-                    end,
-                    disabled = not activity:GetLeader(),
-                },
-            },
+            -- text = LFG_LIST_REPORT_GROUP_FOR,
+            -- hasArrow = true,
+            -- menuTable = {
+                -- {
+                    -- text = '不当的说明',
+                    -- func = function()
+                        -- C_LFGList.ReportSearchResult(activity:GetID(),
+                                                     -- activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname')
+                    -- end,
+                -- }, {
+                    -- text = LFG_LIST_BAD_DESCRIPTION,
+                    -- func = function()
+                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment')
+                    -- end,
+                    -- disabled = activity:IsMeetingStone() or not activity:GetComment(),
+                -- }, {
+                    -- text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
+                    -- func = function()
+                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat')
+                    -- end,
+                    -- disabled = not activity:GetVoiceChat(),
+                -- }, {
+                    -- text = LFG_LIST_BAD_LEADER_NAME,
+                    -- func = function()
+                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername')
+                    -- end,
+                    -- disabled = not activity:GetLeader(),
+                -- },
+            -- },
+			--20220603 易安玥 修改到新的举报菜单
+			text = LFG_LIST_REPORT_GROUP_FOR,
+			func = function() 
+				LFGList_ReportListing(activity:GetID(), activity:GetLeader()); 
+				LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
+			end;
         },
         {
             text = '屏蔽队长',
