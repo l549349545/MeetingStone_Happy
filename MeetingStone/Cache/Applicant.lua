@@ -63,7 +63,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     local isNew = info.isNew
     local comment = info.comment
     local orderID = info.displayOrderID
-    local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore = C_LFGList.GetApplicantMemberInfo(id, index)
+    --local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore = C_LFGList.GetApplicantMemberInfo(id, index)
 	local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID  = C_LFGList.GetApplicantMemberInfo(id, index)
 	
 	

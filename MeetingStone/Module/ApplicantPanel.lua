@@ -99,7 +99,7 @@ local APPLICANT_LIST_HEADER = {
 			
           
 			local pvPRating = applicant:GetPvPRating()
-			return pvPRating
+			return pvPRating or '-'
 			
 			
             --local level = applicant:GetLevel()
