@@ -470,10 +470,12 @@ function CreatePanel:UpdateControlState()
 	self.CrossFactionGroup:SetEnabled(editable)
 	
 	-- 任务和自定义不可跨阵营，清空值并置为不可用
-	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
-	if categoryId == 6 or categoryId == 1 then
-		self.CrossFactionGroup:SetChecked(false)
-		self.CrossFactionGroup:SetEnabled(false)
+	if activityItem then
+		local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+		if categoryId == 6 or categoryId == 1 then
+			self.CrossFactionGroup:SetChecked(false)
+			self.CrossFactionGroup:SetEnabled(false)
+		end
 	end
     
     self.ItemLevel:SetEnabled(editable)
