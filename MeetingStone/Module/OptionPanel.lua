@@ -29,20 +29,18 @@ function SettingPanel:OnInitialize()
         type = 'group',
         name = L['设置'],
         get = function(item)
-			if item[#item]=='showclassico' then
-				if not MEETINGSTONE_UI_DB.showico then
-					MEETINGSTONE_UI_DB.showico = false 
-				end
-				return MEETINGSTONE_UI_DB.showico
+			if item[#item]=='showclassico' then 
+				return Profile:Getshowclassico()
 			else
 				return Profile:GetSetting(item[#item])
 			end
         end,
         set = function(item, value)
 			if item[#item]=='showclassico' then
-				MEETINGSTONE_UI_DB.showico = value
+				Profile:Saveshowclassico(value)
+			else
+				Profile:SetSetting(item[#item], value)
 			end
-            Profile:SetSetting(item[#item], value)
         end,
         args = {
             minimap = {

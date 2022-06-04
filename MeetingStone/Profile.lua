@@ -27,6 +27,7 @@ function Profile:OnInitialize()
             ignoreHash     = {},
             spamWord       = {},
             searchProfiles = {},
+			showclassico = true,
             filters = {
             }
         },
@@ -42,7 +43,6 @@ function Profile:OnInitialize()
                 ignore    = true,
                 spamWord  = true,
                 packedPvp = true,
-				showclassico = true,
                 spamLengthEnabled = true,
                 spamLength = 20,
             },
@@ -102,7 +102,6 @@ function Profile:OnEnable()
         'ignore',
         'spamWord',
         'packedPvp',
-        'showclassico',
         'spamLengthEnabled',
         'spamLength',
     }
@@ -147,6 +146,14 @@ end
 function Profile:GetGlobalDB()
     return self.gdb
 end
+
+function Profile:Getshowclassico()
+	return self.gdb.global.showclassico
+end
+function Profile:Saveshowclassico(value)
+	self.gdb.global.showclassico = value
+end
+
 
 function Profile:GetCharacterDB()
     return self.cdb

@@ -613,7 +613,7 @@ end
 
 function InitMeetingStoneClass()	
     Profile:OnInitialize()
-    local showico = Profile:GetSetting('showclassico')
+    local showico = Profile:Getshowclassico() 
     if showico==nil or showico==false then return end
     hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ReplaceGroupRoles)
     local MSEnv = _G.LibStub("NetEaseEnv-1.0")._NSList.MeetingStone
