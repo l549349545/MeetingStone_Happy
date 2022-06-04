@@ -205,9 +205,8 @@ function BrowsePanel:OnInitialize()
                                 prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
                                 --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
                             end
-                        end
-                        return prefix .. activity:GetLeaderShort(), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
-                               HIGHLIGHT_FONT_COLOR.b --此处copy于爱不易
+                        end 
+                        return prefix .. (activity:GetLeaderShort() or ''), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b --此处copy于爱不易,修改了一下有时候读不到队长名报错的问题
                     end
                 end,
             },{

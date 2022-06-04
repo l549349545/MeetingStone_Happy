@@ -131,7 +131,23 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                     if not CheckJobsFilter(data,2,6,22) then
                         return false
                     end
-                end
+                elseif activitytype == '评级战场' then
+                    if not CheckJobsFilter(data,1,3,7) then
+                        return false
+                    end
+                elseif activitytype == '竞技场' then 
+					local arenatype = activity:GetName()
+					if arenatype == '竞技场（2v2）' then
+						if not CheckJobsFilter(data,1,1,2) then
+							return false
+						end
+					end
+					if arenatype == '竞技场（3v3）' then
+						if not CheckJobsFilter(data,1,1,3) then
+							return false
+						end
+					end
+                end 
             end
             local title = activity:GetSummary()
           
