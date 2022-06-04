@@ -681,9 +681,9 @@ function CreatePanel:UpdateActivityView()
     local atlasName, suffix do
         local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activity:GetActivityID())
         local _, separateRecommended = C_LFGList.GetCategoryInfo(categoryID)
-        if separateRecommended and bit.band(filters, LE_LFG_LIST_FILTER_RECOMMENDED) ~= 0 then
+        if separateRecommended and bit.band(filters, Enum.LFGListFilter.Recommended) ~= 0 then
             atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[LFGListUtil_GetCurrentExpansion()]
-        elseif separateRecommended and bit.band(filters, LE_LFG_LIST_FILTER_NOT_RECOMMENDED) ~= 0 then
+        elseif separateRecommended and bit.band(filters, Enum.LFGListFilter.NotRecommended) ~= 0 then
             atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[math.max(0,LFGListUtil_GetCurrentExpansion() - 1)]
         else
             atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'questing')
