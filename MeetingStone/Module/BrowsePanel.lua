@@ -66,7 +66,7 @@ function BrowsePanel:OnInitialize()
                 key = 'ActivityName',
                 text = L['活动类型'],
                 style = 'LEFT',
-                width = 170,
+                width = 240,
                 showHandler = function(activity)
                     if activity:IsUnusable() then
                         return activity:GetName(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -158,7 +158,7 @@ function BrowsePanel:OnInitialize()
             {
                 key = 'ItemLeave',
                 text = L['要求'],
-                width = 60,
+                width = 40,
                 textHandler = function(activity)
 		    -- PVP状态要求列也显示装等
                     -- if activity:IsArenaActivity() then
@@ -188,7 +188,7 @@ function BrowsePanel:OnInitialize()
                 key = 'Leader',
                 text = L['团长'],
                 style = 'LEFT',
-                width = 100,
+                width = 110,
                 showHandler = function(activity)
                     if activity:IsUnusable() then
                         return activity:GetLeaderShort(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -212,7 +212,7 @@ function BrowsePanel:OnInitialize()
             },{
                 key = 'LeaderScore',
                 text = L['分数'],
-                width = 90,
+                width = 50,
                 textHandler = function(activity)
 				     if activity:IsArenaActivity() then
                          local pvpRating = activity:GetLeaderPvpRating()
