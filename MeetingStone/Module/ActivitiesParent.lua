@@ -50,11 +50,6 @@ function ActivitiesParent:OnInitialize()
         Blocker.SetText = nop
 
         Blocker:SetCallback('OnCheck', function()
-            --[=[@debug@
-            -- if true then
-            --     return
-            -- end
-            --@end-debug@]=]
             if not Activities:IsConnected() or not QuestServies:IsConnected() then
                 return true
             elseif not Activities:IsReady() then
@@ -106,7 +101,7 @@ function ActivitiesParent:OnInitialize()
             Blocker.Icon = Spinner
         end)
     end
-    
+
     MainPanel:FlashTabByPanel(self, true)
 
     self:RegisterMessage('MEETINGSTONE_ACTIVITIES_PERSONINFO_UPDATE')
@@ -147,15 +142,12 @@ function ActivitiesParent:MEETINGSTONE_QUEST_FETCHED()
         if QuestServies.questGroup.id == QuestServies.QuestType.GoldLeader then
 
             self:RegisterPanel(L['金牌导师'], [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]],
-                               QuestPanel3, {before = L['魔兽主播活动']})
+                               QuestPanel3, {before = L['最新活动']})
             self:SelectPanel(QuestPanel3)
         else
             self:RegisterPanel(L['个人地下城周常'],
                                [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]], QuestPanel,
-                               {before = L['魔兽主播活动']})
-            self:RegisterPanel(L['队伍地下城挑战'],
-                               [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]], QuestPanel2,
-                               {before = L['魔兽主播活动']})
+                               {before = L['最新活动']})
             self:SelectPanel(QuestPanel)
         end
 
@@ -182,7 +174,7 @@ function ActivitiesParent:OnShow()
     end
     self:Refresh()
     DataCache:GetObject('ActivitiesData'):SetIsNew(false)
-    
+
     if not self.isFlash then
         MainPanel:FlashTabByPanel(self, false)
         self.isFlash = true

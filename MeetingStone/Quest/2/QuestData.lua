@@ -11,11 +11,8 @@ end
 
 QUEST_CFG_DATA = { --
     [1] = {
-        title = [[{{GetTimeLimitText}}通关{{progressMaxValue}}次{{challengeLevel}}层及以上史诗钥石地下城]],
-        proto = {'challengeLevel', 'timeLimit'},
+        title = [[{{GetNoReset}}{{GetTimeLimitText}}通关{{progressMaxValue}}次{{challengeLevel}}层及以上史诗钥石地下城]],
+        proto = {'challengeLevel', 'timeLimit', 'noReset'},
     },
-    [2] = {
-        title = [[]],
-        proto = {},
-    },
+    [2] = {title = [[]], proto = {}},
 }

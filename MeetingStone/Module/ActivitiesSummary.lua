@@ -9,7 +9,7 @@ ActivitiesSummary = Addon:NewModule(CreateFrame('Frame', nil, nil, 'InsetFrameTe
 
 function ActivitiesSummary:OnInitialize()
     GUI:Embed(self, 'Owner', 'Refresh')
-    ActivitiesParent:RegisterPanel(L['魔兽主播活动'], [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]],
+    ActivitiesParent:RegisterPanel(L['最新活动'], [[Interface\ICONS\ACHIEVEMENT_GUILDPERK_HONORABLEMENTION_RANK2]],
                                    self)
 
     local Banner = CreateFrame('Frame', nil, self)

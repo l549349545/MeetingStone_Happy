@@ -1,26 +1,46 @@
 <Ui xmlns:xsi="" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
+    <ItemButton name="MeetingStoneItemButtonTemplate" parentArray="Items" motionScriptsWhileDisabled="true" virtual="true">
+        <Anchors>
+            <Anchor point="LEFT" x="20" y="0"/>
+        </Anchors>
+        <Scripts>
+            <OnEnter>
+                local item = self:GetItemID()
+                if item then
+                    GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+                    GameTooltip:SetItemByID(item)
+                    GameTooltip:Show()
+                end
+                self:GetParent():LockHighlight()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip_Hide()
+                self:GetParent():UnlockHighlight()
+            </OnLeave>
+        </Scripts>
+    </ItemButton>
     <Button name="MeetingStoneQuestItemTemplate" virtual="true">
         <Frames>
-            <ItemButton parentKey="Item" motionScriptsWhileDisabled="true">
+            <ItemButton parentKey="Item1" inherits="MeetingStoneItemButtonTemplate">
                 <Anchors>
                     <Anchor point="LEFT" x="20" y="0"/>
                 </Anchors>
-                <Scripts>
-                    <OnEnter>
-                        local item = self:GetItemID()
-                        if item then
-                            GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-                            GameTooltip:SetItemByID(item)
-                            GameTooltip:Show()
-                        end
-                        self:GetParent():LockHighlight()
-                    </OnEnter>
-                    <OnLeave>
-                        GameTooltip_Hide()
-                        self:GetParent():UnlockHighlight()
-                    </OnLeave>
-                </Scripts>
+            </ItemButton>
+            <ItemButton parentKey="Item2" inherits="MeetingStoneItemButtonTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Item1" relativePoint="RIGHT" x="0" y="0"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Item3" inherits="MeetingStoneItemButtonTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Item2" relativePoint="RIGHT" x="0" y="0"/>
+                </Anchors>
+            </ItemButton>
+            <ItemButton parentKey="Item4" inherits="MeetingStoneItemButtonTemplate">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Item3" relativePoint="RIGHT" x="0" y="0"/>
+                </Anchors>
             </ItemButton>
             <Button parentKey="Reward" inherits="UIPanelButtonTemplate" hidden="true" text="领取奖励">
                 <Size x="100" y="22"/>

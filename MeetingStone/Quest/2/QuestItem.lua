@@ -22,7 +22,10 @@ local function RewardOnClick(self)
 end
 
 function QuestItem:Constructor()
-    self.Item:Disable()
+    for _, button in ipairs(self.Items) do
+        button:Disable()
+    end
+
     self.Reward:SetScript('OnClick', RewardOnClick)
     CountdownButton:Bind(self.Reward)
     self.Reward:SetCountdownObject(QuestItem)
@@ -35,8 +38,20 @@ function QuestItem:SetQuest(quest)
     self.Reward:SetEnabled(quest:IsCompleted() and not quest.rewarded)
     self.Reward:SetText(quest.rewarded and '已领取' or '领取奖励')
     self.Progress:SetFormattedText('%d/%d', quest.progressValue, quest.progressMaxValue)
-    self.Item:SetItem(quest.rewards[1].id)
-    self.Item:SetItemButtonCount(quest.rewards[1].count)
+
+    local rightButton
+    for i, button in ipairs(self.Items) do
+        local reward = quest.rewards[i]
+        if reward then
+            rightButton = button
+            button:SetItem(reward.id)
+            button:SetItemButtonCount(reward.count)
+        else
+            button:Hide()
+        end
+    end
+
+    self.Text:SetPoint('LEFT', rightButton, 'RIGHT', 5, 0)
 end
 
 function QuestItem:SetData(data)

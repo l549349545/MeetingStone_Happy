@@ -439,7 +439,7 @@ function BrowsePanel:OnInitialize()
     end
 
     local filters = {
-        {key = 'LeaderScore', text = L['团长大秘境评分'], min = 0, max = 4000, step = 1},
+        {key = 'LeaderScore', text = L['团长大秘境评分'], min = 0, max = 5000, step = 1},
         {key = 'ItemLevel', text = L['装备等级'], min = 0, max = 500, step = 10},
         {key = 'BossKilled', text = L['Boss击杀数量'], min = 0, max = 15, step = 1},
         {key = 'Age', text = L['活动创建时长'], min = 0, max = 1440, step = 10},
@@ -1043,45 +1043,14 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
             tooltipWhileDisabled = true,
         },
         {
-            text = LFG_LIST_REPORT_GROUP_FOR,
-            hasArrow = true,
-            menuTable = {
-                {
-                    text = L['不当的说明'],
-                    func = function() C_LFGList.ReportSearchResult(activity:GetID(), activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname') end,
-                },
-                {
-                    text = LFG_LIST_BAD_DESCRIPTION,
-                    func = function() C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment') end,
-                    disabled = activity:IsMeetingStone() or not activity:GetComment(),
-                },
-                {
-                    text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
-                    func = function() C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat') end,
-                    disabled = not activity:GetVoiceChat(),
-                },
-                {
-                    text = LFG_LIST_BAD_LEADER_NAME,
-                    func = function() C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername') end,
-                    disabled = not activity:GetLeader()
-                },
-            },
+           --20220603 易安玥 修改到新的举报菜单
+			text = LFG_LIST_REPORT_GROUP_FOR,
+			func = function() 
+				LFGList_ReportListing(activity:GetID(), activity:GetLeader()); 
+				LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
+			end;
+
         },
-        -- {
-            -- text = L['拉黑队长名'],
-            -- func = function()
-               -- local name = C_LFGList.GetSearchResultInfo(activity:GetID()).leaderName
-               -- table.insert(MEETINGSTONE_UI_BLACKLISTEDLEADERS,name)
-               -- print("已加入"..name.."到黑名单")
-               -- BrowsePanel:DoSearch()
-            -- end,
-        -- },
-        -- {
-        --     text = L['加入关键字过滤'],
-        --     func = function()
-        --         SettingPanel:AddSpamWord(activity:GetSummary() or activity:GetComment())
-        --     end,
-        -- },
         {
             text = CANCEL,
         },

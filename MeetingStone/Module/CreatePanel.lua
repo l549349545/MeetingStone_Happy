@@ -467,7 +467,7 @@ function CreatePanel:UpdateControlState()
 
     self.PrivateGroup:SetEnabled(editable)
 		
-	self.CrossFactionGroup:SetEnabled(editable)
+	self.CrossFactionGroup:SetEnabled(editable)    
 	
 	-- 任务和自定义不可跨阵营，清空值并置为不可用
 	if activityItem then
@@ -477,7 +477,6 @@ function CreatePanel:UpdateControlState()
 			self.CrossFactionGroup:SetEnabled(false)
 		end
 	end
-    
     self.ItemLevel:SetEnabled(editable)
     self.VoiceBox:SetEnabled(editable)
     self.TitleBox:SetEnabled(editable)
@@ -519,6 +518,13 @@ function CreatePanel:InitProfile()
         return
     end
 
+	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+	if categoryId ~= 6 and categoryId ~= 1 then
+		--20220605 易安玥 除了任务和自定义，默认跨阵营
+		self.CrossFactionGroup:SetChecked(true)
+		self.CrossFactionGroup:SetEnabled(true)
+	end
+	
     local activityId = activityItem.activityId
     local customId = activityItem.customId
 
