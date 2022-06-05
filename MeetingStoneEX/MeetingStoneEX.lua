@@ -64,8 +64,16 @@ if MEETINGSTONE_UI_DB.FILTER_MULTY == nil then
 end
 
 --职责过滤
-local function CheckJobsFilter(data,tcount,hcount,dcount)
-
+local function CheckJobsFilter(data,tcount,hcount,dcount,ignore_same_job,activity)
+    if ignore_same_job and MEETINGSTONE_UI_DB.FILTER_JOB then
+        local _,myclass,_2 = UnitClass("player")
+        for i = 1, activity:GetNumMembers() do
+            local role, class = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            if role == 'DAMAGER' and class == myclass then
+                return false
+            end
+        end
+    end
     if MEETINGSTONE_UI_DB.FILTER_MULTY then
         local show = false
         if not MEETINGSTONE_UI_DB.FILTER_TANK and not MEETINGSTONE_UI_DB.FILTER_HEALTH  and not MEETINGSTONE_UI_DB.FILTER_DAMAGE then
@@ -124,7 +132,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 local tcount,hcount,dcount = 1,1,3
                 local activitytype = BrowsePanel.ActivityDropdown:GetText()
                 if activitytype == '地下城' then
-                    if not CheckJobsFilter(data,1,1,3) then
+                    if not CheckJobsFilter(data,1,1,3,true,activity) then
                         return false
                     end
                 elseif activitytype == '团队副本' then
@@ -135,19 +143,20 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                     if not CheckJobsFilter(data,1,3,7) then
                         return false
                     end
-                elseif activitytype == '竞技场' then 
-					local arenatype = activity:GetName()
-					if arenatype == '竞技场（2v2）' then
-						if not CheckJobsFilter(data,1,1,2) then
-							return false
-						end
-					end
-					if arenatype == '竞技场（3v3）' then
-						if not CheckJobsFilter(data,1,1,3) then
-							return false
-						end
-					end
-                end 
+                elseif activitytype == '竞技场' then
+                    --来自白描MeetingStone_Happy的修改
+                    local arenatype = activity:GetName()
+                    if arenatype == '竞技场（2v2）' then
+                        if not CheckJobsFilter(data,1,1,2) then
+                            return false
+                        end
+                    end
+                    if arenatype == '竞技场（3v3）' then
+                        if not CheckJobsFilter(data,1,1,3) then
+                            return false
+                        end
+                    end
+                end
             end
             local title = activity:GetSummary()
           
@@ -410,6 +419,7 @@ function BrowsePanel:CreateExSearchButton( )
     CreateMemberFilter(self,MainPanel,130,'治疗','FILTER_HEALTH')
     CreateMemberFilter(self,MainPanel,190,'输出','FILTER_DAMAGE')
     CreateMemberFilter(self,MainPanel,250,'多专精("或"条件)','FILTER_MULTY')
+    CreateMemberFilter(self,MainPanel,600,'同职过滤','FILTER_JOB')
 
     CreateScoreFilter(self,'过滤队长0分队伍',1)
 
@@ -451,42 +461,45 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
             tooltipText = not activity:IsApplication() and LFG_LIST_MUST_SIGN_UP_TO_WHISPER,
             tooltipOnButton = true,
             tooltipWhileDisabled = true,
-        }, {
-            -- text = LFG_LIST_REPORT_GROUP_FOR,
-            -- hasArrow = true,
-            -- menuTable = {
-                -- {
-                    -- text = '不当的说明',
-                    -- func = function()
-                        -- C_LFGList.ReportSearchResult(activity:GetID(),
-                                                     -- activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname')
-                    -- end,
-                -- }, {
-                    -- text = LFG_LIST_BAD_DESCRIPTION,
-                    -- func = function()
-                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment')
-                    -- end,
-                    -- disabled = activity:IsMeetingStone() or not activity:GetComment(),
-                -- }, {
-                    -- text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
-                    -- func = function()
-                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat')
-                    -- end,
-                    -- disabled = not activity:GetVoiceChat(),
-                -- }, {
-                    -- text = LFG_LIST_BAD_LEADER_NAME,
-                    -- func = function()
-                        -- C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername')
-                    -- end,
-                    -- disabled = not activity:GetLeader(),
-                -- },
-            -- },
-			--20220603 易安玥 修改到新的举报菜单
-			text = LFG_LIST_REPORT_GROUP_FOR,
-			func = function() 
-				LFGList_ReportListing(activity:GetID(), activity:GetLeader()); 
-				LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
-			end;
+        }, 
+        -- {
+        --     text = LFG_LIST_REPORT_GROUP_FOR,
+        --     hasArrow = true,
+        --     menuTable = {
+        --         {
+        --             text = '不当的说明',
+        --             func = function()
+        --                 C_LFGList.ReportSearchResult(activity:GetID(),
+        --                                              activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname')
+        --             end,
+        --         }, {
+        --             text = LFG_LIST_BAD_DESCRIPTION,
+        --             func = function()
+        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment')
+        --             end,
+        --             disabled = activity:IsMeetingStone() or not activity:GetComment(),
+        --         }, {
+        --             text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
+        --             func = function()
+        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat')
+        --             end,
+        --             disabled = not activity:GetVoiceChat(),
+        --         }, {
+        --             text = LFG_LIST_BAD_LEADER_NAME,
+        --             func = function()
+        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername')
+        --             end,
+        --             disabled = not activity:GetLeader(),
+        --         },
+        --     },
+        -- },
+        {
+            --20220603 易安玥 修改到新的举报菜单
+            text = LFG_LIST_REPORT_GROUP_FOR,
+            func = function() 
+                LFGList_ReportListing(activity:GetID(), activity:GetLeader()); 
+                LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
+            end;
         },
         {
             text = '屏蔽队长',
