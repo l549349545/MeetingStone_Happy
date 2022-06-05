@@ -469,10 +469,10 @@ function CreatePanel:UpdateControlState()
 		
 	self.CrossFactionGroup:SetEnabled(editable)    
 	
-	-- 任务和自定义不可跨阵营，清空值并置为不可用
+	-- 任务、战场、自定义不可跨阵营，清空值并置为不可用
 	if activityItem then
 		local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
-		if categoryId == 6 or categoryId == 1 then
+		if categoryId == 6 or categoryId == 1 or categoryId == 8 then
 			self.CrossFactionGroup:SetChecked(false)
 			self.CrossFactionGroup:SetEnabled(false)
 		end
@@ -519,8 +519,8 @@ function CreatePanel:InitProfile()
     end
 
 	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
-	if categoryId ~= 6 and categoryId ~= 1 then
-		--20220605 易安玥 除了任务和自定义，默认跨阵营
+	if categoryId ~= 6 and categoryId ~= 1 and categoryId ~= 8 then
+		--20220605 易安玥 除了任务、战场、自定义，默认跨阵营
 		self.CrossFactionGroup:SetChecked(true)
 		self.CrossFactionGroup:SetEnabled(true)
 	end
