@@ -51,7 +51,7 @@ function BrowsePanel:OnInitialize()
                 key = 'Title',
                 text = L['活动标题'],
                 style = 'LEFT',
-                width = 170,
+                width = 160,
                 showHandler = function(activity)
                     if activity:IsUnusable() then
                         return activity:GetSummary(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -188,7 +188,7 @@ function BrowsePanel:OnInitialize()
                 key = 'Leader',
                 text = L['团长'],
                 style = 'LEFT',
-                width = 110,
+                width = 120,
                 showHandler = function(activity)
                     if activity:IsUnusable() then
                         return activity:GetLeaderShort(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -212,7 +212,7 @@ function BrowsePanel:OnInitialize()
             },{
                 key = 'LeaderScore',
                 text = L['分数'],
-                width = 50,
+                width = 40,
                 textHandler = function(activity)
 				     if activity:IsArenaActivity() then
                          local pvpRating = activity:GetLeaderPvpRating()
@@ -244,7 +244,7 @@ function BrowsePanel:OnInitialize()
             }, {
                 key = 'Summary',
                 text = L['说明'],
-                width = 170,
+                width = 180,
                 class = Addon:GetClass('SummaryGrid'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
