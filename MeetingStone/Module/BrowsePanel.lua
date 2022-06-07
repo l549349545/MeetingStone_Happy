@@ -247,7 +247,7 @@ function BrowsePanel:OnInitialize()
             }, {
                 key = 'Summary',
                 text = L['说明'],
-                width = 180,
+                width = 198,
                 class = Addon:GetClass('SummaryGrid'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
