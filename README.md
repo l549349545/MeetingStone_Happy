@@ -16,6 +16,11 @@
 
 #### 更新历史
 
+ - **2022-06-07**
+>1. 调整队伍列表UI by VV
+>2. 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564)
+
+
  - **2022-06-06**
 >1. 调整队伍列表UI by VV
 
