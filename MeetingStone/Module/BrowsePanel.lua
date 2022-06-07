@@ -66,15 +66,18 @@ function BrowsePanel:OnInitialize()
                 key = 'ActivityName',
                 text = L['活动类型'],
                 style = 'LEFT',
-                width = 240,
+                width = 190,
                 showHandler = function(activity)
+					local activeName = activity:GetName()
+					activeName = string.gsub(activeName, "塔扎维什：索·莉亚的宏图", "塔扎维什：宏图")
+					activeName = string.gsub(activeName, "塔扎维什：琳彩天街", "塔扎维什：天街")
                     if activity:IsUnusable() then
-                        return activity:GetName(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+                        return activeName, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
                     elseif activity:IsAnyFriend() then
-                        return activity:GetName(), BATTLENET_FONT_COLOR.r, BATTLENET_FONT_COLOR.g,
+                        return activeName, BATTLENET_FONT_COLOR.r, BATTLENET_FONT_COLOR.g,
                                BATTLENET_FONT_COLOR.b
                     else
-                        return activity:GetName(), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b
+                        return activeName, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b
                     end
                 end,
                 sortHandler = function(activity)
@@ -126,7 +129,7 @@ function BrowsePanel:OnInitialize()
             {
                 key = 'MemberRole',
                 text = L['成员'],
-                width = 125,
+                width = 135,
                 class = Addon:GetClass('MemberDisplay'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
