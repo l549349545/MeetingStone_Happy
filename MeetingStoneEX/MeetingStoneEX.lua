@@ -320,43 +320,31 @@ function BrowsePanel:CreateExSearchPanel()
 
 end
 
-local function CreateMemberFilter(self,parent, orgin,x,y,text,DB_Name)
+local function CreateMemberFilter(self,MainPanel,x,text,DB_Name)
     if MEETINGSTONE_UI_DB[DB_Name] == nil then
         MEETINGSTONE_UI_DB[DB_Name] = false
     end
 
-    local memberFilterCheckBox = GUI:GetClass('CheckBox'):New(parent) do
-        memberFilterCheckBox:SetSize(24, 24)
-        memberFilterCheckBox:SetPoint(orgin,x,y)
-        memberFilterCheckBox:SetText(text)
-        memberFilterCheckBox:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
-        memberFilterCheckBox:SetScript("OnClick", function()
+    local TCount = CreateFrame('CheckButton', nil, self) do
+        TCount:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
+        TCount:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
+        TCount:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
+        TCount:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
+        TCount:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
+        TCount:SetSize(22, 22)
+        TCount:SetPoint('BOTTOMLEFT',MainPanel,x, 3)
+        TCount:SetFontString(TCount:CreateFontString(nil, 'ARTWORK'))
+        TCount:GetFontString():SetPoint('LEFT', TCount, 'RIGHT', 2, 0)
+        TCount:SetNormalFontObject('GameFontHighlightSmall')
+        TCount:SetHighlightFontObject('GameFontNormalSmall')
+        TCount:SetDisabledFontObject('GameFontDisableSmall')
+        TCount:SetScript('OnClick', function()
             MEETINGSTONE_UI_DB[DB_Name] = not MEETINGSTONE_UI_DB[DB_Name]
             self.ActivityList:Refresh()
         end)
+        TCount:SetText(text)
+        TCount:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
     end
-    return memberFilterCheckBox
-    -- local TCount = CreateFrame('CheckButton', nil, self) do
-    --     TCount:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
-    --     TCount:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
-    --     TCount:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
-    --     TCount:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
-    --     TCount:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
-    --     TCount:SetSize(22, 22)
-    --     TCount:SetPoint(orgin or 'BOTTOMLEFT',MainPanel,x, 3)
-    --     TCount:SetFontString(TCount:CreateFontString(nil, 'ARTWORK'))
-    --     TCount:GetFontString():SetPoint('LEFT', TCount, 'RIGHT', 2, 0)
-    --     TCount:SetNormalFontObject('GameFontHighlightSmall')
-    --     TCount:SetHighlightFontObject('GameFontNormalSmall')
-    --     TCount:SetDisabledFontObject('GameFontDisableSmall')
-    --     TCount:SetScript('OnClick', function()
-    --         MEETINGSTONE_UI_DB[DB_Name] = not MEETINGSTONE_UI_DB[DB_Name]
-    --         self.ActivityList:Refresh()
-    --     end)
-    --     TCount:SetText(text)
-    --     TCount:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
-    -- end
-    -- return TCount
 end
 
 local function CreateScoreFilter(self,text,score)
@@ -405,16 +393,59 @@ function BrowsePanel:CreateExSearchButton( )
         self:SwitchPanel(self.AdvFilterPanel)
     end)
 
-    local checkbox = MainPanel
-    checkbox = CreateMemberFilter(self,checkbox,'BOTTOMLEFT',70,2,'坦克','FILTER_TANK')
-    checkbox = CreateMemberFilter(self,checkbox,'RIGHT',65,0,'治疗','FILTER_HEALTH')
-    checkbox = CreateMemberFilter(self,checkbox,'RIGHT',65,0,'输出','FILTER_DAMAGE')
-    checkbox = CreateMemberFilter(self,checkbox,'RIGHT',65,0,'多专精("或"条件)','FILTER_MULTY')
+    local ShowLogButton
+    ShowLogButton = CreateFrame('Button', nil, self) do
+        ShowLogButton:SetNormalFontObject('GameFontNormalSmall')
+        ShowLogButton:SetHighlightFontObject('GameFontHighlightSmall')
+        ShowLogButton:SetSize(70, 22)
+        ShowLogButton:SetPoint('BOTTOMRIGHT', MainPanel, -200, 3)
+        if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
+            ShowLogButton:SetText('隐藏屏蔽提示')
+        else
+            ShowLogButton:SetText('显示屏蔽提示')
+        end
+        ShowLogButton:RegisterForClicks('anyUp')
+        ShowLogButton:SetScript('OnClick', function()
+            MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG = not MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG
+            if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
+                ShowLogButton:SetText('隐藏屏蔽提示')
+            else
+                ShowLogButton:SetText('显示屏蔽提示')
+            end
+        end)
+    end
 
-    checkbox = CreateMemberFilter(self,self.SignUpButton,'RIGHT',30,-1,'同职过滤','FILTER_JOB')
+    CreateMemberFilter(self,MainPanel,70,'坦克','FILTER_TANK')
+    CreateMemberFilter(self,MainPanel,130,'治疗','FILTER_HEALTH')
+    CreateMemberFilter(self,MainPanel,190,'输出','FILTER_DAMAGE')
+    CreateMemberFilter(self,MainPanel,250,'多专精("或"条件)','FILTER_MULTY')
+	-- 修复元素叠加
+    --CreateMemberFilter(self,MainPanel,550,'同职过滤','FILTER_JOB')
+    if MEETINGSTONE_UI_DB["FILTER_JOB"] == nil then
+        MEETINGSTONE_UI_DB["FILTER_JOB"] = false
+    end
 
-    CreateMemberFilter(self,MainPanel,'TOPRIGHT',-200,0,'显示屏蔽提示','IGNORE_TIPS_LOG')
-
+    local TCount = CreateFrame('CheckButton', nil, self) do
+        TCount:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
+        TCount:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
+        TCount:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
+        TCount:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
+        TCount:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
+        TCount:SetSize(22, 22)
+        TCount:SetPoint('BOTTOM', MainPanel, 80, 4)
+        TCount:SetFontString(TCount:CreateFontString(nil, 'ARTWORK'))
+        TCount:GetFontString():SetPoint('LEFT', TCount, 'RIGHT', 2, 0)
+        TCount:SetNormalFontObject('GameFontHighlightSmall')
+        TCount:SetHighlightFontObject('GameFontNormalSmall')
+        TCount:SetDisabledFontObject('GameFontDisableSmall')
+        TCount:SetScript('OnClick', function()
+            MEETINGSTONE_UI_DB["FILTER_JOB"] = not MEETINGSTONE_UI_DB["FILTER_JOB"]
+            self.ActivityList:Refresh()
+        end)
+        TCount:SetText('同职过滤')
+        TCount:SetChecked(MEETINGSTONE_UI_DB["FILTER_JOB"])
+    end
+	
     CreateScoreFilter(self,'过滤队长0分队伍',1)
 
     -- 双击加入功能
