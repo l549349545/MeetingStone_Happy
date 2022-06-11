@@ -1,7 +1,9 @@
 
 # MeetingStone_开心快乐版 :tw-1f606: 
-> 压缩包下载地址：[https://wwi.lanzout.com/b0d3yjhob](https://wwi.lanzout.com/b0d3yjhob) 密码: **hrsf**
-> 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **\World of Warcraft\_retail_\Interface\AddOns**  文件夹下
+
+- > 压缩包下载地址：[https://wwi.lanzout.com/b0d3yjhob](https://wwi.lanzout.com/b0d3yjhob) 密码: **hrsf**
+- > 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **\World of Warcraft\_retail_\Interface\AddOns**  文件夹下
+
 
 #### 介绍
 ##### 魔兽世界集合石插件魔改功能：
