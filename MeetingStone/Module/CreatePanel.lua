@@ -268,6 +268,8 @@ function CreatePanel:OnInitialize()
         PrivateGroup:SetHighlightFontObject('GameFontNormalSmall')
         PrivateGroup:SetDisabledFontObject('GameFontDisableSmall')
         PrivateGroup:SetText(L['仅好友'])
+        GUI:Embed(PrivateGroup, 'Tooltip')
+        PrivateGroup:SetTooltip(LFG_LIST_PRIVATE_TOOLTIP)
     end
 	
 	local CrossFactionGroup = CreateFrame('CheckButton', nil, VoiceItemLevelWidget) do
@@ -284,9 +286,26 @@ function CreatePanel:OnInitialize()
         CrossFactionGroup:SetNormalFontObject('GameFontHighlightSmall')
         CrossFactionGroup:SetHighlightFontObject('GameFontNormalSmall')
         CrossFactionGroup:SetDisabledFontObject('GameFontDisableSmall')
-        CrossFactionGroup:SetText(L['跨阵营'])
+		
+		local _, localizedFaction = UnitFactionGroup("player");		
+        CrossFactionGroup:SetText(LFG_LIST_CROSS_FACTION:format(localizedFaction));
+		--CrossFactionGroup.tooltip = LFG_LIST_CROSS_FACTION_TOOLTIP:format(localizedFaction);
+		--CrossFactionGroup.disableTooltip = LFG_LIST_CROSS_FACTION_DISABLE_TOOLTIP:format(localizedFaction);
+		GUI:Embed(CrossFactionGroup, 'Tooltip')
+        CrossFactionGroup:SetTooltip(LFG_LIST_CROSS_FACTION_TOOLTIP:format(localizedFaction))
     end
-
+	
+	local AutoInvite = GUI:GetClass('CheckBox'):New(self)
+    do
+        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', 20, 7)
+        AutoInvite:SetText(L['自动邀请(需开语言过滤)'])
+        AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
+        AutoInvite:SetScript('OnClick', function()
+            Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())
+            ApplicantPanel:UpdateAutoInvite()
+        end)
+    end
+	
     --- summary
     local SummaryWidget = GUI:GetClass('TitleWidget'):New(CreateWidget) do
         SummaryWidget:SetPoint('TOPLEFT', TitleWidget, 'BOTTOMLEFT', 0, -3)
@@ -473,7 +492,7 @@ function CreatePanel:UpdateControlState()
 	if activityItem then
 		local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
 		if categoryId == 6 or categoryId == 1 or categoryId == 8 then
-			self.CrossFactionGroup:SetChecked(false)
+			self.CrossFactionGroup:SetChecked(true)
 			self.CrossFactionGroup:SetEnabled(false)
 		end
 	end
@@ -521,7 +540,7 @@ function CreatePanel:InitProfile()
 	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
 	if categoryId ~= 6 and categoryId ~= 1 and categoryId ~= 8 then
 		--20220605 易安玥 除了任务、战场、自定义，默认跨阵营
-		self.CrossFactionGroup:SetChecked(true)
+		self.CrossFactionGroup:SetChecked(false)
 		self.CrossFactionGroup:SetEnabled(true)
 	end
 	
@@ -597,7 +616,7 @@ function CreatePanel:CreateActivity()
 		MythicPlusRating = mScore,
 		PvpRating = pScore,
         PrivateGroup = self.PrivateGroup:GetChecked(),
-		CrossFactionGroup = self.CrossFactionGroup:GetChecked()
+		CrossFactionGroup = not (self.CrossFactionGroup:GetChecked())
     })
     if self:Create(activity, true) then
         self.CreateButton:Disable()
@@ -635,7 +654,7 @@ function CreatePanel:ClearAllContent()
     self.Score:SetNumber(0)
     self.ActivityType:SetValue(nil)
     self.PrivateGroup:SetChecked(false)
-    self.CrossFactionGroup:SetChecked(false)
+    self.CrossFactionGroup:SetChecked(true)
 end
 
 function CreatePanel:UpdateActivity()
@@ -653,7 +672,7 @@ function CreatePanel:UpdateActivity()
 	  
 	self.Score:SetText(activity:GetMythicPlusRating() or activity:GetPvpRating() or '')
     self.PrivateGroup:SetChecked(activity:GetPrivateGroup())
-	self.CrossFactionGroup:SetChecked(activity:GetCrossFactionGroup())
+	self.CrossFactionGroup:SetChecked(not (activity:GetCrossFactionGroup()))
 end
 
 function CreatePanel:UpdateActivityView()

@@ -554,11 +554,13 @@ function BrowsePanel:OnInitialize()
         end
 
     end
-
-    local quickJoinCheckBox = CreateFrame("CheckButton", "MeetingStone_QuickJoin", self, "UICheckButtonTemplate") do
-        quickJoinCheckBox:SetSize(24, 24)
+	
+	
+    local quickJoinCheckBox = GUI:GetClass('CheckBox'):New(self)
+    do
         quickJoinCheckBox:SetPoint('LEFT', LFGListFrame.SearchPanel.SearchBox, 'RIGHT', 10, 0)
-        MeetingStone_QuickJoinText:SetText("双击加入(专精职责)")
+        quickJoinCheckBox:SetText(L['双击加入(专精职责)'])
+        quickJoinCheckBox:SetSize(24, 24)
         quickJoinCheckBox:SetScript("OnClick", function(self,event,arg1) 
             if self:GetChecked() then
                 Private_EnableQuickJoin = true
@@ -569,11 +571,36 @@ function BrowsePanel:OnInitialize()
           end)
     end
 	
+    -- local quickJoinCheckBox = CreateFrame("CheckButton", "MeetingStone_QuickJoin", self, "UICheckButtonTemplate") do
+        -- quickJoinCheckBox:SetSize(24, 24)
+        -- quickJoinCheckBox:SetPoint('LEFT', LFGListFrame.SearchPanel.SearchBox, 'RIGHT', 10, 0)
+        -- MeetingStone_QuickJoinText:SetText("双击加入(专精职责)")
+        -- quickJoinCheckBox:SetScript("OnClick", function(self,event,arg1) 
+            -- if self:GetChecked() then
+                -- Private_EnableQuickJoin = true
+            -- else
+                -- Private_EnableQuickJoin = false
+            -- end
+            -- MEETINGSTONE_UI_E_POINTS.QuickJoin = Private_EnableQuickJoin
+          -- end)
+    -- end
 	
-    local AutoJoinCheckBox = CreateFrame("CheckButton", "MeetingStone_AutoJoinCheckBox", self, "UICheckButtonTemplate") do
-        AutoJoinCheckBox:SetSize(24, 24)
+	
+    -- local AutoJoinCheckBox = CreateFrame("CheckButton", "MeetingStone_AutoJoinCheckBox", self, "UICheckButtonTemplate") do
+        -- AutoJoinCheckBox:SetSize(24, 24)
+        -- AutoJoinCheckBox:SetPoint('TOPLEFT', quickJoinCheckBox, 'TOPLEFT', 0, 24)
+        -- MeetingStone_AutoJoinCheckBoxText:SetText("自动进组")
+        -- AutoJoinCheckBox:SetScript("OnClick", function() 
+			-- NoticeBp() 
+		-- end)
+    -- end
+	
+	
+    local AutoJoinCheckBox = GUI:GetClass('CheckBox'):New(self)
+    do
         AutoJoinCheckBox:SetPoint('TOPLEFT', quickJoinCheckBox, 'TOPLEFT', 0, 24)
-        MeetingStone_AutoJoinCheckBoxText:SetText("自动进组")
+        AutoJoinCheckBox:SetText(L['自动进组'])
+        AutoJoinCheckBox:SetSize(24, 24)
         AutoJoinCheckBox:SetScript("OnClick", function() 
 			NoticeBp() 
 		end)

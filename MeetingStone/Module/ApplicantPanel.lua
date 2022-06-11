@@ -236,17 +236,17 @@ function ApplicantPanel:OnInitialize()
         end)
     end
 
-    local AutoInvite = GUI:GetClass('CheckBox'):New(self)
-    do
-		--by 易安玥 修正位置和描述，适配VV修改的宽度
-        AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -150, 7)
-        AutoInvite:SetText(L['自动邀请(需开语言过滤)'])
-        AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
-        AutoInvite:SetScript('OnClick', function()
-            Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())
-            self:UpdateAutoInvite()
-        end)
-    end
+    -- local AutoInvite = GUI:GetClass('CheckBox'):New(self)
+    -- do
+		-- --by 易安玥 修正位置和描述，适配VV修改的宽度
+        -- AutoInvite:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', -150, 7)
+        -- AutoInvite:SetText(L['自动邀请(需开语言过滤)'])
+        -- AutoInvite:SetChecked(not not Profile:GetSetting('AUTO_INVITE_JOIN'))
+        -- AutoInvite:SetScript('OnClick', function()
+            -- Profile:SetSetting('AUTO_INVITE_JOIN', AutoInvite:GetChecked())
+            -- self:UpdateAutoInvite()
+        -- end)
+    -- end
 
     self.ApplicantList = ApplicantList
     self.AutoInvite = AutoInvite
@@ -374,7 +374,7 @@ function ApplicantPanel:ToggleEventMenu(button, applicant)
 end
 
 function ApplicantPanel:UpdateAutoInvite()
-    if self.AutoInvite:GetChecked() and UnitIsGroupLeader('player') then
+    if Profile:GetSetting('AUTO_INVITE_JOIN') and UnitIsGroupLeader('player') then
         local applicants = C_LFGList.GetApplicants() or {}
         for k, v in pairs(applicants) do
             if self:CheckCanInvite(v) then

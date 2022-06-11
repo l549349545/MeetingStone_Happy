@@ -258,7 +258,17 @@ function DataBroker:SetMinimapButtonGlow(enable)
     QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
 end
 
-local org_OnLoop = QueueStatusMinimapButton.EyeHighlightAnim:GetScript('OnLoop')
+--local org_OnLoop = QueueStatusMinimapButton.EyeHighlightAnim:GetScript('OnLoop')
+-- 20220607 重绑 OnLoop,使小地图提示音从主声道发出
 function DataBroker:SetMinimapButtonSound(enable)
-    QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+	if enable then
+		QueueStatusMinimapButton.EyeHighlightAnim:SetScript("OnLoop", function()
+			if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusMinimapButton) ) then
+							PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
+						end
+		end)
+	else
+		QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', nil)
+	end
+    --QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
 end
