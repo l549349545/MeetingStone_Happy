@@ -215,7 +215,7 @@ function BrowsePanel:OnInitialize()
             },{
                 key = 'LeaderScore',
                 text = L['分数'],
-                width = 40,
+                width = 50,
                 textHandler = function(activity)
 				     if activity:IsArenaActivity() then
                          local pvpRating = activity:GetLeaderPvpRating()
@@ -247,7 +247,7 @@ function BrowsePanel:OnInitialize()
             }, {
                 key = 'Summary',
                 text = L['说明'],
-                width = 198,
+                width = 188,
                 class = Addon:GetClass('SummaryGrid'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
@@ -590,6 +590,7 @@ function BrowsePanel:OnInitialize()
         -- AutoJoinCheckBox:SetSize(24, 24)
         -- AutoJoinCheckBox:SetPoint('TOPLEFT', quickJoinCheckBox, 'TOPLEFT', 0, 24)
         -- MeetingStone_AutoJoinCheckBoxText:SetText("自动进组")
+		-- AutoJoinCheckBox.tooltip = "自动同意来自集合石的邀请";
         -- AutoJoinCheckBox:SetScript("OnClick", function() 
 			-- NoticeBp() 
 		-- end)
@@ -600,10 +601,13 @@ function BrowsePanel:OnInitialize()
     do
         AutoJoinCheckBox:SetPoint('TOPLEFT', quickJoinCheckBox, 'TOPLEFT', 0, 24)
         AutoJoinCheckBox:SetText(L['自动进组'])
+        --AutoJoinCheckBox.tooltip(['自动同意来自集合石的邀请'])
         AutoJoinCheckBox:SetSize(24, 24)
         AutoJoinCheckBox:SetScript("OnClick", function() 
 			NoticeBp() 
 		end)
+        GUI:Embed(AutoJoinCheckBox, 'Tooltip')
+        AutoJoinCheckBox:SetTooltip("自动同意来自集合石的邀请")
     end
 	
 	function NoticeBp()	
@@ -729,11 +733,16 @@ function BrowsePanel:OnInitialize()
         AutoCompleteFrame:SetScrollStep(9)
         AutoCompleteFrame:SetSelectMode('RADIO')
         AutoCompleteFrame:SetCallback('OnItemFormatted', function(_, button, item)
-            button:SetText(item.name)
+			button:SetText(item.name)
         end)
         AutoCompleteFrame:SetCallback('OnItemClick', function(AutoCompleteFrame, _, item)
             self.ActivityDropdown:SetValue(item.code)
             self.SearchBox:ClearFocus()
+			
+			-- PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+			-- C_LFGList.SetSearchToActivity(self.activityID);
+			-- LFGListSearchPanel_DoSearch(self);
+			-- self.SearchBox:ClearFocus();
         end)
         AutoCompleteFrame:SetFrameLevel(self:GetFrameLevel() + 50)
     end
@@ -773,6 +782,9 @@ function BrowsePanel:OnInitialize()
     self.SearchBox:SetScript('OnEnterPressed', function(SearchBox)
         local item = self.AutoCompleteFrame:IsShown() and self.AutoCompleteFrame:GetSelectedItem()
         if item then
+			 local searchText = self.SearchBox:GetText();
+			-- print(searchText)
+			-- self.SearchBox:SetText(searchText);
             self.ActivityDropdown:SetValue(item.code)
         else
             self:DoSearch()
