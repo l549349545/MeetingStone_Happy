@@ -401,6 +401,12 @@ function RecentPanel:ToggleUnitMenu(anchor, player)
 				if BrowsePanel.IgnoreLeaderOnly then
 					local name = player:GetName()		
 					BrowsePanel.IgnoreLeaderOnly[name] = true
+					table.insert(MEETINGSTONE_UI_DB.IGNORE_LIST,1,{
+                            leader = name,
+                            time = date('%Y-%m-%d %H:%M',time()),
+                            dep = '从最近玩友屏蔽',
+                            t = 2,
+                        })
 					print(name.." 已加入黑名单")
                 else
                     print("未加载<|cff00ff00MeetingStoneEx|r>插件")
