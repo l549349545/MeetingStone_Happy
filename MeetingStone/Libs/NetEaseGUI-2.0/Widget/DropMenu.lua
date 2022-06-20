@@ -147,7 +147,8 @@ function DropMenu:Open(level, menuTable, owner, ...)
         scale = 1.0
     end
     local listCount=#self.menuList[1]:GetItemList()
-    if  listCount == 5 or listCount == 6 or listCount == 7 then
+	-- 20220620 右键菜单缩放 兼容加了一个举报广告
+    if  listCount >= 5 or listCount <= 8 then
         local sysScale = menu:GetParent() and 1
         or GetCVarBool('useUIScale') and min(UIParent:GetScale(), tonumber(GetCVar('uiscale')))
         or UIParent:GetScale()

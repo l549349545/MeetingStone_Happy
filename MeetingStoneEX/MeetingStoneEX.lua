@@ -514,6 +514,14 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
             end;
         },
         {
+            --20220620 易安玥 增加举报广告
+            text = REPORT_GROUP_FINDER_ADVERTISEMENT,
+            func = function() 
+                LFGList_ReportAdvertisement(activity:GetID(), activity:GetLeader()); 
+                LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
+            end;
+        },
+        {
             text = '屏蔽队长',
             func = function()
                 local name = activity:GetLeader()
