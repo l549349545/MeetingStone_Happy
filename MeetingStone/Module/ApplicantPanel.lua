@@ -341,23 +341,10 @@ function ApplicantPanel:ToggleEventMenu(button, applicant)
             disabled = not name or not applicant:GetResult(),
         },
         {
-            text = LFG_LIST_REPORT_FOR,
-            hasArrow = true,
-            menuTable = {
-                {
-                    text = LFG_LIST_BAD_PLAYER_NAME,
-                    func = function()
-                        C_LFGList.ReportApplicant(applicant:GetID(), 'badplayername', applicant:GetIndex())
-                    end,
-                },
-                {
-                    text = LFG_LIST_BAD_DESCRIPTION,
-                    func = function()
-                        C_LFGList.ReportApplicant(applicant:GetID(), 'lfglistappcomment')
-                    end,
-                    disabled = applicant:GetMsg() == '',
-                },
-            },
+			text = LFG_LIST_REPORT_PLAYER,
+            func = function()  
+				LFGList_ReportApplicant(applicant:GetID(), applicant:GetName())
+            end;
         },
         {
             text = IGNORE_PLAYER,
