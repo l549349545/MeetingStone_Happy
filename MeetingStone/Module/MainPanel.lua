@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20220620')
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20220709')
     self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -346,7 +346,8 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
                 faction = "alliance"
             end
             if faction then
-                prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+				prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
+                --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
                 --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
             end
         end

@@ -205,7 +205,8 @@ function BrowsePanel:OnInitialize()
                                 faction = "alliance"
                             end
                             if faction then
-                                prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+                                prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
+                                --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
                                 --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
                             end
                         end 

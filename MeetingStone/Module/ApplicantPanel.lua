@@ -59,12 +59,12 @@ local APPLICANT_LIST_HEADER = {
         key = 'FactionGroup',
         text = L['阵营'],
         width = 40,
-        style = 'ICON:32:32',		
+        style = 'ICON:28:28',		
         iconHandler = function(applicant)
 			if applicant:GetFactionIndex() == 0 then
-				return [[INTERFACE\BATTLEFIELDFRAME\BATTLEGROUND-HORDE]]
+				return [[Interface\PvPRankBadges\PvPRankHorde]]
 			else
-				return [[INTERFACE\BATTLEFIELDFRAME\BATTLEGROUND-ALLIANCE]]
+				return [[Interface\PvPRankBadges\PvPRankAlliance]]
 			end
         end,
         sortHandler = function(applicant)
