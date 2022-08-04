@@ -206,7 +206,8 @@ function BrowsePanel:CreateExSearchPanel()
     -- body
     local ExSearchPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate') do
         GUI:Embed(ExSearchPanel, 'Refresh')
-        ExSearchPanel:SetSize(250, 320)
+		--by 易安玥 调整筛选框大小
+        ExSearchPanel:SetSize(210, 230)
         ExSearchPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -30)
         ExSearchPanel:SetFrameLevel(self.ActivityList:GetFrameLevel()+5)
         ExSearchPanel:EnableMouse(true)
@@ -223,16 +224,14 @@ function BrowsePanel:CreateExSearchPanel()
     self.ExSearchPanel = ExSearchPanel
     ExSearchPanel:SetShown(false)
 
-
+	--by 易安玥 更新927大秘境列表
     local names = {
-        '伤逝剧场'
-        ,'凋魂之殇'
-        ,'塞兹仙林的迷雾'
-        ,'彼界'
-        ,'晋升高塔'
-        ,'赎罪大厅'
-        ,'赤红深渊'
-        ,'通灵战潮'
+        '麦卡贡垃圾场'
+        ,'麦卡贡车间'
+        ,'卡拉赞下层'
+        ,'卡拉赞上层'
+        ,'钢铁码头'
+        ,'恐轨车站'
         ,'塔扎维什：琳彩天街'
         ,'塔扎维什：索·莉亚的宏图'
     }
