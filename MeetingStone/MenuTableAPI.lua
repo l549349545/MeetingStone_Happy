@@ -372,7 +372,7 @@ function ListOfDungeons927()
 		data.fullName = data.text
 		data.categoryId = 2
 		data.groupId = groupId
-                data.activityId = Activitys[k]
+        data.activityId = Activitys[k]
 		data.baseFilter = 4
 		data.customId = 0
 		data.notClickable = true
@@ -385,10 +385,10 @@ function ListOfDungeons927()
                 customId = data.customId,
                 baseFilter = data.baseFilter,
                 value = data.value,
-                text = data.text..' （史诗钥石）',
+                text = data.text..'（史诗钥石）',
                 fullName = data.fullName,
             }
-			item.full = C_LFGList.GetCategoryInfo(item.categoryId)
+			--item.full = C_LFGList.GetCategoryInfo(item.categoryId)
 
             tinsert(Dungeons927, item)
         end
