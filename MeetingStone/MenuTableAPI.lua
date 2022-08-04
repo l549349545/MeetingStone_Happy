@@ -275,6 +275,12 @@ function GetActivitesMenuTable(menuType)
             hasArrow = true,
             menuTable = RefreshHistoryMenuTable(menuType),
         })
+		 tinsert(list, 2, {
+            text = L['|cffffff00当前版本地下城|r'],
+            notClickable = true,
+            hasArrow = true,
+            menuTable = ListOfDungeons927(Enum.LFGListFilter.PvE,menuType),
+        })
     end
 
     -- if UnitLevel('player') >= 70 then
@@ -345,4 +351,47 @@ function RefreshHistoryMenuTable(menuType)
     end
 
     return menuTable
+end
+
+
+function ListOfDungeons927()
+    	local Dungeons927 = {}
+	do
+		local function f()
+			return {}
+		end
+		Dungeons927 = f()
+	end
+	
+    local Dungeons = {280,281,256,257,127,128,7,10}
+    local Activitys = {1016,1017,679,683,471,473,180,183}
+
+    for k, groupId in ipairs(Dungeons) do	
+        local data = {}
+		data.text = C_LFGList.GetActivityGroupInfo(groupId)
+		data.fullName = data.text
+		data.categoryId = 2
+		data.groupId = groupId
+                data.activityId = Activitys[k]
+		data.baseFilter = 4
+		data.customId = 0
+		data.notClickable = true
+		data.value =  format('2-%d-%d-0',  groupId , Activitys[k])
+        if data then
+            local item = {
+                categoryId = data.categoryId,
+                groupId = groupId,
+                activityId = data.activityId,
+                customId = data.customId,
+                baseFilter = data.baseFilter,
+                value = data.value,
+                text = data.text..' （史诗钥石）',
+                fullName = data.fullName,
+            }
+			item.full = C_LFGList.GetCategoryInfo(item.categoryId)
+
+            tinsert(Dungeons927, item)
+        end
+    end
+    return Dungeons927
 end
