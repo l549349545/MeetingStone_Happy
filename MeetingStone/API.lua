@@ -481,8 +481,13 @@ local function UrlButtonOnClick(self)
 end
 
 function ApplyUrlButton(button, url)
-    button:SetScript('OnClick', UrlButtonOnClick)
-    button.url = url
+    if url then
+        button:SetScript('OnClick', UrlButtonOnClick)
+        button.url = url
+    else
+        button:SetScript('OnClick', nil)
+        button.url = nil
+    end
 end
 
 
