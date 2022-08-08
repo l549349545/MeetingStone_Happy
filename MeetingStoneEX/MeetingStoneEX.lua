@@ -7,6 +7,18 @@ Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
 
 GUI = LibStub('NetEaseGUI-2.0')
 
+--当前版本的地下城副本
+ACTIVITY_NAMES = {
+    '麦卡贡垃圾场'
+    ,'麦卡贡车间'
+    ,'卡拉赞下层'
+    ,'卡拉赞上层'
+    ,'钢铁码头'
+    ,'恐轨车站'
+    ,'塔扎维什：琳彩天街'
+    ,'塔扎维什：索·莉亚的宏图'
+}
+
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')
 
@@ -156,6 +168,15 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                             return false
                         end
                     end
+					else
+                    --9.2.71 尝试修复部分插件地下城分类不一致导致的职责过滤失效问题
+                    for i,v in ipairs(ACTIVITY_NAMES) do
+                        if activity:GetName() == v..'（史诗钥石）' then
+                            if not CheckJobsFilter(data,1,1,3,true,activity) then
+                                return false
+                            end
+                        end
+                    end
                 end
             end
             local title = activity:GetSummary()
@@ -224,18 +245,6 @@ function BrowsePanel:CreateExSearchPanel()
     self.ExSearchPanel = ExSearchPanel
     ExSearchPanel:SetShown(false)
 
-	--by 易安玥 更新927大秘境列表
-    local names = {
-        '麦卡贡垃圾场'
-        ,'麦卡贡车间'
-        ,'卡拉赞下层'
-        ,'卡拉赞上层'
-        ,'钢铁码头'
-        ,'恐轨车站'
-        ,'塔扎维什：琳彩天街'
-        ,'塔扎维什：索·莉亚的宏图'
-    }
-
     local function RefreshExSearch()
         local item = self.ActivityDropdown:GetItem()
         if not self.inUpdateFilters and item and item.categoryId then
@@ -246,7 +255,7 @@ function BrowsePanel:CreateExSearchPanel()
 
     self.MD = {}
 
-    for i,v in ipairs(names) do
+    for i,v in ipairs(ACTIVITY_NAMES) do
 
         if not self.MDSearchs then
             self.MDSearchs = {}

@@ -28,6 +28,11 @@
 ![最新活动](Image/%E6%9C%80%E6%96%B0%E6%B4%BB%E5%8A%A8.jpg)
 
 #### 更新历史
+
+ - **2022-08-08**
+>1. 更新个人周常任务  by 易安玥
+>2. 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564) ，但是保留UI修改（为了兼容Wind工具箱素材美化）
+
  - **2022-08-05**
 >1. 调整MeetingStoneEx插件副本筛选框大小，更新为9.27待筛选大秘境   by 易安玥
 ![大秘境条件过滤](Image/%E5%A4%A7%E7%A7%98%E5%A2%83%E6%9D%A1%E4%BB%B6%E8%BF%87%E6%BB%A4.png)
