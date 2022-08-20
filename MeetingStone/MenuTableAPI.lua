@@ -279,7 +279,7 @@ function GetActivitesMenuTable(menuType)
             text = L['|cffffff00当前版本地下城|r'],
             notClickable = true,
             hasArrow = true,
-            menuTable = ListOfDungeons927(Enum.LFGListFilter.PvE,menuType),
+            menuTable = ListOfDungeons927(menuType),
         })
     end
 
@@ -354,7 +354,7 @@ function RefreshHistoryMenuTable(menuType)
 end
 
 
-function ListOfDungeons927()
+function ListOfDungeons927(menuType)
     	local Dungeons927 = {}
 	do
 		local function f()
@@ -388,7 +388,10 @@ function ListOfDungeons927()
                 text = data.text..'（史诗钥石）',
                 fullName = data.fullName,
             }
-			--item.full = C_LFGList.GetCategoryInfo(item.categoryId)
+			
+            if menuType == ACTIVITY_FILTER_BROWSE then
+                item.full = C_LFGList.GetCategoryInfo(data.categoryId)
+            end
 
             tinsert(Dungeons927, item)
         end
