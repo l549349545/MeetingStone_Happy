@@ -521,14 +521,15 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
             end;
         },
-        {
-            --20220620 易安玥 增加举报广告
-            text = REPORT_GROUP_FINDER_ADVERTISEMENT,
-            func = function() 
-                LFGList_ReportAdvertisement(activity:GetID(), activity:GetLeader()); 
-                LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
-            end;
-        },
+		-- 20220820 只给官方调用的API
+        -- {
+            -- --20220620 易安玥 增加举报广告
+            -- text = REPORT_GROUP_FINDER_ADVERTISEMENT,
+            -- func = function() 
+                -- LFGList_ReportAdvertisement(activity:GetID(), activity:GetLeader()); 
+                -- LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
+            -- end;
+        -- },
         {
             text = '屏蔽队长',
             func = function()
