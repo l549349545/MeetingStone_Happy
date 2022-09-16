@@ -114,6 +114,17 @@ local function CheckJobsFilter(data,tcount,hcount,dcount,ignore_same_job,activit
         return true
     end
 end
+--PVP职责过滤
+local function CheckPVPJobsFilter(data,hcount,dcount)	 
+	if MEETINGSTONE_UI_DB.FILTER_HEALTH and data.HEALER >= hcount then
+		return false
+	end
+	if (MEETINGSTONE_UI_DB.FILTER_TANK or MEETINGSTONE_UI_DB.FILTER_DAMAGE) and data.TANK + data.DAMAGER >= dcount then
+		return false
+	end 
+    return true 
+end
+
 
 --添加过滤功能
 BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
@@ -152,19 +163,19 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                         return false
                     end
                 elseif activitytype == '评级战场' then
-                    if not CheckJobsFilter(data,1,3,7) then
+                    if not CheckPVPJobsFilter(data,3,7) then
                         return false
                     end
                 elseif activitytype == '竞技场' then
                     --来自白描MeetingStone_Happy的修改
                     local arenatype = activity:GetName()
                     if arenatype == '竞技场（2v2）' then
-                        if not CheckJobsFilter(data,1,1,2) then
+                        if not CheckPVPJobsFilter(data,1,2) then
                             return false
                         end
                     end
                     if arenatype == '竞技场（3v3）' then
-                        if not CheckJobsFilter(data,1,1,3) then
+                        if not CheckPVPJobsFilter(data,1,3) then
                             return false
                         end
                     end
