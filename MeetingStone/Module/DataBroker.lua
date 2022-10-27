@@ -255,20 +255,26 @@ function DataBroker:UpdateFlash()
 end
 
 function DataBroker:SetMinimapButtonGlow(enable)
-    QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
+    -- QueueStatusMinimapButton_SetGlowLock(QueueStatusMinimapButton, 'lfglist-applicant', enable)
+	QueueStatusButton:SetGlowLock("lfglist-applicant", enable);
 end
 
---local org_OnLoop = QueueStatusMinimapButton.EyeHighlightAnim:GetScript('OnLoop')
--- 20220607 重绑 OnLoop,使小地图提示音从主声道发出
+-- local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')
+-- -- 20220607 重绑 OnLoop,使小地图提示音从主声道发出
+-- function DataBroker:SetMinimapButtonSound(enable)
+ -- if enable then
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript("OnLoop", function()
+		 -- if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusButton) ) then
+						 -- PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
+					 -- end
+	 -- end)
+ -- else
+	 -- QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', nil)
+ -- end
+    -- --QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+-- end
+
+local org_OnLoop = QueueStatusButton.EyeHighlightAnim:GetScript('OnLoop')
 function DataBroker:SetMinimapButtonSound(enable)
-	if enable then
-		QueueStatusMinimapButton.EyeHighlightAnim:SetScript("OnLoop", function()
-			if ( QueueStatusMinimapButton_OnGlowPulse(QueueStatusMinimapButton) ) then
-							PlaySound(SOUNDKIT.UI_GROUP_FINDER_RECEIVE_APPLICATION,'Master');
-						end
-		end)
-	else
-		QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', nil)
-	end
-    --QueueStatusMinimapButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
+    QueueStatusButton.EyeHighlightAnim:SetScript('OnLoop', enable and org_OnLoop or nil)
 end

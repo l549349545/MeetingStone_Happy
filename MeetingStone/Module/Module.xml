@@ -5,13 +5,14 @@
     <Script file="ManagerPanel.lua"/>
     <Script file="CreatePanel.lua"/>
     <Script file="ApplicantPanel.lua"/>
-    <Script file="ActivitiesParent.lua"/>
-    <Script file="ActivitiesSummary.lua"/>
+    -- 10.0 屏蔽最新活动和攻略 by 易安玥
+    <!-- <Script file="ActivitiesParent.lua"/> -->
+    <!-- <Script file="ActivitiesSummary.lua"/> -->
     <Script file="AppParent.lua"/>
     <Script file="AppFollowQueryPanel.lua"/>
     <Script file="AppFollowPanel.lua"/>
     <Script file="RecentPanel.lua"/>
-    <Script file="WalkthroughPanel.lua"/>
+    <!-- <Script file="WalkthroughPanel.lua"/> -->
     <Script file="OptionPanel.lua"/>
     <Script file="PlayerInfoDialog.lua"/>
     <Script file="AppQrDialog.lua"/>
