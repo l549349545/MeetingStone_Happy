@@ -5,6 +5,9 @@
 - > 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **\World of Warcraft\_retail_\Interface\AddOns**  文件夹下
 
 #### 近期更新历史
+ - **2022-10-28**
+>1. 修复部分报错、移除最近活动和攻略页签  by 易安玥
+
  - **2022-09-16**
 >1. 把坦克和DPS归类到一起避免出现 1T/2N/6DPS的队伍能被DPS可见！  by VV
 
