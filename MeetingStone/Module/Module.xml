@@ -5,7 +5,6 @@
     <Script file="ManagerPanel.lua"/>
     <Script file="CreatePanel.lua"/>
     <Script file="ApplicantPanel.lua"/>
-    -- 10.0 屏蔽最新活动和攻略 by 易安玥
     <!-- <Script file="ActivitiesParent.lua"/> -->
     <!-- <Script file="ActivitiesSummary.lua"/> -->
     <Script file="AppParent.lua"/>
