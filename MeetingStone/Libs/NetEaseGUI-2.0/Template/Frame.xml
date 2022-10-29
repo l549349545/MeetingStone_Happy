@@ -14,7 +14,7 @@
                 </Texture>
                 <Texture inherits="_UI-Frame-TitleTileBG">
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="2" y="-3" />
+                        <Anchor point="TOPLEFT" x="0" y="-3" />
                         <Anchor point="TOPRIGHT" x="-25" y="-3" />
                     </Anchors>
                 </Texture>
@@ -30,7 +30,7 @@
             <Layer level="OVERLAY">
                 <Texture inherits="UI-Frame-Portrait" parentKey="_PortraitFrame">
                     <Anchors>
-                        <Anchor point="TOPLEFT" x="-14" y="11" />
+                        <Anchor point="TOPLEFT" x="4" y="11" />
                     </Anchors>
                 </Texture>
                 <Texture parentKey="TopRightCorner" inherits="UI-Frame-TopCornerRight">
@@ -45,7 +45,7 @@
                 </Texture>
                 <Texture inherits="_UI-Frame-TitleTile" parentKey="TopBorderBar">
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeKey="$parent._PortraitFrame" relativePoint="TOPRIGHT" x="0" y="-10" />
+                        <Anchor point="TOPLEFT" relativeKey="$parent._PortraitFrame" relativePoint="TOPRIGHT" x="13" y="-10" />
                         <Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT" />
                     </Anchors>
                 </Texture>
@@ -82,7 +82,7 @@
                 </Texture>
                 <Texture parentKey="LeftBorderBar" inherits="!UI-Frame-LeftTile">
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeKey="$parent._PortraitFrame" relativePoint="BOTTOMLEFT" x="8" y="0" />
+                        <Anchor point="TOPLEFT" relativeKey="$parent._PortraitFrame" relativePoint="BOTTOMLEFT" x="8" y="-10" />
                         <Anchor point="BOTTOMLEFT" relativeKey="$parent.BotLeftCorner" relativePoint="TOPLEFT" />
                     </Anchors>
                 </Texture>
@@ -122,7 +122,7 @@
                 <HitRectInsets>
                     <AbsInset left="5" right="9" top="1" bottom="13"/>
                 </HitRectInsets>
-                <Size x="78" y="78" />
+                <Size x="1" y="1" />
                 <Anchors>
                     <Anchor point="TOPLEFT" x="-14" y="11" />
                 </Anchors>
@@ -132,9 +132,9 @@
                         if self:IsEnabled() then
                             self:GetParent().Portrait:SetSize(58, 58)
                         end</OnMouseDown>
-          <OnMouseUp>self:GetParent().Portrait:SetSize(60, 60)</OnMouseUp>
-        </Scripts>
-      </Button>
+				  <OnMouseUp>self:GetParent().Portrait:SetSize(60, 60)</OnMouseUp>
+				</Scripts>
+			</Button>
     </Frames>
     <Scripts>
       <OnLoad>self.PortraitFrame:EnableMouse(false)

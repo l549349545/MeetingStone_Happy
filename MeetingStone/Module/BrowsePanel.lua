@@ -198,26 +198,26 @@ function BrowsePanel:OnInitialize()
                 key = 'Leader',
                 text = L['团长'],
                 style = 'LEFT',
-                width = 120,
+                width = 100,
                 showHandler = function(activity)
                     if activity:IsUnusable() then
                         return activity:GetLeaderShort(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
                     else
-						local prefix = ""
-                        if activity:GetCrossFactionListing() then
-                            local faction
-                            if activity:GetLeaderFactionGroup() == 0 then
-                                faction = "horde"
-                            elseif activity:GetLeaderFactionGroup() == 1 then
-                                faction = "alliance"
-                            end
-                            if faction then
-                                prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
-                                --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
-                                --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
-                            end
-                        end 
-                        return prefix .. (activity:GetLeaderShort() or ''), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b --此处copy于爱不易,修改了一下有时候读不到队长名报错的问题
+						-- local prefix = ""
+                        -- if activity:GetCrossFactionListing() then
+                            -- local faction
+                            -- if activity:GetLeaderFactionGroup() == 0 then
+                                -- faction = "horde"
+                            -- elseif activity:GetLeaderFactionGroup() == 1 then
+                                -- faction = "alliance"
+                            -- end
+                            -- if faction then
+                                -- prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
+                                -- --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+                                -- --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
+                            -- end
+                        -- end 
+                        return (activity:GetLeaderShort() or ''), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b 
                     end
                 end,
             },{
@@ -255,7 +255,7 @@ function BrowsePanel:OnInitialize()
             }, {
                 key = 'Summary',
                 text = L['说明'],
-                width = 188,
+                width = 208,
                 class = Addon:GetClass('SummaryGrid'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)

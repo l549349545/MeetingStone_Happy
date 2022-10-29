@@ -7,8 +7,8 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221029')
-    self:SetIcon(ADDON_LOGO)
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221030')
+    --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
     self:SetTopHeight(80)
@@ -269,36 +269,36 @@ function MainPanel:OnInitialize()
         end)
     end
 
-    if ADDON_REGIONSUPPORT then
-        self:CreateTitleButton{
-            title = L['意见建议'],
-            texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-            coords = {0, 32 / 256, 0, 0.5},
-            callback = function()
-                GUI:CallFeedbackDialog(ADDON_NAME, function(result, text)
-                    Logic:SendServer('SFEEDBACK', ADDON_NAME, ADDON_VERSION, text)
-                end)
-            end,
-        }
+    -- if ADDON_REGIONSUPPORT then
+        -- self:CreateTitleButton{
+            -- title = L['意见建议'],
+            -- texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+            -- coords = {0, 32 / 256, 0, 0.5},
+            -- callback = function()
+                -- GUI:CallFeedbackDialog(ADDON_NAME, function(result, text)
+                    -- Logic:SendServer('SFEEDBACK', ADDON_NAME, ADDON_VERSION, text)
+                -- end)
+            -- end,
+        -- }
 
-        self:CreateTitleButton{
-            title = L['公告'],
-            texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-            coords = {96 / 256, 128 / 256, 0, 0.5},
-            callback = function()
-                self:ToggleBlocker('AnnBlocker')
-            end,
-        }
-    end
+        -- self:CreateTitleButton{
+            -- title = L['公告'],
+            -- texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+            -- coords = {96 / 256, 128 / 256, 0, 0.5},
+            -- callback = function()
+                -- self:ToggleBlocker('AnnBlocker')
+            -- end,
+        -- }
+    -- end
 
-    self:CreateTitleButton{
-        title = L['插件简介'],
-        texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
-        coords = {224 / 256, 1, 0.5, 1},
-        callback = function()
-            self:ToggleBlocker('HelpBlocker')
-        end,
-    }
+    -- self:CreateTitleButton{
+        -- title = L['插件简介'],
+        -- texture = [[Interface\AddOns\MeetingStone\Media\RaidbuilderIcons]],
+        -- coords = {224 / 256, 1, 0.5, 1},
+        -- callback = function()
+            -- self:ToggleBlocker('HelpBlocker')
+        -- end,
+    -- }
 
     self.GameTooltip = GUI:GetClass('Tooltip'):New(self)
 	
@@ -308,7 +308,7 @@ function MainPanel:OnInitialize()
         CopyUpdUrlBtn:SetNormalFontObject('GameFontNormalSmall')
         CopyUpdUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
         CopyUpdUrlBtn:SetSize(70, 22)
-        CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -80, 0)
+        CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -20, 0)
         CopyUpdUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[更新地址]|r|h')
 		
 		CopyUpdUrlBtn:SetScript('OnEnter', function()
@@ -363,21 +363,21 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddSepatator()
 
     if activity:GetLeader() then
-		local prefix = ""
-		if activity:GetCrossFactionListing() then
-            local faction
-            if activity:GetLeaderFactionGroup() == 0 then
-                faction = "horde"
-            elseif activity:GetLeaderFactionGroup() == 1 then
-                faction = "alliance"
-            end
-            if faction then
-				prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
-                --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
-                --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
-            end
-        end
-        tooltip:AddLine(format(LFG_LIST_TOOLTIP_LEADER, prefix .. activity:GetLeaderText()))
+		-- local prefix = ""
+		-- if activity:GetCrossFactionListing() then
+            -- local faction
+            -- if activity:GetLeaderFactionGroup() == 0 then
+                -- faction = "horde"
+            -- elseif activity:GetLeaderFactionGroup() == 1 then
+                -- faction = "alliance"
+            -- end
+            -- if faction then
+				-- prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
+                -- --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+                -- --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
+            -- end
+        -- end
+        tooltip:AddLine(format(LFG_LIST_TOOLTIP_LEADER,  activity:GetLeaderText()))
 
         if activity:GetLeaderItemLevel() then
             tooltip:AddLine(format(L['队长物品等级：|cffffffff%s|r'], activity:GetLeaderItemLevel()))
@@ -407,9 +407,9 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         tooltip:AddSepatator()
     end
 
-    if activity:GetCrossFactionListing() then
-        tooltip:AddLine(L["|cff00ff00跨阵营队伍|r"])
-    end
+    -- if activity:GetCrossFactionListing() then
+        -- tooltip:AddLine(L["|cff00ff00跨阵营队伍|r"])
+    -- end
     if activity:GetItemLevel() > 0 then
         tooltip:AddLine(format(LFG_LIST_TOOLTIP_ILVL, activity:GetItemLevel()))
     end

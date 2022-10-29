@@ -15,7 +15,6 @@ function DataBroker:OnInitialize()
     local BrokerObject = LDB:NewDataObject('MeetingStone', {
         type = 'data source',
         icon = ADDON_LOGO,
-
         OnEnter = function(owner)
             local anchor = owner:GetBottom() < GetScreenHeight() / 2 and 'ANCHOR_TOP' or 'ANCHOR_BOTTOM'
             GameTooltip:SetOwner(owner, anchor)
