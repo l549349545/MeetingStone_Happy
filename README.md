@@ -1,6 +1,8 @@
 
 # MeetingStone_开心快乐版 :tw-1f606: 
 
+###  **请部分以收费为目的的插件整合包"作者"及为插件收费站台者，不要使用此修改版插件；** 
+
 - > 压缩包下载地址：[https://wwi.lanzout.com/b0d3yjhob](https://wwi.lanzout.com/b0d3yjhob) 密码: **hrsf**
 - > 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **\World of Warcraft\_retail_\Interface\AddOns**  文件夹下
 
