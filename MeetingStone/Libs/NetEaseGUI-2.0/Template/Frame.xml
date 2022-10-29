@@ -98,7 +98,7 @@
             <Button parentKey="CloseButton" inherits="UIPanelCloseButton">
                 <Anchors>
                     <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
-                        <Offset x="4" y="5" />
+                        <Offset x="0" y="0" />
                     </Anchor>
                 </Anchors>
 				<Scripts>
