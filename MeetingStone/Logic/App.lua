@@ -23,7 +23,7 @@ function App:OnInitialize()
 
     self:RegisterServer('SERVER_CONNECTED')
 
-    self:RegisterServer('APP_QUERY_RESULT')
+    -- self:RegisterServer('APP_QUERY_RESULT')
     self:RegisterServer('APP_FOLLOW')
     self:RegisterServer('APP_FOLLOW_RESULT')
     self:RegisterServer('APP_BITFOLLOWED')
@@ -60,20 +60,20 @@ function App:SERVER_CONNECTED()
     self:ScheduleTimer('SendServer', 1, 'APP_QUERY', GetGuildName())
 end
 
-function App:APP_QUERY_RESULT(_, flag, enable, alive)
-    if flag then
-        self.hasApp = true
-        Addon:EnableModule('AppParent')
-    end
-    if enable then
-        Addon:EnableModule('AppSupport')
-    end
-    if alive then
-        self.alive = true
-        MainPanel:RegisterPanel(L['随身集合石'], AppParent, {after = L['最新活动']})
-    end
-    self:SendMessage('MEETINGSTONE_APP_READY')
-end
+-- function App:APP_QUERY_RESULT(_, flag, enable, alive)
+    -- if flag then
+        -- self.hasApp = true
+        -- Addon:EnableModule('AppParent')
+    -- end
+    -- if enable then
+        -- Addon:EnableModule('AppSupport')
+    -- end
+    -- if alive then
+        -- self.alive = true
+        -- MainPanel:RegisterPanel(L['随身集合石'], AppParent, {after = L['最新活动']})
+    -- end
+    -- self:SendMessage('MEETINGSTONE_APP_READY')
+-- end
 
 ---- Remote Apply
 

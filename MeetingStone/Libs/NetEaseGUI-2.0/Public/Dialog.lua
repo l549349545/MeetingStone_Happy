@@ -15,8 +15,8 @@ StaticPopupDialogs['NETEASE_COPY_URL'] = {
     editBoxWidth = 260,
     EditBoxOnTextChanged = function(editBox, url)
         if editBox:GetText() ~= url then
-            editBox:SetMaxBytes(nil)
-            editBox:SetMaxLetters(nil)
+            -- editBox:SetMaxBytes(nil)
+            -- editBox:SetMaxLetters(nil)
             editBox:SetText(url)
             editBox:HighlightText()
             editBox:SetCursorPosition(0)

@@ -213,15 +213,15 @@ local flashs = {
         end,
         panel = ApplicantPanel,
     },
-    {
-        flash = function()
-            return App:IsFirstLogin() or App:HasNewFollower()
-        end,
-        shown = function()
-            return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
-        end,
-        panel = AppParent,
-    },
+    -- {
+        -- flash = function()
+            -- return App:IsFirstLogin() or App:HasNewFollower()
+        -- end,
+        -- shown = function()
+            -- return AppFollowQueryPanel and AppFollowQueryPanel:IsVisible()
+        -- end,
+        -- panel = AppParent,
+    -- },
     {
         flash = function()
             return DataCache:GetObject('AnnList'):IsNew()

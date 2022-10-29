@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221028')
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221029')
     self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -301,6 +301,32 @@ function MainPanel:OnInitialize()
     }
 
     self.GameTooltip = GUI:GetClass('Tooltip'):New(self)
+	
+	-- 增加更新地址展示
+    local CopyUpdUrlBtn
+    CopyUpdUrlBtn = CreateFrame('Button', nil, self) do
+        CopyUpdUrlBtn:SetNormalFontObject('GameFontNormalSmall')
+        CopyUpdUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
+        CopyUpdUrlBtn:SetSize(70, 22)
+        CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -80, 0)
+        CopyUpdUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[更新地址]|r|h')
+		
+		CopyUpdUrlBtn:SetScript('OnEnter', function()
+            local GameTooltip = self.GameTooltip
+			GameTooltip:SetOwner(self, 'ANCHOR_CURSOR')
+			GameTooltip:SetText('|cFFFF8040点|r|cFFFF8040击|r|cFFFF8040复|r|cFFFF8040制|r|cFFFF0080(|r|cFF8080C0不|r|cFF8080C0行|r|cFF8080C0就|r|cFF8080C0多|r|cFF8080C0点|r|cFF8080C0几|r|cFF8080C0下|r|cFFFF0080)|r')
+			GameTooltip:AddLine('|cFF0080FFhttps://gitee.com/xmmmmm/meeting-stone_-happy|r', 1, 1, 1, true)
+			GameTooltip:Show()
+        end)
+		CopyUpdUrlBtn:SetScript('OnLeave', function()
+            local GameTooltip = self.GameTooltip
+			GameTooltip:Hide()
+        end)
+	
+        CopyUpdUrlBtn:SetScript('OnClick', function()
+           ApplyUrlButton(CopyUpdUrlBtn,'https://gitee.com/xmmmmm/meeting-stone_-happy')
+        end)
+    end
 end
 
 function MainPanel:OnEnable()
