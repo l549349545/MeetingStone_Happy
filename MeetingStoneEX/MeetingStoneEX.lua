@@ -179,7 +179,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                             return false
                         end
                     end
-					else
+                else
                     --9.2.71 尝试修复部分插件地下城分类不一致导致的职责过滤失效问题
                     for i,v in ipairs(ACTIVITY_NAMES) do
                         if activity:GetName() == v..'（史诗钥石）' then
@@ -238,7 +238,7 @@ function BrowsePanel:CreateExSearchPanel()
     -- body
     local ExSearchPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate') do
         GUI:Embed(ExSearchPanel, 'Refresh')
-		--by 易安玥 调整筛选框大小
+	--by 易安玥 调整筛选框大小
         ExSearchPanel:SetSize(210, 230)
         ExSearchPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', -2, -30)
         ExSearchPanel:SetFrameLevel(self.ActivityList:GetFrameLevel()+5)
@@ -355,6 +355,14 @@ local function CreateMemberFilter(self,point,MainPanel,x,text,DB_Name)
             self.ActivityList:Refresh()
         end)
     end
+    local tooltip = (DB_Name == 'FILTER_DAMAGE' or DB_Name == 'FILTER_HEALTH' or DB_Name == 'FILTER_TANK') and "隐藏已有" .. text .. "职业的队伍"
+                    or (DB_Name == 'FILTER_JOB') and "五人副本时，隐藏已有" .. UnitClass("player") .. "DPS的队伍"
+                    or (DB_Name == 'IGNORE_TIPS_LOG') and "屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息" or nil
+    if tooltip then
+        GUI:Embed(memberFilterCheckBox, 'Tooltip')
+        memberFilterCheckBox:SetTooltip("说明", tooltip)
+        memberFilterCheckBox:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
+    end
 	
     -- local TCount = CreateFrame('CheckButton', nil, self) do
         -- TCount:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
@@ -397,6 +405,9 @@ local function CreateScoreFilter(self,text,score)
             end
             self.ActivityList:Refresh()
         end)
+        GUI:Embed(filterScoreCheckBox, 'Tooltip')
+        filterScoreCheckBox:SetTooltip("说明", "过滤队长是0分的队伍, 可能有助于减少广告")
+        filterScoreCheckBox:SetTooltipAnchor("ANCHOR_TOPLEFT")
     end
 end
 
@@ -532,7 +543,7 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
             end;
         },
-		-- 20220820 只给官方调用的API
+	-- 20220820 只给官方调用的API
         -- {
             -- --20220620 易安玥 增加举报广告
             -- text = REPORT_GROUP_FINDER_ADVERTISEMENT,
