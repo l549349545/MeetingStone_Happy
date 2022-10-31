@@ -359,9 +359,9 @@ local function CreateMemberFilter(self,point,MainPanel,x,text,DB_Name)
                     or (DB_Name == 'FILTER_JOB') and "五人副本时，隐藏已有" .. UnitClass("player") .. "DPS的队伍"
                     or (DB_Name == 'IGNORE_TIPS_LOG') and "屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息" or nil
     if tooltip then
-        GUI:Embed(memberFilterCheckBox, 'Tooltip')
-        memberFilterCheckBox:SetTooltip("说明", tooltip)
-        memberFilterCheckBox:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
+        GUI:Embed(TCount, 'Tooltip')
+        TCount:SetTooltip("说明", tooltip)
+        TCount:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
     end
 	
     -- local TCount = CreateFrame('CheckButton', nil, self) do
