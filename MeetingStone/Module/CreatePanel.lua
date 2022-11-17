@@ -490,7 +490,12 @@ function CreatePanel:UpdateControlState()
 	
 	-- 任务、战场、自定义不可跨阵营，清空值并置为不可用
 	if activityItem then
-		local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityItem.activityId);
+		local categoryId = activityInfo.categoryID;	
+		local groupId = activityInfo.groupFinderActivityGroupID;	
+	
+		--local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
 		if categoryId == 6 or categoryId == 1 or categoryId == 8 then
 			self.CrossFactionGroup:SetChecked(true)
 			self.CrossFactionGroup:SetEnabled(false)
@@ -536,8 +541,12 @@ function CreatePanel:InitProfile()
     if not activityItem then
         return
     end
-
-	local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
+	--2022-11-17
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityItem.activityId);
+	local categoryId = activityInfo.categoryID;	
+	local groupId = activityInfo.groupFinderActivityGroupID;	
+	
+	--local categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityItem.activityId))
 	if categoryId ~= 6 and categoryId ~= 1 and categoryId ~= 8 then
 		--20220605 易安玥 除了任务、战场、自定义，默认跨阵营
 		self.CrossFactionGroup:SetChecked(false)

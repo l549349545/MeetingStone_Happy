@@ -51,7 +51,10 @@ function OperationGrid:SetMember(applicant, activityID)
     local status = applicant:GetStatus()
     local numMembers = applicant:GetNumMembers()
 
-    local numAllowed = select(ACTIVITY_RETURN_VALUES.maxPlayers, C_LFGList.GetActivityInfo(activityID))
+	--2022-11-17
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityID);
+	local numAllowed = activityInfo.maxNumPlayers;
+	
     if numAllowed == 0 then
         numAllowed = MAX_RAID_MEMBERS
     end

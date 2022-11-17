@@ -170,7 +170,11 @@ end
 
 function GetActivityCode(activityId, customId, categoryId, groupId)
     if activityId and (not categoryId or not groupId) then
-        categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityId))
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		categoryId = activityInfo.categoryID;
+		groupId = activityInfo.groupFinderActivityGroupID;
+        --categoryId, groupId = select(3, C_LFGList.GetActivityInfo(activityId))
     end
     return format('%d-%d-%d-%d', categoryId or 0, groupId or 0, activityId or 0, customId or 0)
 end
@@ -455,8 +459,22 @@ end
 
 GetAutoCompleteItem = setmetatable({}, {
     __index = function(t, activityId)
-        local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType =
-            C_LFGList.GetActivityInfo(activityId)
+		--2022-11-17
+        --local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType =
+           -- C_LFGList.GetActivityInfo(activityId)
+		
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		local name = activityInfo.fullName;
+		local shortName = activityInfo.shortName;
+		local category = activityInfo.categoryID;
+		local group = activityInfo.groupFinderActivityGroupID;
+		local filters = activityInfo.filters;
+		
+		local iLevel = activityInfo.ilvlSuggestion;
+		local minLevel = activityInfo.minLevel;
+		local maxMembers = activityInfo.maxNumPlayers;
+		local displayType = activityInfo.displayType;
+	
         t[activityId] = {
             name = name,
             order = 0xffff - (ACTIVITY_ORDER.A[activityId] or ACTIVITY_ORDER.G[group] or 0),

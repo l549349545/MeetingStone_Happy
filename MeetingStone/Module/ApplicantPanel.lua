@@ -289,7 +289,12 @@ function ApplicantPanel:UpdateApplicantsList()
 
     if applicants and C_LFGList.HasActiveEntryInfo() then
         local activityID = C_LFGList.GetActiveEntryInfo().activityID
-        local isMythicPlusActivity = select(13, C_LFGList.GetActivityInfo(activityID))
+		
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		local isMythicPlusActivity = activityInfo.isMythicActivity;	
+	print(isMythicPlusActivity)
+        --local isMythicPlusActivity = select(13, C_LFGList.GetActivityInfo(activityID))
         for i, id in ipairs(applicants) do
             local numMembers = C_LFGList.GetApplicantInfo(id).numMembers
             for i = 1, numMembers do
@@ -375,8 +380,10 @@ function ApplicantPanel:CheckCanInvite(id)
     local applicantInfo = C_LFGList.GetApplicantInfo(id)
     local status = applicantInfo.applicationStatus
     local numMembers = applicantInfo.numMembers
-
-    local numAllowed = select(ACTIVITY_RETURN_VALUES.maxPlayers, C_LFGList.GetActivityInfo(CreatePanel:GetCurrentActivity():GetActivityID()))
+	
+	--2022-11-17
+	local activityInfo = C_LFGList.GetActivityInfoTable(CreatePanel:GetCurrentActivity():GetActivityID());
+	local numAllowed = activityInfo.maxNumPlayers;
     
     if numAllowed == 0 then
         numAllowed = MAX_RAID_MEMBERS
@@ -396,7 +403,10 @@ function ApplicantPanel:CanInvite(applicant)
     local status = applicant:GetStatus()
     local numMembers = applicant:GetNumMembers()
 
-    local numAllowed = select(ACTIVITY_RETURN_VALUES.maxPlayers, C_LFGList.GetActivityInfo(CreatePanel:GetCurrentActivity():GetActivityID()))
+	--2022-11-17
+	local activityInfo = C_LFGList.GetActivityInfoTable(CreatePanel:GetCurrentActivity():GetActivityID());
+	local numAllowed = activityInfo.maxNumPlayers;
+	
     if numAllowed == 0 then
         numAllowed = MAX_RAID_MEMBERS
     end
