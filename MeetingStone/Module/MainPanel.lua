@@ -422,8 +422,8 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     if activity:GetAge() > 0 then
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_AGE, SecondsToTime(activity:GetAge(), false, false, 1, false)))
     end
-
-    if activity:GetDisplayType() == Enum.LfgListDisplayType.ClassEnumerate then
+	--2022-11-17
+    if activity:GetDisplayType() == Enum.LFGListDisplayType.ClassEnumerate then
         tooltip:AddSepatator()
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_MEMBERS_SIMPLE, activity:GetNumMembers()))
         for i = 1, activity:GetNumMembers() do

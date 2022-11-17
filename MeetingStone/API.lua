@@ -174,15 +174,18 @@ function GetActivityCode(activityId, customId, categoryId, groupId)
     end
     return format('%d-%d-%d-%d', categoryId or 0, groupId or 0, activityId or 0, customId or 0)
 end
-
-function IsUseHonorLevel(activityId)
-    return activityId and select(11, C_LFGList.GetActivityInfo(activityId))
+--2022-11-17
+function IsUseHonorLevel(activityId)	
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    return activityId and activityInfo.useHonorLevel;
 end
 function IsMythicPlusActivity (activityId)
-    return activityId and select(13, C_LFGList.GetActivityInfo(activityId))
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    return activityId and activityInfo.isMythicActivity;
 end
 function IsRatedPvpActivity (activityId)
-    return activityId and select(14, C_LFGList.GetActivityInfo(activityId))
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    return activityId and activityInfo.isRatedPvpActivity;
 end
 
 local PVP_INDEXS = {[6] = 1, [7] = 1, [8] = 1, [19] = 2}

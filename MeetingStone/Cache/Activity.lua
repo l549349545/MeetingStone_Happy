@@ -89,7 +89,25 @@ function Activity:Update()
         iLvl = 0
     end
 
-    local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType, orderIndex, useHonorLevel, showQuickJoin, isMythicPlusActivity = C_LFGList.GetActivityInfo(activityId)
+    --local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType, orderIndex, useHonorLevel, showQuickJoin, isMythicPlusActivity = C_LFGList.GetActivityInfo(activityId)
+	
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+	local name = activityInfo.fullName;
+	local shortName = activityInfo.shortName;
+	local category = activityInfo.categoryID;
+	local group = activityInfo.groupFinderActivityGroupID;
+	local filters = activityInfo.filters;
+	
+	local iLevel = activityInfo.ilvlSuggestion;
+	local minLevel = activityInfo.minLevel;
+	local maxMembers = activityInfo.maxNumPlayers;
+	local displayType = activityInfo.displayType;
+	local orderIndex = activityInfo.orderIndex;
+	local useHonorLevel = activityInfo.useHonorLevel;
+	local showQuickJoin = activityInfo.showQuickJoinToast;
+	local isMythicPlusActivity = activityInfo.isMythicPlusActivity;
+	
+	
     local _, appStatus, pendingStatus, appDuration = C_LFGList.GetApplicationInfo(id)
 
     if leader then

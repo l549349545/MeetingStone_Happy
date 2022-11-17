@@ -35,8 +35,16 @@ local function isCategoryValid(categoryId)
 end
 
 local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
-    local fullName, shortName, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
-
+	--2022-11-17
+    --local fullName, shortName, categoryId, groupId, _, filters = C_LFGList.GetActivityInfo(activityId)
+	
+	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+	local fullName = activityInfo.fullName;
+	local shortName = activityInfo.shortName;
+	local categoryId = activityInfo.categoryID;
+	local groupId = activityInfo.groupFinderActivityGroupID;
+	local filters = activityInfo.filters;
+	
     if customId then
         fullName = ACTIVITY_CUSTOM_NAMES[customId]
     end
@@ -60,7 +68,8 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     data.baseFilter = baseFilter
     data.value = GetActivityCode(activityId, customId, categoryId, groupId)
     if menuType == ACTIVITY_FILTER_BROWSE then
-        data.full = C_LFGList.GetCategoryInfo(categoryId)
+		--2022-11-17
+        data.full = GetCategoryInfo(categoryId)
     end
 
     currentCodeCache[data.value] = data
@@ -147,7 +156,10 @@ local function MakeVersionMenuTable(categoryId, versionId, baseFilter, menuType)
     end
 
     for _, activityId in ipairs(C_LFGList.GetAvailableActivities(categoryId)) do
-        if CATEGORY[versionId].activities[activityId] and select(4, C_LFGList.GetActivityInfo(activityId)) == 0 then
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		local groupId = activityInfo.groupFinderActivityGroupID;	
+        if CATEGORY[versionId].activities[activityId] and groupId == 0 then
             tinsert(menuTable, MakeCustomActivityMenuTable(activityId, baseFilter, nil, menuType))
         end
     end
@@ -162,7 +174,9 @@ local function MakeVersionMenuTable(categoryId, versionId, baseFilter, menuType)
 end
 
 local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
-    local name, _, autoChoose = C_LFGList.GetCategoryInfo(categoryId)
+	--2022-11-17
+    local name, _, autoChoose = GetCategoryInfo(categoryId)
+	
     local data = {}
     data.text = name
     data.categoryId = categoryId
@@ -200,7 +214,10 @@ local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
             end
         end
         for _, activityId in ipairs(C_LFGList.GetAvailableActivities(categoryId)) do
-            if select(4, C_LFGList.GetActivityInfo(activityId)) == 0 or count == 1 then
+			--2022-11-17
+			local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+			local groupId = activityInfo.groupFinderActivityGroupID;
+            if groupId == 0 or count == 1 then
                 tinsert(menuTable, MakeCustomActivityMenuTable(activityId, baseFilter, nil, menuType))
             end
         end
@@ -339,7 +356,8 @@ function RefreshHistoryMenuTable(menuType)
             }
 
             if menuType == ACTIVITY_FILTER_BROWSE then
-                item.full = C_LFGList.GetCategoryInfo(data.categoryId)
+				--2022-11-17
+                item.full = GetCategoryInfo(data.categoryId)
             end
 
             tinsert(menuTable, item)
@@ -390,7 +408,8 @@ function ListOfDungeons927(menuType)
             }
 			
             if menuType == ACTIVITY_FILTER_BROWSE then
-                item.full = C_LFGList.GetCategoryInfo(data.categoryId)
+				--2022-11-17
+                item.full = GetCategoryInfo(data.categoryId)
             end
 
             tinsert(Dungeons927, item)

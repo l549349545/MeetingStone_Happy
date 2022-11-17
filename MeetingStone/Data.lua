@@ -352,7 +352,9 @@ ACTIVITY_NAME_CACHE = setmetatable({}, {
         if type(k) ~= 'number' then
             return
         end
-        t[k] = C_LFGList.GetActivityInfo(k)
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(k);
+        t[k] = activityInfo.fullName;
         return t[k]
     end,
 })
