@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221117')
+    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION..' 20221118')
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -555,15 +555,14 @@ function MainPanel:OpenApplicantTooltip(applicant)
     if applicant:IsMythicPlusActivity() or score > 0 then
         local color = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
         GameTooltip:AddLine(format(L['大秘评分：%s'], color:WrapTextInColorCode(score)))
-        -- local info = applicant:GetBestDungeonScore()
-        -- if info and info.mapScore and info.mapScore > 0 then
-            -- local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
-            -- local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
-            -- GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
-        -- else
-            -- GameTooltip:AddLine(format("当前副本: |cff7f7f7f 无信息|r"))
-        -- end
-		GameTooltip:AddLine(format("当前副本: |cff7f7f7f 正在修复|r"))
+        local info = applicant:GetBestDungeonScore()
+        if info and info.mapScore and info.mapScore > 0 then
+            local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+            local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
+            GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
+        else
+            GameTooltip:AddLine(format("当前副本: |cff7f7f7f 无信息|r"))
+        end
     end
 
     if comment and comment ~= '' then

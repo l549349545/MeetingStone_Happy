@@ -82,15 +82,14 @@ local APPLICANT_LIST_HEADER = {
                 if applicant:GetResult() and score > 0 then
                     local colorAll = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
                     local scoreText
-                    -- local info = applicant:GetBestDungeonScore()
-                    -- if info and info.mapScore and info.mapScore > 0 then
-                        -- local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
-                        -- local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
-                        -- scoreText = format("%s / %s / %s ", colorAll:WrapTextInColorCode(score), color:WrapTextInColorCode(info.mapScore),color:WrapTextInColorCode(levelText))
-                    -- else
-                        -- scoreText = format("%s / %s", colorAll:WrapTextInColorCode(score), "|cff7f7f7f无|r")
-                    -- end
-					scoreText='正在修复'
+                    local info = applicant:GetBestDungeonScore()
+                    if info and info.mapScore and info.mapScore > 0 then
+                        local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+                        local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
+                        scoreText = format("%s / %s / %s ", colorAll:WrapTextInColorCode(score), color:WrapTextInColorCode(info.mapScore),color:WrapTextInColorCode(levelText))
+                    else
+                        scoreText = format("%s / %s", colorAll:WrapTextInColorCode(score), "|cff7f7f7f无|r")
+                    end
                     return scoreText
                 else
                     return NONE, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b

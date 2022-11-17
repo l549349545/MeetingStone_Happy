@@ -630,8 +630,15 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
     for i = 1, #roleCache do
         local roleInfo = roleCache[i]
         if roleInfo then
-            local icon = self.Icons[iconIndex]
-            icon:SetAtlas(LFG_LIST_GROUP_DATA_ATLASES[roleInfo[2]])
+            local icon = self.Icons[iconIndex]            
+			-- 2022-11-17 LFG_LIST_GROUP_DATA_ATLASES 中暂无小龙人儿的图标   "groupfinder-icon-class-"..string.lower(roleInfo[2])
+			icon:SetAtlas(LFG_LIST_GROUP_DATA_ATLASES[roleInfo[2]])
+			if roleInfo[2]=='EVOKER' then
+				icon:SetAtlas("classicon-"..string.lower(roleInfo[2]),false)
+				-- icon:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"); 
+				-- local coords = CLASS_ICON_TCOORDS[roleInfo[2]];
+				-- icon:SetTexCoord(unpack(coords));
+			end
             icon.role:SetAtlas(roleAtlas[roleInfo[1]])
             icon.leader:SetShown(roleInfo[3])
             iconIndex = iconIndex - 1
