@@ -285,7 +285,6 @@ CATEGORY = {
             [266] = true,
             [267] = true,
 			--20220301 by 易安玥 恢复世界首领的显示
-            [269] = true, --世界首领 /dump C_LFGList.GetActivityGroupInfo(269)
             [270] = true, --暗影国度
             [271] = true,   --统御圣所
             [272] = true,   --塔扎维什
@@ -301,9 +300,30 @@ CATEGORY = {
             [280] = true,   --塔扎维什：琳彩天街
             [281] = true,   --塔扎维什：索·莉亚的宏图
             [282] = true,   --初诞者圣墓
+            [283] = true,   --典狱长的挑战
         },
         activities = {
             [723] = true, -- 世界首领
+        }
+    },	
+    [9] = {
+        groups = {
+			--巨龙时代： 302,303,304,305，306,307,308,309
+			--史诗钥石地下城： 302,306,307,308,309,12,120,114,61
+			--团队副本： 310
+			[284] = true, --巨龙时代
+            [302] = true, -- 艾杰斯亚学院
+            [303] = true, -- 蕨皮山谷
+            [304] = true, -- 注能大厅
+            [305] = true, -- 奈萨鲁斯
+            [306] = true, -- 红玉新生法池
+            [307] = true, -- 碧蓝魔馆
+            [308] = true, -- 诺库德阻击战
+            [309] = true, -- 奥达曼：提尔的遗产
+            [310] = true, -- 化身巨龙牢窟
+        },
+        activities = {
+            [1146] = true, -- 世界首领
         },
     },
 }
@@ -312,6 +332,7 @@ CATEGORY = {
 --/dump C_LFGList.GetActivityGroupInfo(251)
 --/run a=LFGListFrame.EntryCreation dump(C_LFGList.GetAvailableActivities(a.selectedCategory, 0, bit.bor(a.baseFilters, a.selectedFilters)))
 --/dump C_LFGList.GetActivityInfo(657)
+--/dump C_LFGList.GetAvailableActivityGroups(302)
 
 RAID_CLASS_COLORS = {}
 CLASS_ICON_TCOORDS = {}

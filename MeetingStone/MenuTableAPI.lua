@@ -195,7 +195,7 @@ local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
 
     if categoryId == 2 or categoryId == 3 then
         -- for i = #MAX_PLAYER_LEVEL_TABLE, 0, -1 do
-        for i = 8, 0, -1 do
+        for i = #CATEGORY, 0, -1 do
             local versionMenu = MakeVersionMenuTable(categoryId, i, baseFilter, menuType)
             if versionMenu then
                 tinsert(menuTable, versionMenu)
@@ -387,6 +387,10 @@ function ListOfDungeons927(menuType)
     local Dungeons = {280,281,256,257,127,128,7,10}
     local Activitys = {1016,1017,679,683,471,473,180,183}
 
+	-- 10.0
+    -- local Dungeons = {302,306,307,308,309,12,120,114,61}
+    -- local Activitys = {1060,1176,1180,1184,1188,1193,466,461,1192}
+	
     for k, groupId in ipairs(Dungeons) do	
         local data = {}
 		data.text = C_LFGList.GetActivityGroupInfo(groupId)
