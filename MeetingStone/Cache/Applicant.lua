@@ -67,12 +67,14 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
 	local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID  = C_LFGList.GetApplicantMemberInfo(id, index)
 	
 	
-    local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
+    -- local bestDungeonScoreForEntry = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
+	local bestDungeonScoreForEntry = 0
 	--local userFactionIndex  = C_LFGList.GetApplicantDungeonScoreForListing(id, index, activityId);
 	local userFactionIndex  = factionGroup
     local msg, isMeetingStone, progression, pvpRating, source  = DecodeDescriptionData(comment)
-	local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityId)
-
+	-- local pvpRatingInfo = C_LFGList.GetApplicantPvpRatingInfoForListing(id, index, activityId)
+	local pvpRatingInfo = 0
+ 
     self:SetID(id)
     self:SetActivityID(activityId)
     self:SetStatus(status)
@@ -101,9 +103,9 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetFactionIndex(userFactionIndex)
 
     self:SetIsMeetingStone(isMeetingStone)
-	if(pvpRatingInfo) then
-		self:SetPvPRating(pvpRatingInfo.rating)
-	end
+	-- if(pvpRatingInfo) then
+		-- self:SetPvPRating(pvpRatingInfo.rating)
+	-- end
     self:SetSource(source)
     if isMeetingStone then
         self:SetProgression(progression)

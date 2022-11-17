@@ -555,14 +555,15 @@ function MainPanel:OpenApplicantTooltip(applicant)
     if applicant:IsMythicPlusActivity() or score > 0 then
         local color = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
         GameTooltip:AddLine(format(L['大秘评分：%s'], color:WrapTextInColorCode(score)))
-        local info = applicant:GetBestDungeonScore()
-        if info and info.mapScore and info.mapScore > 0 then
-            local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
-            local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
-            GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
-        else
-            GameTooltip:AddLine(format("当前副本: |cff7f7f7f 无信息|r"))
-        end
+        -- local info = applicant:GetBestDungeonScore()
+        -- if info and info.mapScore and info.mapScore > 0 then
+            -- local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+            -- local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
+            -- GameTooltip:AddLine(format("当前副本: %s / %s", color:WrapTextInColorCode(info.mapScore), levelText))
+        -- else
+            -- GameTooltip:AddLine(format("当前副本: |cff7f7f7f 无信息|r"))
+        -- end
+		GameTooltip:AddLine(format("当前副本: |cff7f7f7f 正在修复|r"))
     end
 
     if comment and comment ~= '' then

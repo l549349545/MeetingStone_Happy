@@ -180,16 +180,22 @@ function GetActivityCode(activityId, customId, categoryId, groupId)
 end
 --2022-11-17
 function IsUseHonorLevel(activityId)	
-	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
-    return activityId and activityInfo.useHonorLevel;
+	if activityId then
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		return activityId and activityInfo.useHonorLevel;
+	end
 end
 function IsMythicPlusActivity (activityId)
-	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
-    return activityId and activityInfo.isMythicActivity;
+	if activityId then
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		return activityId and activityInfo.isMythicActivity;
+	end
 end
 function IsRatedPvpActivity (activityId)
-	local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
-    return activityId and activityInfo.isRatedPvpActivity;
+	if activityId then
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		return activityId and activityInfo.isRatedPvpActivity;
+	end
 end
 
 local PVP_INDEXS = {[6] = 1, [7] = 1, [8] = 1, [19] = 2}

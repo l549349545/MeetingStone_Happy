@@ -82,14 +82,15 @@ local APPLICANT_LIST_HEADER = {
                 if applicant:GetResult() and score > 0 then
                     local colorAll = C_ChallengeMode.GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
                     local scoreText
-                    local info = applicant:GetBestDungeonScore()
-                    if info and info.mapScore and info.mapScore > 0 then
-                        local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
-                        local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
-                        scoreText = format("%s / %s / %s ", colorAll:WrapTextInColorCode(score), color:WrapTextInColorCode(info.mapScore),color:WrapTextInColorCode(levelText))
-                    else
-                        scoreText = format("%s / %s", colorAll:WrapTextInColorCode(score), "|cff7f7f7f无|r")
-                    end
+                    -- local info = applicant:GetBestDungeonScore()
+                    -- if info and info.mapScore and info.mapScore > 0 then
+                        -- local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+                        -- local levelText = format(info.finishedSuccess and "|cff00ff00%d层|r" or "|cff7f7f7f%d层|r", info.bestRunLevel or 0)
+                        -- scoreText = format("%s / %s / %s ", colorAll:WrapTextInColorCode(score), color:WrapTextInColorCode(info.mapScore),color:WrapTextInColorCode(levelText))
+                    -- else
+                        -- scoreText = format("%s / %s", colorAll:WrapTextInColorCode(score), "|cff7f7f7f无|r")
+                    -- end
+					scoreText='正在修复'
                     return scoreText
                 else
                     return NONE, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
@@ -288,12 +289,11 @@ function ApplicantPanel:UpdateApplicantsList()
     local applicants = C_LFGList.GetApplicants()
 
     if applicants and C_LFGList.HasActiveEntryInfo() then
-        local activityID = C_LFGList.GetActiveEntryInfo().activityID
-		
-		--2022-11-17
-		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
-		local isMythicPlusActivity = activityInfo.isMythicActivity;	
-	print(isMythicPlusActivity)
+        local isMythicPlusActivity = C_LFGList.GetActiveEntryInfo().isMythicPlusActivity
+		-- print(activityID)
+		-- --2022-11-17
+		-- local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		-- local isMythicPlusActivity = activityInfo.isMythicActivity;	
         --local isMythicPlusActivity = select(13, C_LFGList.GetActivityInfo(activityID))
         for i, id in ipairs(applicants) do
             local numMembers = C_LFGList.GetApplicantInfo(id).numMembers
