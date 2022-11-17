@@ -8,11 +8,8 @@
 - > 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **\World of Warcraft\_retail_\Interface\AddOns**  文件夹下
 
 #### 近期更新历史
- - **2022-11-01**
->1. 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564) ，但是保留UI修改（为了兼容Wind工具箱素材美化） by 易安玥
-
- - **2022-10-30**
->1. 调整UI、移除部分无效的跨阵营标识（暴雪尚未修复对应的预组建队伍API） by 易安玥
+ - **2022-11-17 ~ 2022-11-18**
+>1. 尽量修复错误 by 易安玥
 
 #### 介绍
 ##### 魔兽世界集合石插件魔改功能：
@@ -38,6 +35,9 @@
 ![最新活动](Image/%E6%9C%80%E6%96%B0%E6%B4%BB%E5%8A%A8.jpg)
 
 #### 更多更新历史
+ - **2022-11-17 ~ 2022-11-18**
+>1. 尽量修复错误 by 易安玥
+
  - **2022-11-01**
 >1. 同步最新的MeetingStoneEx插件[NGA地址](https://bbs.nga.cn/read.php?tid=30841564) ，但是保留UI修改（为了兼容Wind工具箱素材美化） by 易安玥
 
