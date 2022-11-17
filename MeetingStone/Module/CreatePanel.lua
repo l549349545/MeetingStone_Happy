@@ -568,7 +568,13 @@ function CreatePanel:InitProfile()
         pvpRating = profile.PvpRating or 0
 		dungeonScore = profile.DungeonScore or 0
     else
-        local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activityId)
+        --local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activityId)
+
+		--2022-11-17
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		local iLevel = activityInfo.ilvlSuggestion;
+		local minLevel = activityInfo.minLevel;
+	
         iLvl = min(iLevel, GetPlayerItemLevel())
         minLvl = minLevel == 0 and MIN_PLAYER_LEVEL or minLevel
         maxLvl = MAX_PLAYER_LEVEL
@@ -714,7 +720,12 @@ function CreatePanel:UpdateActivityView()
 
     local atlasName, suffix do
         local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activity:GetActivityID())
-        local _, separateRecommended = C_LFGList.GetCategoryInfo(categoryID)
+        --local _, separateRecommended = C_LFGList.GetCategoryInfo(categoryID)
+		
+		--2022-11-17
+		local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryID);
+        local separateRecommended = categoryInfo.separateRecommended
+		
         if separateRecommended and bit.band(filters, Enum.LFGListFilter.Recommended) ~= 0 then
             atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[LFGListUtil_GetCurrentExpansion()]
         elseif separateRecommended and bit.band(filters, Enum.LFGListFilter.NotRecommended) ~= 0 then

@@ -69,7 +69,8 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     data.value = GetActivityCode(activityId, customId, categoryId, groupId)
     if menuType == ACTIVITY_FILTER_BROWSE then
 		--2022-11-17
-        data.full = GetCategoryInfo(categoryId)
+		local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryId);
+        data.full = categoryInfo.name
     end
 
     currentCodeCache[data.value] = data
@@ -175,7 +176,8 @@ end
 
 local function MakeCategoryMenuTable(categoryId, baseFilter, menuType)
 	--2022-11-17
-    local name, _, autoChoose = GetCategoryInfo(categoryId)
+    local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryId);
+	local name = categoryInfo.name
 	
     local data = {}
     data.text = name
@@ -357,7 +359,8 @@ function RefreshHistoryMenuTable(menuType)
 
             if menuType == ACTIVITY_FILTER_BROWSE then
 				--2022-11-17
-                item.full = GetCategoryInfo(data.categoryId)
+				local categoryInfo = C_LFGList.GetLfgCategoryInfo(data.categoryId);
+                item.full = categoryInfo.name
             end
 
             tinsert(menuTable, item)
@@ -409,7 +412,8 @@ function ListOfDungeons927(menuType)
 			
             if menuType == ACTIVITY_FILTER_BROWSE then
 				--2022-11-17
-                item.full = GetCategoryInfo(data.categoryId)
+				local categoryInfo = C_LFGList.GetLfgCategoryInfo(data.categoryId);
+				item.full = categoryInfo.name
             end
 
             tinsert(Dungeons927, item)
