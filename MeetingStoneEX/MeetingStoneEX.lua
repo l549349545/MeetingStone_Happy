@@ -3,8 +3,6 @@ BuildEnv(...)
 debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
 
 Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
--- :NewAddon('MeetingStoneEX', 'AceEvent-3.0', 'LibModule-1.0', 'LibClass-2.0', 'AceHook-3.0')
-
 GUI = LibStub('NetEaseGUI-2.0')
 
 --当前版本的地下城副本
@@ -18,6 +16,18 @@ ACTIVITY_NAMES = {
     ,'塔扎维什：琳彩天街'
     ,'塔扎维什：索·莉亚的宏图'
 }
+
+-- 10.0 版本的地下城副本
+-- ACTIVITY_NAMES = {
+    -- '艾杰斯亚学院'
+    -- ,'红玉新生法池'
+    -- ,'碧蓝魔馆'
+    -- ,'诺库德阻击战'
+    -- ,'影月墓地'
+    -- ,'群星庭院'
+    -- ,'英灵殿'
+    -- ,'青龙寺'
+-- }
 
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')
@@ -124,7 +134,6 @@ local function CheckPVPJobsFilter(data,hcount,dcount)
 	end 
     return true 
 end
-
 
 --添加过滤功能
 BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
@@ -318,28 +327,9 @@ function BrowsePanel:CreateExSearchPanel()
             self.MDSearchs = nil
         end)
     end
-
-    -- local RefreshFilterButton = CreateFrame('Button', nil, ExSearchPanel, 'UIPanelButtonTemplate') do
-    --     RefreshFilterButton:SetSize(80, 22)
-    --     RefreshFilterButton:SetPoint('BOTTOMLEFT', ExSearchPanel, 'BOTTOM', 0, 3)
-    --     RefreshFilterButton:SetText('确认')
-    --     RefreshFilterButton:SetScript('OnClick', function()
-    --         self.MDSearchs = nil
-    --         for i, box in ipairs(self.MD) do
-    --             if box.Check:GetChecked() then
-    --                 if not self.MDSearchs then
-    --                     self.MDSearchs = {}
-    --                 end
-    --                 self.MDSearchs[box.dungeonName..'（史诗钥石）'] = true
-    --             end
-    --         end
-    --         self:DoSearch()
-    --     end)
-    -- end
-
 end
 
-local function CreateMemberFilter(self,point,MainPanel,x,text,DB_Name)
+local function CreateMemberFilter(self,point,MainPanel,x,text,DB_Name,tooltip)
     if MEETINGSTONE_UI_DB[DB_Name] == nil then
         MEETINGSTONE_UI_DB[DB_Name] = false
     end
@@ -355,35 +345,11 @@ local function CreateMemberFilter(self,point,MainPanel,x,text,DB_Name)
             self.ActivityList:Refresh()
         end)
     end
-    local tooltip = (DB_Name == 'FILTER_DAMAGE' or DB_Name == 'FILTER_HEALTH' or DB_Name == 'FILTER_TANK') and "隐藏已有" .. text .. "职业的队伍"
-                    or (DB_Name == 'FILTER_JOB') and "五人副本时，隐藏已有" .. UnitClass("player") .. "DPS的队伍"
-                    or (DB_Name == 'IGNORE_TIPS_LOG') and "屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息" or nil
     if tooltip then
         GUI:Embed(TCount, 'Tooltip')
         TCount:SetTooltip("说明", tooltip)
         TCount:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
     end
-	
-    -- local TCount = CreateFrame('CheckButton', nil, self) do
-        -- TCount:SetNormalTexture([[Interface\Buttons\UI-CheckBox-Up]])
-        -- TCount:SetPushedTexture([[Interface\Buttons\UI-CheckBox-Down]])
-        -- TCount:SetHighlightTexture([[Interface\Buttons\UI-CheckBox-Highlight]])
-        -- TCount:SetCheckedTexture([[Interface\Buttons\UI-CheckBox-Check]])
-        -- TCount:SetDisabledCheckedTexture([[Interface\Buttons\UI-CheckBox-Check-Disabled]])
-        -- TCount:SetSize(22, 22)
-        -- TCount:SetPoint('BOTTOMLEFT',MainPanel,x, 3)
-        -- TCount:SetFontString(TCount:CreateFontString(nil, 'ARTWORK'))
-        -- TCount:GetFontString():SetPoint('LEFT', TCount, 'RIGHT', 2, 0)
-        -- TCount:SetNormalFontObject('GameFontHighlightSmall')
-        -- TCount:SetHighlightFontObject('GameFontNormalSmall')
-        -- TCount:SetDisabledFontObject('GameFontDisableSmall')
-        -- TCount:SetScript('OnClick', function()
-            -- MEETINGSTONE_UI_DB[DB_Name] = not MEETINGSTONE_UI_DB[DB_Name]
-            -- self.ActivityList:Refresh()
-        -- end)
-        -- TCount:SetText(text)
-        -- TCount:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
-    -- end
 end
 
 local function CreateScoreFilter(self,text,score)
@@ -435,41 +401,15 @@ function BrowsePanel:CreateExSearchButton( )
         self:SwitchPanel(self.AdvFilterPanel)
     end)
 
-    local ShowLogButton
-    ShowLogButton = CreateFrame('Button', nil, self) do
-        ShowLogButton:SetNormalFontObject('GameFontNormalSmall')
-        ShowLogButton:SetHighlightFontObject('GameFontHighlightSmall')
-        ShowLogButton:SetSize(70, 22)
-        ShowLogButton:SetPoint('BOTTOMRIGHT', MainPanel, -200, 3)
-        if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-            ShowLogButton:SetText('隐藏屏蔽提示')
-        else
-            ShowLogButton:SetText('显示屏蔽提示')
-        end
-        ShowLogButton:RegisterForClicks('anyUp')
-        ShowLogButton:SetScript('OnClick', function()
-            MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG = not MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG
-            if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                ShowLogButton:SetText('隐藏屏蔽提示')
-            else
-                ShowLogButton:SetText('显示屏蔽提示')
-            end
-        end)
-    end
+    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,70,'坦克','FILTER_TANK',"隐藏已有坦克职业的队伍，允许多选")
+    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,130,'治疗','FILTER_HEALTH',"隐藏已有治疗职业的队伍，允许多选")
+    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,190,'输出','FILTER_DAMAGE',"隐藏输出职业满的队伍，允许多选")
+    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,250,'多选-"或"条件','FILTER_MULTY','左侧几项多选时，将过滤出同时满足所有条件的队伍\n而多选的同时再勾选本项后，将过滤出满足勾选的任意一项条件的队伍\n一般而言，用于玩家想同时以多个职责加入队伍的时候\n例如战士想查找缺T或DPS的队伍')
 
-    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,70,'坦克','FILTER_TANK')
-    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,130,'治疗','FILTER_HEALTH')
-    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,190,'输出','FILTER_DAMAGE')
-    CreateMemberFilter(self,'BOTTOMLEFT',MainPanel,250,'多专精("或"条件)','FILTER_MULTY')
-	-- 修复元素叠加
-    CreateMemberFilter(self,'BOTTOM',MainPanel,80,'同职过滤','FILTER_JOB')
+    CreateMemberFilter(self,'BOTTOM',MainPanel,80,'同职过滤','FILTER_JOB',"五人副本时，隐藏已有同职责" .. UnitClass("player") .. "的队伍")
     CreateScoreFilter(self,'过滤队长0分队伍',1)
-
-    -- 双击加入功能
-    -- self.ActivityList:SetCallback('OnItemDoubleClick',function (_1,_2,activity)
-    --     local _, tank, healer, dps = GetLFGRoles();
-    --     C_LFGList.ApplyToGroup(activity:GetID(),tank,healer,dps)
-    -- end)
+	
+	CreateMemberFilter(self,'BOTTOM',MainPanel,200,'显示屏蔽提示','IGNORE_TIPS_LOG',"屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息")
 end
 
 --添加大秘境过滤功能
@@ -477,7 +417,6 @@ function BrowsePanel:EX_INIT()
     self:CreateExSearchPanel()
     self:CreateExSearchButton()
 end
-
 
 function BrowsePanel:ToggleActivityMenu(anchor, activity)
     local usable, reason = self:CheckSignUpStatus(activity)
@@ -503,38 +442,7 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
             tooltipText = not activity:IsApplication() and LFG_LIST_MUST_SIGN_UP_TO_WHISPER,
             tooltipOnButton = true,
             tooltipWhileDisabled = true,
-        }, 
-        -- {
-        --     text = LFG_LIST_REPORT_GROUP_FOR,
-        --     hasArrow = true,
-        --     menuTable = {
-        --         {
-        --             text = '不当的说明',
-        --             func = function()
-        --                 C_LFGList.ReportSearchResult(activity:GetID(),
-        --                                              activity:IsMeetingStone() and 'lfglistcomment' or 'lfglistname')
-        --             end,
-        --         }, {
-        --             text = LFG_LIST_BAD_DESCRIPTION,
-        --             func = function()
-        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistcomment')
-        --             end,
-        --             disabled = activity:IsMeetingStone() or not activity:GetComment(),
-        --         }, {
-        --             text = LFG_LIST_BAD_VOICE_CHAT_COMMENT,
-        --             func = function()
-        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'lfglistvoicechat')
-        --             end,
-        --             disabled = not activity:GetVoiceChat(),
-        --         }, {
-        --             text = LFG_LIST_BAD_LEADER_NAME,
-        --             func = function()
-        --                 C_LFGList.ReportSearchResult(activity:GetID(), 'badplayername')
-        --             end,
-        --             disabled = not activity:GetLeader(),
-        --         },
-        --     },
-        -- },
+        },
         {
             --20220603 易安玥 修改到新的举报菜单
             text = LFG_LIST_REPORT_GROUP_FOR,
@@ -543,15 +451,6 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
             end;
         },
-	-- 20220820 只给官方调用的API
-        -- {
-            -- --20220620 易安玥 增加举报广告
-            -- text = REPORT_GROUP_FINDER_ADVERTISEMENT,
-            -- func = function() 
-                -- LFGList_ReportAdvertisement(activity:GetID(), activity:GetLeader()); 
-                -- LFGListSearchPanel_UpdateResultList(LFGListFrame.SearchPanel); 
-            -- end;
-        -- },
         {
             text = '屏蔽队长',
             func = function()
@@ -562,13 +461,7 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 end
                 BrowsePanel.ActivityList:Refresh()
             end,
-        },      
-         -- {
-        --     text = '加入关键字过滤',
-        --     func = function()
-        --         SettingPanel:AddSpamWord(activity:GetSummary() or activity:GetComment())
-        --     end,
-        -- },
+        },
         {
             text = '屏蔽同标题玩家',
             func = function()

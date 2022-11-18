@@ -38,6 +38,8 @@ function SettingPanel:OnInitialize()
         set = function(item, value)
 			if item[#item]=='showclassico' then
 				Profile:Saveshowclassico(value)
+				--2022-11-19 增加提示框自动重载
+				GUI:CallWarningDialog('设置职业图标后需要重载UI！', true, nil, ReloadUI)
 			else
 				Profile:SetSetting(item[#item], value)
 			end
@@ -90,7 +92,7 @@ function SettingPanel:OnInitialize()
 			-- 增加设置选项
             showclassico = {
                 type = 'toggle',
-                name = L['显示职业图标(需要重载UI /RL)'],
+                name = L['显示职业图标(触发重载UI)'],
                 width = 'full',
                 order = order(),
             },

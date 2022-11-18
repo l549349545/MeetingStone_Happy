@@ -582,6 +582,11 @@ function BrowsePanel:OnInitialize()
             end
             MEETINGSTONE_UI_E_POINTS.QuickJoin = Private_EnableQuickJoin
           end)
+		  
+		-- 2022-11-19 增加说明
+        GUI:Embed(quickJoinCheckBox, 'Tooltip')
+        quickJoinCheckBox:SetTooltip("说明", "专精职责：按照地下城查找器所选职责")
+        quickJoinCheckBox:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
     end
 	
     -- local quickJoinCheckBox = CreateFrame("CheckButton", "MeetingStone_QuickJoin", self, "UICheckButtonTemplate") do
@@ -619,8 +624,10 @@ function BrowsePanel:OnInitialize()
         AutoJoinCheckBox:SetScript("OnClick", function() 
 			NoticeBp() 
 		end)
+		-- 2022-11-19 修改提示位置
         GUI:Embed(AutoJoinCheckBox, 'Tooltip')
-        AutoJoinCheckBox:SetTooltip("自动同意来自集合石的邀请")
+        AutoJoinCheckBox:SetTooltip("说明", "自动同意来自集合石的邀请")
+        AutoJoinCheckBox:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
     end
 	
 	function NoticeBp()	
