@@ -39,6 +39,11 @@ function Addon:OnInitialize()
     end
 	--显示职业图标
 	InitMeetingStoneClass()
+	
+	--2022-11-18 部分人反馈小图标隐藏后打不开，增加命令打开方式 /ms  、 /meetingstone
+	SlashCmdList["MeetingStone"] = function() MainPanel:Show() end;
+    _G["SLASH_MeetingStone1"] = "/ms";
+    _G["SLASH_MeetingStone12"] = "/meetingstone";
 end
 
 function Addon:OnEnable()

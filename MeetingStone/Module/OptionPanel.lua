@@ -62,7 +62,7 @@ function SettingPanel:OnInitialize()
             },
             panel = {
                 type = 'toggle',
-                name = L['显示悬浮窗'],
+                name = L['显示悬浮窗（也可通过/ms、/meetingstone打开集合石）'],
                 width = 'full',
                 order = order(),
             },
