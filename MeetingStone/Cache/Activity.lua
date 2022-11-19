@@ -290,7 +290,7 @@ local FILTERS = {
     --大秘境分数筛选 by lian.zy
     LeaderScore = function(activity)
         return activity:GetLeaderScore()
-    end
+    end,
 }
 
 function Activity:Match(filters)
@@ -307,17 +307,13 @@ function Activity:Match(filters)
         end
     end
 
-    -- 过滤条件:队长名
-    -- local searchResultInfo = C_LFGList.GetSearchResultInfo(self:GetID())
-    -- if (searchResultInfo ~= nil and searchResultInfo.leaderName ~= nil) then
-        -- local leaderName = searchResultInfo.leaderName
-        -- for k, v in ipairs(_G["MEETINGSTONE_UI_BLACKLISTEDLEADERS"]) do
-            -- if (leaderName == v) then
-                -- -- print("Filtered:Blacklisted Leader:"..v)
-                -- return false
-            -- end
-        -- end
-    -- end
+	--2022-11-19 阵营筛选 
+	if Profile:GetSetting("ONLY_SHOW_SELF_GROUP") then
+		local isFilteFaction = true
+		local PLAYER_FACTION = UnitFactionGroup("player") == 'Alliance' and 1 or 0
+		isFilteFaction = PLAYER_FACTION == self:GetLeaderFactionGroup()
+		return isFilteFaction
+	end
     return true
 end
 

@@ -21,14 +21,14 @@ function BrowsePanel:OnInitialize()
         ActivityList:SetSortHandler(function(activity)
             return activity:BaseSortHandler()
         end)
-        ActivityList:RegisterFilter(function(activity, ...)
-            local isFilteFaction = true
-            if Profile:GetSetting("ONLY_SHOW_SELF_GROUP") then
-                local PLAYER_FACTION = UnitFactionGroup("player") == 'Alliance' and 1 or 0
-                isFilteFaction = PLAYER_FACTION == activity:GetLeaderFactionGroup()
-            end
-            return isFilteFaction and activity:Match(...)
-        end)
+        -- ActivityList:RegisterFilter(function(activity, ...)
+            -- local isFilteFaction = true
+            -- if Profile:GetSetting("ONLY_SHOW_SELF_GROUP") then
+                -- local PLAYER_FACTION = UnitFactionGroup("player") == 'Alliance' and 1 or 0
+                -- isFilteFaction = PLAYER_FACTION == activity:GetLeaderFactionGroup()
+            -- end
+            -- return isFilteFaction and activity:Match(...)
+        -- end)
         ActivityList:InitHeader{
             {
                 key = '@',
@@ -195,31 +195,35 @@ function BrowsePanel:OnInitialize()
                     return 0xFFFF - activity:GetItemLevel()
                 end,
             }, {
-                key = 'Leader',
-                text = L['团长'],
-                style = 'LEFT',
-                width = 100,
-                showHandler = function(activity)
-                    if activity:IsUnusable() then
-                        return activity:GetLeaderShort(), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
-                    else
-						-- local prefix = ""
-                        -- if activity:GetCrossFactionListing() then
-                            -- local faction
-                            -- if activity:GetLeaderFactionGroup() == 0 then
-                                -- faction = "horde"
-                            -- elseif activity:GetLeaderFactionGroup() == 1 then
-                                -- faction = "alliance"
-                            -- end
-                            -- if faction then
-                                -- prefix = format("|TInterface/FriendsFrame/PlusManz-%s:28:28:0:0|t", faction)
-                                -- --prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
-                                -- --prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
-                            -- end
-                        -- end 
-                        return (activity:GetLeaderShort() or ''), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b 
-                    end
-                end,
+            key = 'Leader',
+            text = L['团长'],
+            style = 'LEFT',
+            width = 120,
+            showHandler = function(activity)
+				local prefix = ""
+				local faction
+				local englishFaction, _ = UnitFactionGroup("player");
+				faction = string.lower(englishFaction)
+				if activity:GetCrossFactionListing() then
+					if activity:GetLeaderFactionGroup() == 0 then
+						faction = "horde"
+					elseif activity:GetLeaderFactionGroup() == 1 then
+						faction = "alliance"
+					end
+				end
+				
+				if faction then
+					prefix = format("|TInterface/FriendsFrame/PlusManz-%s:16:16:0:0|t", faction)
+					--prefix = format("|Tinterface/battlefieldframe/battleground-%s:32:32:0:0|t", faction)
+					--prefix = format("|Tinterface/icons/pvpcurrency-honor-%s:0:0:0:0|t", faction)
+				end
+				if activity:IsUnusable() then
+					return prefix..(activity:GetLeaderShort() or ""), GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b
+				else
+					return prefix..(activity:GetLeaderShort() or ""), HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g,
+						   HIGHLIGHT_FONT_COLOR.b
+				end
+            end,
             },{
                 key = 'LeaderScore',
                 text = L['分数'],
@@ -255,7 +259,7 @@ function BrowsePanel:OnInitialize()
             }, {
                 key = 'Summary',
                 text = L['说明'],
-                width = 208,
+                width = 188,
                 class = Addon:GetClass('SummaryGrid'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
@@ -673,6 +677,23 @@ function BrowsePanel:OnInitialize()
         AutoJoinCheckBox:SetChecked(MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox)
     end
 
+
+    local showGroupCheckBox = GUI:GetClass('CheckBox'):New(self) do
+        showGroupCheckBox:SetSize(24, 24)
+        showGroupCheckBox:SetPoint('RIGHT', AutoJoinCheckBox, 'RIGHT', 85, 0)
+        showGroupCheckBox:SetText("仅本阵营")
+        showGroupCheckBox:SetChecked(not not Profile:GetSetting("ONLY_SHOW_SELF_GROUP"))
+        showGroupCheckBox:SetScript("OnClick", function()
+            Profile:SetSetting("ONLY_SHOW_SELF_GROUP", showGroupCheckBox:GetChecked())
+            self:UpdateFilters()
+		end)
+		
+		-- 2022-11-19 修改提示位置
+        GUI:Embed(showGroupCheckBox, 'Tooltip')
+        showGroupCheckBox:SetTooltip("说明", "仅显示与角色当前阵营匹配的队伍")
+        showGroupCheckBox:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
+    end
+    
     local ActivityTotals = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightRight') 
     do
         ActivityTotals:SetPoint('BOTTOMRIGHT', MainPanel, -7, 7)
@@ -771,16 +792,6 @@ function BrowsePanel:OnInitialize()
     end
 
 
-    local showGroupCheckBox = GUI:GetClass('CheckBox'):New(self) do
-        showGroupCheckBox:SetSize(24, 24)
-        showGroupCheckBox:SetPoint('LEFT', autoJoinCheckBox, 'RIGHT', 80, 0)
-        showGroupCheckBox:SetText("仅展示本阵营活动")
-        showGroupCheckBox:SetChecked(not not Profile:GetSetting("ONLY_SHOW_SELF_GROUP"))
-        showGroupCheckBox:SetScript("OnClick", function()
-            Profile:SetSetting("ONLY_SHOW_SELF_GROUP", showGroupCheckBox:GetChecked())
-            self:UpdateFilters()
-		end)
-    end
 
     self.AutoCompleteFrame = AutoCompleteFrame
     self.ActivityList = ActivityList

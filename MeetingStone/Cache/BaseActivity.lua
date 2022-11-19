@@ -112,7 +112,7 @@ function BaseActivity:UpdateCustomData(comment, title)
         else
             self:SetLeaderClass(proto:GetLeaderClass())
             self:SetLeaderItemLevel(proto:GetLeaderItemLevel())
-            self:SetLeaderPvPRating(proto:GetLeaderPvpRating())
+            self:SetLeaderPvPRating(proto:GetLeaderPvPRating())
             self:SetLeaderProgression(proto:GetLeaderProgression())
             self:SetLeaderHonorLevel(proto:GetLeaderHonorLevel())
         end

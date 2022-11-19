@@ -13,7 +13,7 @@ local APPLICANT_LIST_HEADER = {
     {
         key = 'Icon',
         text = '@',
-        style = 'ICON:20:20',
+        style = 'ICON:18:18',
         width = 30,
         iconHandler = function(applicant)
             if applicant:GetRelationship() then
@@ -34,7 +34,7 @@ local APPLICANT_LIST_HEADER = {
     {
         key = 'Role',
         text = L['职责'],
-        width = 52,
+        width = 40,
         class = Addon:GetClass('RoleItem'),
         formatHandler = function(grid, applicant)
             grid:SetMember(applicant)
@@ -49,7 +49,8 @@ local APPLICANT_LIST_HEADER = {
         width = 40,
         style = 'ICON:18:18',
         iconHandler = function(applicant)
-            return [[INTERFACE\GLUES\CHARACTERCREATE\UI-CHARACTERCREATE-CLASSES]], CLASS_ICON_TCOORDS[applicant:GetClass()]
+            -- return [[INTERFACE\GLUES\CHARACTERCREATE\UI-CHARACTERCREATE-CLASSES]], CLASS_ICON_TCOORDS[applicant:GetClass()]
+			return "Interface/AddOns/MeetingStone/Media/ClassIcon/"..string.lower(applicant:GetClass()).."_flatborder2"
         end,
         sortHandler = function(applicant)
             return _PartySortHandler(applicant) or applicant:GetClass()
@@ -59,12 +60,12 @@ local APPLICANT_LIST_HEADER = {
         key = 'FactionGroup',
         text = L['阵营'],
         width = 40,
-        style = 'ICON:28:28',		
+        style = 'ICON:18:18',		
         iconHandler = function(applicant)
 			if applicant:GetFactionIndex() == 0 then
-				return [[Interface\PvPRankBadges\PvPRankHorde]]
+				return "|TInterface/FriendsFrame/PlusManz-horde:18:18:0:0|t"
 			else
-				return [[Interface\PvPRankBadges\PvPRankAlliance]]
+				return "|TInterface/FriendsFrame/PlusManz-alliance:18:18:0:0|t"
 			end
         end,
         sortHandler = function(applicant)
@@ -172,7 +173,7 @@ local APPLICANT_LIST_HEADER = {
         text = L['描述'],
 		--by 易安玥 修正宽度，适配VV修改的宽度
 		--by 易安玥 缩小一下，显示阵营
-        width = 102+44+50-40,
+        width = 102+44+50-40+13,
         style = 'LEFT',
         showHandler = function(applicant)
             if applicant:GetResult() then
