@@ -16,18 +16,19 @@ function Recent:OnInitialize()
         return t[k]
     end})
 
-    self:InitRecentManagers()
+	-- 禁用网易插件服务
+    -- self:InitRecentManagers()
 
-    self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1)
-    self:RegisterEvent('LFG_LIST_ACTIVE_ENTRY_UPDATE')
+    -- self:RegisterBucketEvent('GROUP_ROSTER_UPDATE', 1)
+    -- self:RegisterEvent('LFG_LIST_ACTIVE_ENTRY_UPDATE')
 
-    self:RegisterMessage('MEETINGSTONE_DB_SHUTDOWN')
-    self:RegisterMessage('MEETINGSTONE_GROUP_CLOSED')
-    self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 2, 'CacheRecent')
-    self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 10, 'BroadcastInfo')
+    -- self:RegisterMessage('MEETINGSTONE_DB_SHUTDOWN')
+    -- self:RegisterMessage('MEETINGSTONE_GROUP_CLOSED')
+    -- self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 2, 'CacheRecent')
+    -- self:RegisterBucketMessage('MEETINGSTONE_MEMBER_UPDATE', 10, 'BroadcastInfo')
 
-    self:ListenSocket('NE_RECENT')
-    self:RegisterSocket('RECENT_INFO')
+    -- self:ListenSocket('NE_RECENT')
+    -- self:RegisterSocket('RECENT_INFO')
 end
 
 function Recent:OnEnable()

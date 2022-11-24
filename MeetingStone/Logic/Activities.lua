@@ -13,26 +13,27 @@ function Activities:OnInitialize()
     self.serverTimers = {}
     self.timeOuts = {}
 
-    self:ListenSocket('NERB', ADDON_SERVER)
+	-- 禁用网易插件服务
+    -- self:ListenSocket('NERB', ADDON_SERVER)
 
-    self:RegisterEvent('ENCOUNTER_END')
+    -- self:RegisterEvent('ENCOUNTER_END')
 
-    self:RegisterServer('SERVER_CONNECTED')
+    -- self:RegisterServer('SERVER_CONNECTED')
 
-    self:RegisterServer('OASU', 'OA_SCORE_UPDATE')
-    self:RegisterServer('OAQR', 'OA_QUERY_RESULT')
-    self:RegisterServer('OABR', 'OA_BUY_RESULT')
-    self:RegisterServer('OALR', 'OA_LOTTERY_RESULT')
-    self:RegisterServer('OASR', 'OA_SIGNIN_RESULT')
-    self:RegisterServer('OAUR', 'OA_SIGNUP_RESULT')
-    self:RegisterServer('OAAUR', 'OA_SETADDRESS_RESULT')
+    -- self:RegisterServer('OASU', 'OA_SCORE_UPDATE')
+    -- self:RegisterServer('OAQR', 'OA_QUERY_RESULT')
+    -- self:RegisterServer('OABR', 'OA_BUY_RESULT')
+    -- self:RegisterServer('OALR', 'OA_LOTTERY_RESULT')
+    -- self:RegisterServer('OASR', 'OA_SIGNIN_RESULT')
+    -- self:RegisterServer('OAUR', 'OA_SIGNUP_RESULT')
+    -- self:RegisterServer('OAAUR', 'OA_SETADDRESS_RESULT')
 
-    self:RegisterTimeOut('OAB', 'OABR', 'OnBuyTimeOut')
-    self:RegisterTimeOut('OAQ', 'OAQR', 'OnQueryTimeOut')
-    self:RegisterTimeOut('OAL', 'OALR', 'OnLotteryTimeOut')
+    -- self:RegisterTimeOut('OAB', 'OABR', 'OnBuyTimeOut')
+    -- self:RegisterTimeOut('OAQ', 'OAQR', 'OnQueryTimeOut')
+    -- self:RegisterTimeOut('OAL', 'OALR', 'OnLotteryTimeOut')
 
-    self:ConnectServer()
-    self:RegisterMessage('MEETINGSTONE_ACTIVITIES_DATA_UPDATED')
+    -- self:ConnectServer()
+    -- self:RegisterMessage('MEETINGSTONE_ACTIVITIES_DATA_UPDATED')
 end
 
 function Activities:SendServer(cmd, ...)

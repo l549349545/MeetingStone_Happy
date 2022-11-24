@@ -48,6 +48,11 @@
 
 
 #### 更多更新历史
+ - **2022-11-23**
+>1. 移除最新活动页签，移除活动账号监听 by 易安玥
+部分人员使用集合石插件，出现"未找到名为“S1Alliance/Horde”的在线玩家。 "信息的，请禁用
+ElvUI - MerathilisUI - Modeules - 聊天框 - Custom Online Message 功能
+ 
  - **2022-11-19**
 >1. 职业图标配置变更后，增加重载提示 by 易安玥
 >2. 职业图标不等待暴雪更新文件，使用Wind工具箱[NGA地址](https://bbs.nga.cn/read.php?tid=12142815) 中的职业资源图标 by 易安玥

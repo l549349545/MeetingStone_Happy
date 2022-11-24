@@ -7,21 +7,22 @@ function Logic:OnInitialize()
         return
     end
 
-    self:ListenSocket('NERB', ADDON_SERVER)
+	-- 禁用网易插件服务
+    -- self:ListenSocket('NERB', ADDON_SERVER)
 
-    self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
-    self:RegisterServer('SSM', 'SOCKET_SYSTEM_MESSAGE')
-    self:RegisterServer('SVERSION', 'SOCKET_VERSION')
+    -- self:RegisterServer('SDV', 'SOCKET_DATA_VALUE')
+    -- self:RegisterServer('SSM', 'SOCKET_SYSTEM_MESSAGE')
+    -- self:RegisterServer('SVERSION', 'SOCKET_VERSION')
 
-    self:RegisterServer('SERVER_CONNECTED')
-    self:RegisterServer('SERVER_DISCONNECTED', 'ServerConnect')
-    self:RegisterServer('CHANNEL_DISCONNECTED', 'ConnectChannel')
+    -- self:RegisterServer('SERVER_CONNECTED')
+    -- self:RegisterServer('SERVER_DISCONNECTED', 'ServerConnect')
+    -- self:RegisterServer('CHANNEL_DISCONNECTED', 'ConnectChannel')
 
-    self:RegisterServerEvent('EXCHANGE_RESULT', 'MEETINGSTONE_REWARD_RESULT')
-    self:RegisterServerEvent('MALLPURCHASE_RESULT', 'MEETINGSTONE_MALLPURCHASE_RESULT')
-    self:RegisterServerEvent('MALLQUERY_RESULT', 'MEETINGSTONE_MALLQUERY_RESULT')
+    -- self:RegisterServerEvent('EXCHANGE_RESULT', 'MEETINGSTONE_REWARD_RESULT')
+    -- self:RegisterServerEvent('MALLPURCHASE_RESULT', 'MEETINGSTONE_MALLPURCHASE_RESULT')
+    -- self:RegisterServerEvent('MALLQUERY_RESULT', 'MEETINGSTONE_MALLQUERY_RESULT')
 
-    self:ServerConnect()
+    -- self:ServerConnect()
 end
 
 function Logic:RegisterServerEvent(cmd, event)

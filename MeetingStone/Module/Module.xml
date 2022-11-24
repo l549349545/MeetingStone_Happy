@@ -5,8 +5,8 @@
     <Script file="ManagerPanel.lua"/>
     <Script file="CreatePanel.lua"/>
     <Script file="ApplicantPanel.lua"/>
-    <Script file="ActivitiesParent.lua"/>
-    <Script file="ActivitiesSummary.lua"/>
+    <!-- <Script file="ActivitiesParent.lua"/> -->
+    <!-- <Script file="ActivitiesSummary.lua"/> -->
     <!-- <Script file="AppParent.lua"/> -->
     <!-- <Script file="AppFollowQueryPanel.lua"/> -->
     <!-- <Script file="AppFollowPanel.lua"/> -->

@@ -42,7 +42,8 @@ local connectQueue = SocketHandler.connectQueue
 local EventHandler = SocketHandler.EventHandler
 
 local function OnUsed(registry, target, cmd)
-    target:RegisterCallback(cmd, 'OnSocket')
+	-- 禁用网易插件服务
+    -- target:RegisterCallback(cmd, 'OnSocket')
 end
 
 local _server
@@ -139,10 +140,11 @@ function SocketHandler:OnSocket(cmd, distribution, sender, ...)
 end
 
 function SocketHandler:ListenSocket(prefix, target)
-    self.prefix = prefix
-    self.connectTarget = formatTarget(target)
-    self:UpdateStatusTable()
-    self:Listen(prefix, 4)
+	-- 禁用网易插件服务
+    -- self.prefix = prefix
+    -- self.connectTarget = formatTarget(target)
+    -- self:UpdateStatusTable()
+    -- self:Listen(prefix, 4)
 end
 
 function SocketHandler:CheckSendDistribution(target)

@@ -84,8 +84,8 @@ function Addon:Toggle()
             if ApplicantPanel:HasNewPending() then
                 MainPanel:SelectPanel(ManagerPanel)
 			-- 10.0 屏蔽最新活动和攻略 by 易安玥
-            elseif DataCache:GetObject('ActivitiesData'):IsNew() then
-                MainPanel:SelectPanel(ActivitiesParent)
+            -- elseif DataCache:GetObject('ActivitiesData'):IsNew() then
+                -- MainPanel:SelectPanel(ActivitiesParent)
             -- elseif App:HasNewFollower() then
                 -- MainPanel:SelectPanel(AppParent)
             elseif C_LFGList.HasActiveEntryInfo() then

@@ -14,8 +14,10 @@ QuestServies = Addon:NewModule('QuestServies', 'NetEaseSocket-2.0', 'AceEvent-3.
 local QuestType = {Challenge = 1, GoldLeader = 2}
 
 function QuestServies:OnInitialize()
-    self:ListenSocket('NERB', ADDON_SERVER)
-    self:ConnectServer()
+
+	-- 禁用网易插件服务
+    -- self:ListenSocket('NERB', ADDON_SERVER)
+    -- self:ConnectServer()
 end
 
 function QuestServies:OnEnable()
