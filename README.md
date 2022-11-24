@@ -9,6 +9,9 @@
 ![设置说明](Image/%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84.png)
 
 #### 近期更新历史
+ - **2022-11-25**
+>1. 修复CreatePanel.lua中的一处异常 by 易安玥
+
  - **2022-11-24**
 >1. 修复CreatePanel.lua中的一处异常 by 易安玥
 >2. 同步跨阵营分支的申请界面图标修改 by 易安玥
@@ -46,6 +49,9 @@ ElvUI - MerathilisUI - Modeules - 聊天框 - Custom Online Message 功能
 
 
 #### 更多更新历史
+ - **2022-11-25**
+>1. 修复CreatePanel.lua中的一处异常 by 易安玥
+
  - **2022-11-24**
 >1. 修复CreatePanel.lua中的一处异常 by 易安玥
 >2. 同步跨阵营分支的申请界面图标修改 by 易安玥
