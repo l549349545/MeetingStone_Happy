@@ -719,7 +719,16 @@ function CreatePanel:UpdateActivityView()
     end
 
     local atlasName, suffix do
-        local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activity:GetActivityID())
+		--2022-11-24
+        -- local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activity:GetActivityID())
+		
+		local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+		local fullName = activityInfo.fullName;
+		local shortName = activityInfo.shortName;
+		local categoryId = activityInfo.categoryID;
+		local groupId = activityInfo.groupFinderActivityGroupID;
+		local filters = activityInfo.filters;
+		
         --local _, separateRecommended = C_LFGList.GetCategoryInfo(categoryID)
 		
 		--2022-11-17
