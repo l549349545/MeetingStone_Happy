@@ -6,28 +6,28 @@ Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
 GUI = LibStub('NetEaseGUI-2.0')
 
 --当前版本的地下城副本
-ACTIVITY_NAMES = {
-    '麦卡贡垃圾场'
-    ,'麦卡贡车间'
-    ,'卡拉赞下层'
-    ,'卡拉赞上层'
-    ,'钢铁码头'
-    ,'恐轨车站'
-    ,'塔扎维什：琳彩天街'
-    ,'塔扎维什：索·莉亚的宏图'
-}
+-- ACTIVITY_NAMES = {
+    -- '麦卡贡垃圾场'
+    -- ,'麦卡贡车间'
+    -- ,'卡拉赞下层'
+    -- ,'卡拉赞上层'
+    -- ,'钢铁码头'
+    -- ,'恐轨车站'
+    -- ,'塔扎维什：琳彩天街'
+    -- ,'塔扎维什：索·莉亚的宏图'
+-- }
 
 -- 10.0 版本的地下城副本
--- ACTIVITY_NAMES = {
-    -- '艾杰斯亚学院'
-    -- ,'红玉新生法池'
-    -- ,'碧蓝魔馆'
-    -- ,'诺库德阻击战'
-    -- ,'影月墓地'
-    -- ,'群星庭院'
-    -- ,'英灵殿'
-    -- ,'青龙寺'
--- }
+ACTIVITY_NAMES = {
+    '艾杰斯亚学院'
+    ,'红玉新生法池'
+    ,'碧蓝魔馆'
+    ,'诺库德阻击战'
+    ,'影月墓地'
+    ,'群星庭院'
+    ,'英灵殿'
+    ,'青龙寺'
+}
 
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')

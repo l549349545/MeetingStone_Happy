@@ -384,12 +384,13 @@ function ListOfDungeons927(menuType)
 		Dungeons927 = f()
 	end
 	
-    local Dungeons = {280,281,256,257,127,128,7,10}
-    local Activitys = {1016,1017,679,683,471,473,180,183}
+	--9.27
+    -- local Dungeons = {280,281,256,257,127,128,7,10}
+    -- local Activitys = {1016,1017,679,683,471,473,180,183}
 
 	-- 10.0
-    -- local Dungeons = {302,306,307,308,309,12,120,114,61}
-    -- local Activitys = {1060,1176,1180,1184,1188,1193,466,461,1192}
+    local Dungeons = {302,306,307,308,309,12,120,114,61}
+    local Activitys = {1160,1176,1180,1184,1188,1193,466,461,1192}
 	
     for k, groupId in ipairs(Dungeons) do	
         local data = {}
