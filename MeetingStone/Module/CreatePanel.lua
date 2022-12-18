@@ -694,7 +694,6 @@ function CreatePanel:UpdateActivityView()
     if not self.ViewBoardWidget:IsVisible() then
         return
     end
-
     local activity = self:GetCurrentActivity()
     if not activity then
         return
@@ -717,7 +716,6 @@ function CreatePanel:UpdateActivityView()
     else
         self.InfoWidget.PrivateGroup:Hide()
     end
-
     local atlasName, suffix do
 		--2022-11-24
         -- local fullName, shortName, categoryID, groupID, iLevel, filters, minLevel, maxPlayers, displayType = C_LFGList.GetActivityInfo(activity:GetActivityID())
@@ -727,18 +725,21 @@ function CreatePanel:UpdateActivityView()
 		local filters = activityInfo.filters;
 		
         --local _, separateRecommended = C_LFGList.GetCategoryInfo(categoryID)
-		
 		--2022-11-17
-		local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryID);
-        local separateRecommended = categoryInfo.separateRecommended
+		--if categoryID then print('有categoryID') else print('无categoryID') end
+		local separateRecommended
+		if categoryID then
+			local categoryInfo = C_LFGList.GetLfgCategoryInfo(categoryID);
+			separateRecommended = categoryInfo.separateRecommended
+		end
 		
-        if separateRecommended and bit.band(filters, Enum.LFGListFilter.Recommended) ~= 0 then
-            atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[LFGListUtil_GetCurrentExpansion()]
-        elseif separateRecommended and bit.band(filters, Enum.LFGListFilter.NotRecommended) ~= 0 then
-            atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[math.max(0,LFGListUtil_GetCurrentExpansion() - 1)]
-        else
-            atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'questing')
-        end
+		if separateRecommended and bit.band(filters, Enum.LFGListFilter.Recommended) ~= 0 then
+			atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[LFGListUtil_GetCurrentExpansion()]
+		elseif separateRecommended and bit.band(filters, Enum.LFGListFilter.NotRecommended) ~= 0 then
+			atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'raids')..'-'..LFG_LIST_PER_EXPANSION_TEXTURES[math.max(0,LFGListUtil_GetCurrentExpansion() - 1)]
+		else
+			atlasName = 'groupfinder-background-'..(LFG_LIST_CATEGORY_TEXTURES[categoryID] or 'questing')
+		end
 
         if bit.band(filters, Enum.LFGListFilter.PvE) ~= 0 then
             suffix = '-pve'
