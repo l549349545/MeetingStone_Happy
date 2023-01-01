@@ -392,6 +392,13 @@ function ListOfDungeons927(menuType)
     local Dungeons = {302,306,307,308,12,120,114,61}
     local Activitys = {1160,1176,1180,1184,1193,466,461,1192}
 	
+	local gameLocale = GetLocale()
+	local activitytypeText7
+	if gameLocale == "zhCN" then
+		activitytypeText7 = '（史诗钥石）'
+	else
+		activitytypeText7 = '(傳奇鑰石)'
+	end
     for k, groupId in ipairs(Dungeons) do	
         local data = {}
 		data.text = C_LFGList.GetActivityGroupInfo(groupId)
@@ -411,7 +418,7 @@ function ListOfDungeons927(menuType)
                 customId = data.customId,
                 baseFilter = data.baseFilter,
                 value = data.value,
-                text = data.text..'（史诗钥石）',
+                text = data.text..activitytypeText7,
                 fullName = data.fullName,
             }
 			

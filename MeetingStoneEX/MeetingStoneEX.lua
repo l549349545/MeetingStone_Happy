@@ -18,17 +18,21 @@ GUI = LibStub('NetEaseGUI-2.0')
 -- }
 
 -- 10.0 版本的地下城副本
-ACTIVITY_NAMES = {
-    '艾杰斯亚学院'
-    ,'红玉新生法池'
-    ,'碧蓝魔馆'
-    ,'诺库德阻击战'
-    ,'影月墓地'
-    ,'群星庭院'
-    ,'英灵殿'
-    ,'青龙寺'
-}
+-- 302,306,307,308,309,12,120,114,61
+-- /dump C_LFGList.GetActivityGroupInfo(302)
 
+-- 2023-01-01 使用ID，避免台服文字不匹配
+ACTIVITY_NAMES = {}
+do
+	local Dungeons = {302,306,307,308,12,120,114,61}
+	local Activitys = {1160,1176,1180,1184,1193,466,461,1192}
+	for k, groupId in ipairs(Dungeons) do	
+		local DeText = C_LFGList.GetActivityGroupInfo(groupId)
+		tinsert(ACTIVITY_NAMES, DeText)
+	end
+end
+local gameLocale = GetLocale()
+				
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')
 
@@ -162,28 +166,58 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             local data = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
             if data then
                 local tcount,hcount,dcount = 1,1,3
+				
+				
                 local activitytype = BrowsePanel.ActivityDropdown:GetText()
-                if activitytype == '地下城' then
+				local arenatype = activity:GetName()
+				-- print(activitytype)
+				-- print(arenatype)
+				local activitytypeText1
+				local activitytypeText2
+				local activitytypeText3
+				local activitytypeText4
+				local activitytypeText5
+				local activitytypeText6
+				local activitytypeText7
+				
+				if gameLocale == "zhCN" then
+					activitytypeText1 = '地下城'
+					activitytypeText2 = '团队副本'
+					activitytypeText3 = '评级战场'
+					activitytypeText4 = '竞技场'
+					activitytypeText5 = '竞技场（2v2）'
+					activitytypeText6 = '竞技场（3v3）'
+					activitytypeText7 = '（史诗钥石）'
+				else
+					activitytypeText1 = '地城'
+					activitytypeText2 = '團隊副本'
+					activitytypeText3 = '積分戰場'
+					activitytypeText4 = '競技場'
+					activitytypeText5 = '競技場(2v2)'
+					activitytypeText6 = '競技場(3v3)'
+					activitytypeText7 = '(傳奇鑰石)'
+				end
+				
+                if activitytype == activitytypeText then
                     if not CheckJobsFilter(data,1,1,3,true,activity) then
                         return false
                     end
-                elseif activitytype == '团队副本' then
+                elseif activitytype == activitytypeText2 then
                     if not CheckJobsFilter(data,2,6,22) then
                         return false
                     end
-                elseif activitytype == '评级战场' then
+                elseif activitytype == activitytypeText3 then
                     if not CheckPVPJobsFilter(data,3,7) then
                         return false
                     end
-                elseif activitytype == '竞技场' then
+                elseif activitytype == activitytypeText4 then
                     --来自白描MeetingStone_Happy的修改
-                    local arenatype = activity:GetName()
-                    if arenatype == '竞技场（2v2）' then
+                    if arenatype == activitytypeText5 then
                         if not CheckPVPJobsFilter(data,1,2) then
                             return false
                         end
                     end
-                    if arenatype == '竞技场（3v3）' then
+                    if arenatype == activitytypeText6 then
                         if not CheckPVPJobsFilter(data,1,3) then
                             return false
                         end
@@ -191,7 +225,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 else
                     --9.2.71 尝试修复部分插件地下城分类不一致导致的职责过滤失效问题
                     for i,v in ipairs(ACTIVITY_NAMES) do
-                        if activity:GetName() == v..'（史诗钥石）' then
+                        if activity:GetName() == v..activitytypeText7 then
                             if not CheckJobsFilter(data,1,1,3,true,activity) then
                                 return false
                             end
@@ -232,7 +266,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 end
             end
 
-            if BrowsePanel.ActivityDropdown:GetText() == '地下城' and BrowsePanel.MDSearchs then
+            if BrowsePanel.ActivityDropdown:GetText() == activitytypeText1 and BrowsePanel.MDSearchs then
                 if BrowsePanel.MDSearchs[activity:GetName()] then
                     return activity:Match(...)
                 else
@@ -288,7 +322,14 @@ function BrowsePanel:CreateExSearchPanel()
             if not self.MDSearchs then
                 self.MDSearchs = {}
             end
-            self.MDSearchs[text..'（史诗钥石）'] = box.Check:GetChecked()
+			
+			local activitytypeText7
+			if gameLocale == "zhCN" then
+				activitytypeText7 = '（史诗钥石）'
+			else
+				activitytypeText7 = '(傳奇鑰石)'
+			end
+            self.MDSearchs[text..activitytypeText7] = box.Check:GetChecked()
             if not box.Check:GetChecked() then
                 local clear = true
                 for k,v2 in pairs(self.MDSearchs) do
