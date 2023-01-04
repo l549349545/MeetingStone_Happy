@@ -32,7 +32,8 @@ do
 	end
 end
 local gameLocale = GetLocale()
-				
+
+
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')
 
@@ -163,22 +164,22 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                 end
                 return false
             end
+			
+			local activitytypeText1
+			local activitytypeText2
+			local activitytypeText3
+			local activitytypeText4
+			local activitytypeText5
+			local activitytypeText6
+			local activitytypeText7
+				
             local data = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
             if data then
                 local tcount,hcount,dcount = 1,1,3
-				
-				
-                local activitytype = BrowsePanel.ActivityDropdown:GetText()
+               local activitytype = BrowsePanel.ActivityDropdown:GetText()
 				local arenatype = activity:GetName()
 				-- print(activitytype)
 				-- print(arenatype)
-				local activitytypeText1
-				local activitytypeText2
-				local activitytypeText3
-				local activitytypeText4
-				local activitytypeText5
-				local activitytypeText6
-				local activitytypeText7
 				
 				if gameLocale == "zhCN" then
 					activitytypeText1 = '地下城'
@@ -322,7 +323,6 @@ function BrowsePanel:CreateExSearchPanel()
             if not self.MDSearchs then
                 self.MDSearchs = {}
             end
-			
 			local activitytypeText7
 			if gameLocale == "zhCN" then
 				activitytypeText7 = '（史诗钥石）'
