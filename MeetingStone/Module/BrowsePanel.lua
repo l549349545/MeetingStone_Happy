@@ -4,19 +4,19 @@ BrowsePanel = Addon:NewModule(CreateFrame('Frame'), 'BrowsePanel', 'AceEvent-3.0
                               'AceBucket-3.0')
 
 function BrowsePanel:OnInitialize()
-	--解决方案：https://nga.178.com/read.php?&tid=35102502
+    --解决方案：https://nga.178.com/read.php?&tid=35102502
     local gameLocale = GetLocale()
     local lang
-	  if gameLocale == "zhTW" then
-	    lang = 'zhCN'
-	  else
-	    lang = 'zhTW'
-	  end
+	if gameLocale == "zhTW" then
+		lang = 'zhCN'
+	else
+		lang = 'zhTW'
+	end
     
     local enabled = C_LFGList.GetLanguageSearchFilter();
     enabled[lang] = true
     C_LFGList.SaveLanguageSearchFilter(enabled)
-
+    
     MainPanel:RegisterPanel(L['查找活动'], self, 5, 100)
 
     self.filters = {}
