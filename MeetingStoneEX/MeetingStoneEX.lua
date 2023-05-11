@@ -24,8 +24,8 @@ GUI = LibStub('NetEaseGUI-2.0')
 -- 2023-01-01 使用ID，避免台服文字不匹配
 ACTIVITY_NAMES = {}
 do
-	local Dungeons = {302,306,307,308,12,120,114,61}
-	local Activitys = {1160,1176,1180,1184,1193,466,461,1192}
+	local Dungeons = {303,304,305,309,142,138,115,59}
+	local Activitys = {1164,1168,1172,1188,518,507,462,1195}
 	for k, groupId in ipairs(Dungeons) do	
 		local DeText = C_LFGList.GetActivityGroupInfo(groupId)
 		tinsert(ACTIVITY_NAMES, DeText)
@@ -199,7 +199,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
 					activitytypeText7 = '(傳奇鑰石)'
 				end
 				
-                if activitytype == activitytypeText then
+                if activitytype == activitytypeText1 then
                     if not CheckJobsFilter(data,1,1,3,true,activity) then
                         return false
                     end
