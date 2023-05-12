@@ -9,7 +9,7 @@
 
 ###   :tw-1f232: **请部分以收费订阅为目的的插件整合包"作者"及为插件收费站台者，不要使用此修改版插件；** 
 
-- > 压缩包下载地址：[https://wwi.lanzout.com/iABjf0vk7tib](https://wwi.lanzout.com/iABjf0vk7tib) 密码: **et31**
+- > 压缩包下载地址：[https://wwi.lanzout.com/b04jz05cb ](https://wwi.lanzout.com/b04jz05cb) 密码: **gaxi**
 - > 使用方法：下载解压缩后，将 **MeetingStone** 与 **MeetingStoneEx** 文件夹 放入  **……\World of Warcraft\_retail_\Interface\AddOns**  文件夹下，请按下图确认文件夹
 ![设置说明](Image/%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84.png)
 
