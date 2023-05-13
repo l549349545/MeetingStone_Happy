@@ -590,7 +590,7 @@ local function UpdateGroupRoles(self)
     sort(roleCache, sortRoleOrder)
 end
 
-local function ReplaceGroupRoles(self, numPlayers, _, disabled)
+local function ReplaceGroupRoles(self, numPlayers, _, disabled)    
     UpdateGroupRoles(self)
     for i = 1, 5 do
         local icon = self.Icons[i]
@@ -652,11 +652,44 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
     end
 end
 
+local function ElvUI_Wind_ReplaceGroupRoles(enmuerate, numPlayers, _, disabled)
+    ReplaceGroupRoles(enmuerate, numPlayers, _, disabled)    
+end
+
+local function ElvUI_Icon_Align(enmuerate, numPlayers, _, disabled)
+    for i = 1, 5 do
+        local icon = enmuerate.Icons[i]        
+        if i == 1 then
+            icon:SetPoint("RIGHT", -36, -2)        
+        end
+    end
+end
+
 function InitMeetingStoneClass()	
     Profile:OnInitialize()
-    local showico = Profile:Getshowclassico() 
-    if showico==nil or showico==false then return end
-    hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ReplaceGroupRoles)
+    local showico = Profile:Getshowclassico()
+    if showico==nil or showico==false then
+        if IsAddOnLoaded("ElvUI") then
+            hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ElvUI_Icon_Align)    
+            return
+        else
+            return
+        end
+    end
+    if IsAddOnLoaded("ElvUI_WindTools") then
+        local showWindClassIco = Profile:GetShowWindClassIco()
+        if not showWindClassIco then
+            local origLFGListGroupDataDisplayEnumerate_Update = LFGListGroupDataDisplayEnumerate_Update;
+            LFGListGroupDataDisplayEnumerate_Update = function(enmuerate, numPlayers, _, disabled, LFG_LIST_GROUP_DATA_ROLE_ORDER)
+                origLFGListGroupDataDisplayEnumerate_Update(enmuerate, numPlayers, _, disabled, LFG_LIST_GROUP_DATA_ROLE_ORDER)
+                ElvUI_Wind_ReplaceGroupRoles(enmuerate, numPlayers, _, disabled)
+            end
+        else
+            hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ElvUI_Icon_Align)    
+        end
+    else        
+        hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", ReplaceGroupRoles)
+    end
     local MSEnv = _G.LibStub("NetEaseEnv-1.0")._NSList.MeetingStone
     local MemberDisplay = MSEnv.MemberDisplay
     local origSetActivity = MemberDisplay.SetActivity
