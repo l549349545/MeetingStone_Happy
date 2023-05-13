@@ -298,7 +298,7 @@ function GetActivitesMenuTable(menuType)
             text = L['|cffffff00当前版本地下城|r'],
             notClickable = true,
             hasArrow = true,
-            menuTable = ListOfDungeons927(menuType),
+            menuTable = ListOfDungeons(menuType),
         })
     end
 
@@ -375,40 +375,41 @@ function RefreshHistoryMenuTable(menuType)
 end
 
 
-function ListOfDungeons927(menuType)
-    	local Dungeons927 = {}
+function ListOfDungeons(menuType)
+    	local DungeonsList = {}
 	do
 		local function f()
 			return {}
 		end
-		Dungeons927 = f()
-	end
-	
-	--9.27
-    -- local Dungeons = {280,281,256,257,127,128,7,10}
-    -- local Activitys = {1016,1017,679,683,471,473,180,183}
+		DungeonsList = f()
+	end	
+
+    local Dungeons = {}
+    local Activitys = {}
+
+    --9.27
+    -- Dungeons = {280,281,256,257,127,128,7,10}
+    -- Activitys = {1016,1017,679,683,471,473,180,183}
 
 	-- 10.0
-    -- local Dungeons = {302,306,307,308,12,120,114,61}
-    -- local Activitys = {1160,1176,1180,1184,1193,466,461,1192}
+    -- Dungeons = {302,306,307,308,12,120,114,61}
+    -- Activitys = {1160,1176,1180,1184,1193,466,461,1192}
+
+    -- 10.1
+    if C_MythicPlus.GetCurrentSeason() == 10 then
+        Dungeons = {303,304,305,309,142,138,115,59}
+        Activitys = {1164,1168,1172,1188,518,507,462,1195}    
+    end    
+  
+    -- C_MythicPlus.IsMythicPlusActive()
+    -- C_LFGList.GetActivityInfoTable(i)
+    -- /run for i=750,2000 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
 	
-	-- 10.1
-    local Dungeons = {303,304,305,309,142,138,115,59}
-    local Activitys = {1164,1168,1172,1188,518,507,462,1195}
-     
-	
-	
-	local gameLocale = GetLocale()
-	local activitytypeText7
-	if gameLocale == "zhCN" then
-		activitytypeText7 = '（史诗钥石）'
-	else
-		activitytypeText7 = '(傳奇鑰石)'
-	end
-    for k, groupId in ipairs(Dungeons) do	
+    for k, groupId in ipairs(Dungeons) do
         local data = {}
-		data.text = C_LFGList.GetActivityGroupInfo(groupId)
-		data.fullName = data.text
+        local actInfo = C_LFGList.GetActivityInfoTable(Activitys[k])
+		data.text = actInfo.fullName -- C_LFGList.GetActivityGroupInfo(groupId)
+		data.fullName = actInfo.fullName -- data.text
 		data.categoryId = 2
 		data.groupId = groupId
         data.activityId = Activitys[k]
@@ -424,7 +425,7 @@ function ListOfDungeons927(menuType)
                 customId = data.customId,
                 baseFilter = data.baseFilter,
                 value = data.value,
-                text = data.text..activitytypeText7,
+                text = data.text, -- ..activitytypeText7,
                 fullName = data.fullName,
             }
 			
@@ -434,8 +435,8 @@ function ListOfDungeons927(menuType)
 				item.full = categoryInfo.name
             end
 
-            tinsert(Dungeons927, item)
+            tinsert(DungeonsList, item)
         end
     end
-    return Dungeons927
+    return DungeonsList
 end

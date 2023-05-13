@@ -28,6 +28,8 @@ function Profile:OnInitialize()
             spamWord       = {},
             searchProfiles = {},
 			showclassico = true,
+            showWindClassIco = false,
+            useWindSkin = true,
             filters = {
             }
         },
@@ -152,6 +154,20 @@ function Profile:Getshowclassico()
 end
 function Profile:Saveshowclassico(value)
 	self.gdb.global.showclassico = value
+end
+
+function Profile:GetShowWindClassIco()
+	return self.gdb.global.showWindClassIco
+end
+function Profile:SaveShowWindClassIco(value)
+	self.gdb.global.showWindClassIco = value
+end
+
+function Profile:GetUseWindSkin()
+	return self.gdb.global.useWindSkin
+end
+function Profile:SaveWindSkin(value)
+	self.gdb.global.useWindSkin = value
 end
 
 
