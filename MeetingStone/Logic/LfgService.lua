@@ -151,7 +151,7 @@ function LfgService:Search(categoryId, baseFilter, activityId)
     self.activityId = activityId
 	-- 简体中文客户端集合石支持繁体中文解决方案：https://ngabbs.com/read.php?tid=35067160&_fu=63547261%2C1
 	local languages = C_LFGList.GetLanguageSearchFilter();
-	C_LFGList.Search(categoryId, 0, baseFilter, languages)
+	C_LFGList.Search(categoryId, 1, baseFilter, languages)
 	--C_LFGList.Search(categoryId, 0, baseFilter)
     self.ourSearch = false
     self.dirty = false
