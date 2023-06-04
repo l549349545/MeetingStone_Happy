@@ -7,10 +7,13 @@ function BrowsePanel:OnInitialize()
     --解决方案：https://nga.178.com/read.php?&tid=35102502
     local gameLocale = GetLocale()
     local lang
+	local shortlang
 	if gameLocale == "zhTW" then
 		lang = 'zhCN'
+		shortlang = 'TW'
 	else
 		lang = 'zhTW'
+		shortlang = 'CN'
 	end
     
     local enabled = C_LFGList.GetLanguageSearchFilter();
@@ -645,12 +648,24 @@ function BrowsePanel:OnInitialize()
 	
 	function NoticeBp()	
 		if AutoJoinCheckBox:GetChecked() then
-			MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox = true
+			--MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox = true
 			logText('\124cFF00FF00开启\124r'..'自动进组')
 		else
-			MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox = false
+			--MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox = false
 			logText('\124cFFFF0000关闭\124r'..'自动进组')
 		end
+		setAutoInvite(AutoJoinCheckBox:GetChecked())
+	end
+	
+	function setAutoInvite(checked) 
+		if checked then
+			ConsoleExec("portal "..shortlang)
+			ConsoleExec("profanityFilter 1")
+		else 
+			ConsoleExec("portal TW")
+			ConsoleExec("profanityFilter 0")
+		end
+		return checked
 	end
 	
 	LFDRoleCheckPopup:SetScript("OnShow",function() 
@@ -681,10 +696,9 @@ function BrowsePanel:OnInitialize()
         Private_EnableQuickJoin = MEETINGSTONE_UI_E_POINTS.QuickJoin
     end
 	
-	
-    if(MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox ~= nil) then
-        AutoJoinCheckBox:SetChecked(MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox)
-    end
+    --if(MEETINGSTONE_UI_E_POINTS ~= nil and MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox ~= nil) then
+        --AutoJoinCheckBox:SetChecked(MEETINGSTONE_UI_E_POINTS.AutoJoinCheckBox)
+    --end
 
     local ActivityTotals = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightRight') 
     do

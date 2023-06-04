@@ -234,32 +234,32 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                     end
                 end
             end
-            local title = activity:GetSummary()
+            --local title = activity:GetSummary()
           
-            if BrowsePanel.IgnoreWithTitle[title] then
-                if not BrowsePanel.IgnoreWithLeader[leader] then
-                    BrowsePanel.IgnoreWithLeader[leader] = true
-                    table.insert(MEETINGSTONE_UI_DB.IGNORE_LIST,1,{
-                            leader = leader,
-                            time = date('%Y-%m-%d %H:%M',time()),
-                            dep = '由指定标题传染屏蔽',
-                            t = 1,
-                        })
-                    if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        print('标题 '..title..' 传染屏蔽 '..leader)
-                    end
-                end
-                return false
-            end
-            if BrowsePanel.IgnoreWithLeader[leader] then
-                if not BrowsePanel.IgnoreWithTitle[title] then
-                    BrowsePanel.IgnoreWithTitle[title] = true
-                    if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                        print('账号 '..leader..' 传染屏蔽 '..title)
-                    end
-                end
-                return false
-            end
+            --if BrowsePanel.IgnoreWithTitle[title] then
+                --if not BrowsePanel.IgnoreWithLeader[leader] then
+                    --BrowsePanel.IgnoreWithLeader[leader] = true
+                    --table.insert(MEETINGSTONE_UI_DB.IGNORE_LIST,1,{
+                            --leader = leader,
+                            --time = date('%Y-%m-%d %H:%M',time()),
+                            --dep = '由指定标题传染屏蔽',
+                            --t = 1,
+                        --})
+                    --if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
+                        --print('标题 '..title..' 传染屏蔽 '..leader)
+                    --end
+                --end
+                --return false
+            --end
+            --if BrowsePanel.IgnoreWithLeader[leader] then
+                --if not BrowsePanel.IgnoreWithTitle[title] then
+                    --BrowsePanel.IgnoreWithTitle[title] = true
+                    --if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
+                        --print('账号 '..leader..' 传染屏蔽 '..title)
+                    --end
+                --end
+                --return false
+            --end
 
             if MEETINGSTONE_UI_DB['SCORE'] then
                 if not activity:GetLeaderScore() or activity:GetLeaderScore() < MEETINGSTONE_UI_DB['SCORE'] then
@@ -503,17 +503,17 @@ function BrowsePanel:ToggleActivityMenu(anchor, activity)
                 BrowsePanel.ActivityList:Refresh()
             end,
         },
-        {
-            text = '屏蔽同标题玩家',
-            func = function()
-                local title = activity:GetSummary() or activity:GetComment()
-                if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
-                    print('添加过滤：',title)
-                end
-                BrowsePanel.IgnoreWithTitle[title] = true
-                BrowsePanel.ActivityList:Refresh()
-            end,
-        },
+        --{
+            --text = '屏蔽同标题玩家',
+            --func = function()
+                --local title = activity:GetSummary() or activity:GetComment()
+                --if MEETINGSTONE_UI_DB.IGNORE_TIPS_LOG then
+                    --print('添加过滤：',title)
+                --end
+                --BrowsePanel.IgnoreWithTitle[title] = true
+                --BrowsePanel.ActivityList:Refresh()
+            --end,
+        --},
         {text = CANCEL},
     }, 'cursor')
 end
