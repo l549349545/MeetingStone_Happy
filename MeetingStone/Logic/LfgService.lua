@@ -149,9 +149,20 @@ end
 function LfgService:Search(categoryId, baseFilter, activityId)
     self.ourSearch = true
     self.activityId = activityId
-	-- 简体中文客户端集合石支持繁体中文解决方案：https://ngabbs.com/read.php?tid=35067160&_fu=63547261%2C1
-	local languages = C_LFGList.GetLanguageSearchFilter();
-	C_LFGList.Search(categoryId, 1, baseFilter, languages)
+    local filterVal = 0
+    if categoryId == 2 then
+        filterVal = 1
+    end
+
+    -- if activityId then
+    --     local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
+    --     print(activityInfo.fullName)
+    --     print(activityInfo.shortName)
+    --     print(activityInfo.groupFinderActivityGroupID)
+    -- end
+
+    local languages = C_LFGList.GetLanguageSearchFilter();
+    C_LFGList.Search(categoryId, filterVal, baseFilterVal, languages)
     self.ourSearch = false
     self.dirty = false
 end

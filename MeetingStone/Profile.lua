@@ -1,4 +1,3 @@
-
 BuildEnv(...)
 
 Profile = Addon:NewModule('Profile', 'AceEvent-3.0')
@@ -18,37 +17,40 @@ local DEFAULT_CHATGROUP_COLOR = {
 function Profile:OnInitialize()
     local gdb = {
         global = {
-            ActivityProfiles = {
+            ActivityProfiles  = {
                 Voice     = nil,
                 VoiceSoft = nil,
             },
-            annData        = {},
-            serverDatas    = {},
-            ignoreHash     = {},
-            spamWord       = {},
-            searchProfiles = {},
-			showclassico = true,
-            showWindClassIco = false,
-            useWindSkin = true,
-            filters = {
-            }
+            annData           = {},
+            serverDatas       = {},
+            ignoreHash        = {},
+            spamWord          = {},
+            searchProfiles    = {},
+            enableIgnoreTitle = true,
+            showclassico      = true,
+            classIcoMsOnly    = true,
+            showWindClassIco  = false,
+            useWindSkin       = true,
+            enableRaiderIO    = true,
+            enableLeaderColor = true,
+            filters           = {},
         },
     }
 
     local cdb = {
         profile = {
-            settings = {
-                storage   = { point = 'TOP', x = 0, y = -20},
-                panel     = true,
-                panelLock = false,
-                sound     = true,
-                ignore    = true,
-                spamWord  = true,
-                packedPvp = true,
+            settings           = {
+                storage           = { point = 'TOP', x = 0, y = -20 },
+                panel             = true,
+                panelLock         = false,
+                sound             = true,
+                ignore            = true,
+                spamWord          = true,
+                packedPvp         = true,
                 spamLengthEnabled = true,
-                spamLength = 20,
+                spamLength        = 20,
             },
-            minimap = {
+            minimap            = {
                 minimapPos = 192.68,
             },
             searchHistoryList  = {},
@@ -57,8 +59,8 @@ function Profile:OnInitialize()
             followMemberList   = {},
             chatGroupListening = DEFAULT_CHATGROUP_LISTENING,
             chatGroupColor     = DEFAULT_CHATGROUP_COLOR,
-            recent = {},
-            combatData = {
+            recent             = {},
+            combatData         = {
                 dd = 0, dt = 0, hd = 0, dead = 0, time = 0,
             }
         }
@@ -81,7 +83,7 @@ function Profile:OnInitialize()
                 else
                     v.status = FOLLOW_STATUS_STARED
                 end
-            v.bitfollow = nil
+                v.bitfollow = nil
             end
         end
 
@@ -149,27 +151,49 @@ function Profile:GetGlobalDB()
     return self.gdb
 end
 
-function Profile:Getshowclassico()
-	return self.gdb.global.showclassico
+function Profile:GetGlobalOption(key)
+    return self.gdb.global[key]
 end
-function Profile:Saveshowclassico(value)
-	self.gdb.global.showclassico = value
+
+function Profile:GetEnableIgnoreTitle()
+    return self:GetGlobalOption('enableIgnoreTitle')
+end
+
+function Profile:GetShowClassIco()
+    return self:GetGlobalOption('showclassico')
+end
+
+function Profile:GetClassIcoMsOnly()
+    return self:GetGlobalOption('classIcoMsOnly')
 end
 
 function Profile:GetShowWindClassIco()
-	return self.gdb.global.showWindClassIco
-end
-function Profile:SaveShowWindClassIco(value)
-	self.gdb.global.showWindClassIco = value
+    return self:GetGlobalOption('showWindClassIco')
 end
 
 function Profile:GetUseWindSkin()
-	return self.gdb.global.useWindSkin
-end
-function Profile:SaveWindSkin(value)
-	self.gdb.global.useWindSkin = value
+    return self:GetGlobalOption('useWindSkin')
 end
 
+function Profile:GetEnableRaiderIO()
+    return self:GetGlobalOption('enableRaiderIO')
+end
+
+function Profile:GetEnableLeaderColor()
+    return self:GetGlobalOption('enableLeaderColor')
+end
+
+function Profile:SaveGlobalOption(key, value)
+    local needReload = {
+        ['showclassico']     = true,
+        ['classIcoMsOnly']   = true,
+        ['showWindClassIco'] = true,
+        ['useWindSkin']      = true,
+    }
+
+    self.gdb.global[key] = value
+    return needReload[key] == true
+end
 
 function Profile:GetCharacterDB()
     return self.cdb
@@ -297,7 +321,7 @@ function Profile:SortSpamWord()
 end
 
 function Profile:AddSpamWord(word, delay, silence)
-    if type(word) ~= 'table'  then
+    if type(word) ~= 'table' then
         System:Log(L['添加失败，未输入关键字。'])
         return
     end
@@ -320,7 +344,7 @@ function Profile:AddSpamWord(word, delay, silence)
 end
 
 function Profile:DelSpamWord(word)
-    if type(word) ~= 'table'  then
+    if type(word) ~= 'table' then
         System:Log(L['删除失败，未输入关键字。'])
         return
     end
@@ -345,7 +369,7 @@ function Profile:SaveImportSpamWord(text, silence)
         return
     end
 
-    local list = {('\n'):split(text)}
+    local list = { ('\n'):split(text) }
 
     if #list == 0 then
         return
@@ -482,7 +506,7 @@ function Profile:ToggleChatGroupListening(id, group, checked)
 end
 
 function Profile:SetChatGroupColor(group, r, g, b)
-    self.cdb.profile.chatGroupColor[group] = {r = r, g = g, b = b}
+    self.cdb.profile.chatGroupColor[group] = { r = r, g = g, b = b }
 end
 
 function Profile:GetChatGroupColor(group)
