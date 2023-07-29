@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-    self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20230713')
+	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20230729')
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -311,7 +311,7 @@ function MainPanel:OnInitialize()
         CopyUpdUrlBtn:SetHighlightFontObject('GameFontHighlightSmall')
         CopyUpdUrlBtn:SetSize(70, 22)
         CopyUpdUrlBtn:SetPoint('TOPRIGHT', MainPanel, -30, 0)
-        CopyUpdUrlBtn:SetText('|Hurl:https://ngabbs.com/read.php?tid=35102502|h|cff00ffff[更新地址]|r|h')
+        CopyUpdUrlBtn:SetText('|Hurl:https://gitee.com/xmmmmm/meeting-stone_-happy|h|cff00ffff[更新地址]|r|h')
 
         CopyUpdUrlBtn:SetScript('OnEnter', function()
             local GameTooltip = self.GameTooltip
@@ -327,7 +327,7 @@ function MainPanel:OnInitialize()
         end)
 
         CopyUpdUrlBtn:SetScript('OnClick', function()
-            ApplyUrlButton(CopyUpdUrlBtn, 'https://ngabbs.com/read.php?tid=35102502')
+            ApplyUrlButton(CopyUpdUrlBtn,'https://gitee.com/xmmmmm/meeting-stone_-happy')
         end)
     end
 end
