@@ -448,6 +448,7 @@ function BrowsePanel:CreateExSearchPanel()
 	for classID = 1,GetNumClasses() do
 		local className, classFile, classID = GetClassInfo(classID)
 		local Box = Addon:GetClass('CheckBox'):New(ExSearchPanel.Inset)
+		MEETINGSTONE_UI_DB[classFile] = false
         Box.Check:SetText(GetClassColoredText(classFile,className))
 		Box:SetSize(90, 20)
 		if classID == 1 then
