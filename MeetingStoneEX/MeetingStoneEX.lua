@@ -314,7 +314,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
 
     if BrowsePanel.ActivityDropdown:GetText() == activitytypeText1 and BrowsePanel.MDSearchs then
         if BrowsePanel.MDSearchs[activity:GetName()] then
-            return activity:Match(...)
+            --return activity:Match(...)
         else
             return false
         end
@@ -345,9 +345,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
 			end
 		end
 	end
-	if allnoCheck == true or classFilter == true then
-		return activity:Match(...)
-	else
+	if allnoCheck == false and classFilter == false then
 		return false
 	end
     --改动结束
