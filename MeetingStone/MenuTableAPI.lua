@@ -398,8 +398,8 @@ function ListOfDungeons(menuType)
     --     Activitys = {1164,1168,1172,1188,518,507,462,1195}
     -- end
 
-    local Dungeons = {303,304,305,309,142,138,115,59}
-    local Activitys = {1164,1168,1172,1188,518,507,462,1195}
+	local Dungeons = { 11, 54, 113, 118, 137, 145, 316, 317 }
+    local Activitys = { 184, 1274, 460, 463, 502, 530, 1247, 1248 }
   
     -- C_MythicPlus.IsMythicPlusActive()
     -- C_LFGList.GetActivityInfoTable(i)
