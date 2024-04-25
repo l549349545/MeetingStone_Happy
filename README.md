@@ -18,6 +18,9 @@
 ![设置说明](Image/%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84.png)
 
 #### 近期更新历史
+ - **2024-04-25**
+>1. 更新10.2.6宿命赛季,同步修复[NGA地址](https://ngabbs.com/read.php?tid=35102502) 
+
  - **2023-11-16**
 >1. 更新10.2新赛季,同步了几个小bug的修复[NGA地址](https://ngabbs.com/read.php?tid=35102502) 
 

@@ -41,7 +41,7 @@ GUI = LibStub('NetEaseGUI-2.0')
 -- 2023-01-01 使用ID，避免台服文字不匹配
 ACTIVITY_NAMES = {}
 do
-	local Dungeons = { 11, 54, 113, 118, 137, 145, 316, 317 }
+	local Dungeons = { 302,303,304,305,306,307,308,309 }
     --local Activitys = { 184, 1274, 460, 463, 502, 530, 1247, 1248 }
     for k, groupId in ipairs(Dungeons) do
         local DeText = C_LFGList.GetActivityGroupInfo(groupId)
