@@ -642,21 +642,25 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
     for i = 1, 5 do
         local icon = self.Icons[i]
         if not icon.role then
+			icon.role = self:CreateTexture(nil, "OVERLAY")
+            icon.role:SetSize(24, 24)
             if i == 1 then
-                icon:SetPoint("RIGHT", -5, -2)
+                icon.role:SetPoint("RIGHT", -5, -2)
             else
-                icon:ClearAllPoints()
-                icon:SetPoint("RIGHT", self.Icons[i - 1], "LEFT", 0, 0)
+                icon.role:ClearAllPoints()
+                icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
             end
-            icon:SetSize(24, 24)
+            --icon:SetSize(24, 24)
 
-            icon.role = self:CreateTexture(nil, "OVERLAY")
-            icon.role:SetSize(16, 16)
-            icon.role:SetPoint("TOPLEFT", icon, -4, 5)
+            --icon.role = self:CreateTexture(nil, "OVERLAY")
+            --icon.role:SetSize(16, 16)
+            --icon.role:SetPoint("TOPLEFT", icon, -4, 5)
+			icon:SetPoint("TOPLEFT", icon.role, -4, 5)
+            icon:SetSize(16, 16)
 
             icon.leader = self:CreateTexture(nil, "OVERLAY")
-            icon.leader:SetSize(13, 13)
-            icon.leader:SetPoint("TOP", icon, 3, 7)
+            icon.leader:SetSize(12, 12)
+            icon.leader:SetPoint("TOP", icon.role, 2, 8)
             icon.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
             icon.leader:SetRotation(rad(-15))
         end
@@ -678,9 +682,9 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
         local roleInfo = roleCache[i]
         if roleInfo then
             local icon = self.Icons[iconIndex]
-            icon:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/"..string.lower(roleInfo[2]).."_flatborder2")
+            icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
 
-            icon.role:SetAtlas(roleAtlas[roleInfo[1]])
+            --icon.role:SetAtlas(roleAtlas[roleInfo[1]])
             icon.leader:SetShown(roleInfo[3])
             iconIndex = iconIndex - 1
         end
