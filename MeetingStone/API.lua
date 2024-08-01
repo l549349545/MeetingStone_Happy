@@ -4,6 +4,26 @@ local memorize = require('NetEaseMemorize-1.0')
 local nepy = require('NetEasePinyin-1.0')
 local Base64 = LibStub('NetEaseBase64-1.0')
 local AceSerializer = LibStub('AceSerializer-3.0')
+--FROM NGA
+local RoleIconTextures = {
+	[1] = "Interface/AddOns/MeetingStone/Media/SunUI/TANK.tga",
+	[2] = "Interface/AddOns/MeetingStone/Media/SunUI/Healer.tga",
+	[3] = "Interface/AddOns/MeetingStone/Media/SunUI/DPS.tga",
+}
+local classNameToSpecIcon = {}
+local classNameToSpecId = {}
+for classID = 1, 13 do
+	local classFile = select(2, GetClassInfo(classID)) -- "WARRIOR"
+	if classFile then
+		for specIndex = 1, 4 do
+			local specId, localizedSpecName, _, icon = GetSpecializationInfoForClassID(classID, specIndex)
+			if specId and localizedSpecName and icon then
+				classNameToSpecIcon[classFile..localizedSpecName] = icon
+				classNameToSpecId[classFile..localizedSpecName] = specId
+			end
+		end
+	end
+end
 
 function GetClassColorText(className, text)
     local color = RAID_CLASS_COLORS[className]
@@ -576,7 +596,7 @@ local function UpdateGroupRoles(self)
 
     local count = 0
     for i = 1, 5 do
-        local role, class = GetCorrectRoleInfo(self.__owner, i)
+        local role, class, classCN, spec = GetCorrectRoleInfo(self.__owner, i)
         local roleIndex = role and roleOrder[role]
         if roleIndex then
             count = count + 1
@@ -584,6 +604,7 @@ local function UpdateGroupRoles(self)
             roleCache[count][1] = roleIndex
             roleCache[count][2] = class
             roleCache[count][3] = i == 1
+			roleCache[count][4] = spec
         end
     end
 
@@ -638,29 +659,32 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
         return WindTools[1]:GetModule("LFGList"):UpdateEnumerate(self)
     end
 
+	local flagCheckShowSpecIcon = Profile:GetShowSpecIco()
+	local flagCheckShowSmRoleIcon = Profile:GetShowSmRoleIco()  
+	
     UpdateGroupRoles(self)
     for i = 1, 5 do
         local icon = self.Icons[i]
         if not icon.role then
 			icon.role = self:CreateTexture(nil, "OVERLAY")
             icon.role:SetSize(24, 24)
-            if i == 1 then
-                icon.role:SetPoint("RIGHT", -5, -2)
-            else
-                icon.role:ClearAllPoints()
-                icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
-            end
+            --if i == 1 then
+            --    icon.role:SetPoint("RIGHT", -5, -2)
+            --else
+            --    icon.role:ClearAllPoints()
+            --    icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
+            --end
             --icon:SetSize(24, 24)
 
             --icon.role = self:CreateTexture(nil, "OVERLAY")
             --icon.role:SetSize(16, 16)
             --icon.role:SetPoint("TOPLEFT", icon, -4, 5)
-			icon:SetPoint("TOPLEFT", icon.role, -4, 5)
-            icon:SetSize(16, 16)
+			--icon:SetPoint("TOPLEFT", icon.role, -4, 5)
+            --icon:SetSize(18, 18)
 
             icon.leader = self:CreateTexture(nil, "OVERLAY")
-            icon.leader:SetSize(12, 12)
-            icon.leader:SetPoint("TOP", icon.role, 2, 8)
+            --icon.leader:SetSize(16, 16)
+            --icon.leader:SetPoint("TOP", icon.role, 4, 8)
             icon.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
             icon.leader:SetRotation(rad(-15))
         end
@@ -682,8 +706,35 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
         local roleInfo = roleCache[i]
         if roleInfo then
             local icon = self.Icons[iconIndex]
-            icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
+			
+			if flagCheckShowSmRoleIcon then
+                icon:SetSize(15, 15)
+                icon:SetPoint("TOPLEFT", icon.role, -4, 6)
+                icon.leader:SetSize(13, 13)     
+                icon.leader:SetPoint("TOP", icon.role, 4, 8)
+            else
+                icon:SetSize(18, 18)
+                icon:SetPoint("TOPLEFT", icon.role, -4, 5)
+                icon.leader:SetSize(16, 16)     
+                icon.leader:SetPoint("TOP", icon.role, 4, 8)
+            end
+            --icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
+			if roleInfo[4] and flagCheckShowSpecIcon then
+				--icon.role:SetTexture(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
+				local spec_id = classNameToSpecId[roleInfo[2]..roleInfo[4]]
+                if spec_id == nil then
+                    icon.role:SetTexture(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
+                else                     
+                    icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/SpellIcon/circular_"..spec_id)
+                end
+			else
+				icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
+			end
 
+			if roleInfo[1] and RoleIconTextures[roleInfo[1]] then
+				-- icon.RoleIconWithBackground:SetTexture(RoleIconTextures[roleInfo[1]])
+                icon.RoleIconWithBackground:SetAtlas(roleAtlas[roleInfo[1]])
+			end
             --icon.role:SetAtlas(roleAtlas[roleInfo[1]])
             icon.leader:SetShown(roleInfo[3])
             iconIndex = iconIndex - 1

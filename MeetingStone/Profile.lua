@@ -28,6 +28,8 @@ function Profile:OnInitialize()
             searchProfiles    = {},
             enableIgnoreTitle = true,
             showclassico      = true,
+			showspecico      = false,
+			showSmRoleIco     = false,
             classIcoMsOnly    = true,
             showWindClassIco  = false,
             useWindSkin       = true,
@@ -167,6 +169,14 @@ function Profile:GetClassIcoMsOnly()
     return self:GetGlobalOption('classIcoMsOnly')
 end
 
+function Profile:GetShowSpecIco()
+    return self:GetGlobalOption('showspecico')
+end
+
+function Profile:GetShowSmRoleIco()
+    return self:GetGlobalOption('showSmRoleIco')
+end
+
 function Profile:GetShowWindClassIco()
     return self:GetGlobalOption('showWindClassIco')
 end
@@ -176,7 +186,8 @@ function Profile:GetUseWindSkin()
 end
 
 function Profile:GetEnableRaiderIO()
-    return self:GetGlobalOption('enableRaiderIO')
+    local region = GetPlayerRegion()
+    return self:GetGlobalOption('enableRaiderIO') and region ~= "CN"
 end
 
 function Profile:GetEnableLeaderColor()

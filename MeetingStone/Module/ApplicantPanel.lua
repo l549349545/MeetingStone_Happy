@@ -50,7 +50,7 @@ local APPLICANT_LIST_HEADER = {
         style = 'ICON:18:18',
         iconHandler = function(applicant)
             -- return [[INTERFACE\GLUES\CHARACTERCREATE\UI-CHARACTERCREATE-CLASSES]], CLASS_ICON_TCOORDS[applicant:GetClass()]
-			return "Interface/AddOns/MeetingStone/Media/ClassIcon/"..string.lower(applicant:GetClass()).."_flatborder2"
+			return "Interface/AddOns/MeetingStone/Media/ClassIcon/"..string.lower(applicant:GetClass()).."_flat"
         end,
         sortHandler = function(applicant)
             return _PartySortHandler(applicant) or applicant:GetClass()
@@ -358,6 +358,14 @@ function ApplicantPanel:ToggleEventMenu(button, applicant)
                 C_LFGList.DeclineApplicant(applicant:GetID())
             end,
             disabled = not name,
+        },
+		{
+            text = '复制申请者名字',
+            func = function()                
+                local name = applicant:GetName()
+                print(name)
+                GUI:CallUrlDialog(name)
+            end,
         },
         {
             text = CANCEL,

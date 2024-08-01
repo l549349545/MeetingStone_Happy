@@ -28,6 +28,8 @@ function SettingPanel:OnInitialize()
     local globalOptions = {
         ['enableIgnoreTitle'] = true,
         ['showclassico']      = true,
+		['showspecico']      = true,
+		['showSmRoleIco']      = true,
         ['classIcoMsOnly']    = true,
         ['showWindClassIco']  = true,
         ['useWindSkin']       = true,
@@ -116,9 +118,30 @@ function SettingPanel:OnInitialize()
                 width = 'full',
                 order = order(),
             },
+			showspecico = {
+                type = 'toggle',
+                name = L['显示专精图标'],
+                hidden = function()
+                    return not Profile:GetShowClassIco()
+                end,
+                width = 'full',
+                order = order(),
+            },
+			showSmRoleIco = {
+                type = 'toggle',
+                name = L['显示小职责图标'],
+                hidden = function()
+                    return not Profile:GetShowClassIco()
+                end,
+                width = 'full',
+                order = order(),
+            },
             classIcoMsOnly = {
                 type = 'toggle',
                 name = L['只在集合石上显示职业图标(触发重载UI)'],
+				hidden = function()
+                    return not Profile:GetShowClassIco()
+                end,
                 width = 'full',
                 order = order(),
             },
