@@ -668,12 +668,12 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
         if not icon.role then
 			icon.role = self:CreateTexture(nil, "OVERLAY")
             icon.role:SetSize(24, 24)
-            --if i == 1 then
-            --    icon.role:SetPoint("RIGHT", -5, -2)
-            --else
-            --    icon.role:ClearAllPoints()
-            --    icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
-            --end
+            if i == 1 then
+                icon.role:SetPoint("RIGHT", -5, -2)
+            else
+                icon.role:ClearAllPoints()
+                icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
+            end
             --icon:SetSize(24, 24)
 
             --icon.role = self:CreateTexture(nil, "OVERLAY")
