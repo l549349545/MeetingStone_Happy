@@ -4,6 +4,7 @@
 -- @Date   : 2017-9-8 10:35:51
 
 BuildEnv(...)
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 if not ADDON_REGIONSUPPORT then
     return

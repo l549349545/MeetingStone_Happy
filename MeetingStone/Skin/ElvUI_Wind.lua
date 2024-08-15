@@ -1,5 +1,7 @@
 BuildEnv(...)
 
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 local function defaultcvar()
   local W, F, E, L = unpack(_G.WindTools)
   local S = W.Modules.Skins

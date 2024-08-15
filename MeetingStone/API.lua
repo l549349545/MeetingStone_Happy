@@ -4,6 +4,8 @@ local memorize = require('NetEaseMemorize-1.0')
 local nepy = require('NetEasePinyin-1.0')
 local Base64 = LibStub('NetEaseBase64-1.0')
 local AceSerializer = LibStub('AceSerializer-3.0')
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+
 --FROM NGA
 local RoleIconTextures = {
 	[1] = "Interface/AddOns/MeetingStone/Media/SunUI/TANK.tga",
@@ -759,5 +761,17 @@ function InitMeetingStoneClass()
             if L:IsHooked(F) then L:Unhook(F) end
             L:SecureHook(F, ReplaceGroupRoles)
         end)
+    end
+end
+
+-- originally sourced from Blizzard_Deprecated/Deprecated_10_1_5.lua
+-- code from nga
+function GetTexCoordsForRoleSmallCircle(role)
+    if (role == 'TANK') then
+        return 0, 19 / 64, 22 / 64, 41 / 64
+    elseif (role == 'HEALER') then
+        return 20 / 64, 39 / 64, 1 / 64, 20 / 64
+    elseif (role == 'DAMAGER') then
+        return 20 / 64, 39 / 64, 22 / 64, 41 / 64
     end
 end

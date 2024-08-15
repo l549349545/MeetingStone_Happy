@@ -4,6 +4,7 @@ SettingPanel = Addon:NewModule(CreateFrame('Frame', nil, MainPanel), 'SettingPan
 
 local BINDING_KEY = 'MEETINGSTONE_TOGGLE'
 local UIScaleTimer = nil
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 function SettingPanel:OnInitialize()
     GUI:Embed(self, 'Owner')
