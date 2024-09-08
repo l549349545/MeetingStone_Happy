@@ -329,6 +329,26 @@ CATEGORY = {
             [1146] = true, -- 世界首领
         },
     },
+    [10] = {
+        groups = {
+            --地心之战： 329,324,322,327,328,326,323,325
+            --史诗钥石地下城：329,328 326, 323,56,262,265,146
+            --团队副本：
+            [363] = true, -- 地心之战
+            [329] = true, -- 千丝之城
+            [324] = true, -- 圣焰隐修院
+            [322] = true, -- 暗焰裂口
+            [327] = true, -- 燧酿酒庄
+            [328] = true, -- 矶石宝库
+            [326] = true, -- 破晨号
+            [323] = true, -- 艾拉-卡拉，回响之城
+            [325] = true, -- 驭雷栖巢
+            [362] = true, -- 尼鲁巴尔王宫
+        },
+        activities = {
+            [1289] = true, -- 世界首领
+        },
+    },
 }
 
 --/run a=LFGListFrame.EntryCreation dump(C_LFGList.GetAvailableActivityGroups(a.selectedCategory, bit.bor(a.baseFilters, a.selectedFilters)))

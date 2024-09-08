@@ -764,6 +764,80 @@ function InitMeetingStoneClass()
     end
 end
 
+function GetPlayerRegion()
+    local regionTable = { "US", "KR", "EU", "TW", "CN" }
+    local playerAccountInfo = C_BattleNet.GetAccountInfoByGUID(UnitGUID("player"))
+    local currentRegion = GetCurrentRegion()
+
+    if not playerAccountInfo or not playerAccountInfo.gameAccountInfo or not playerAccountInfo.gameAccountInfo.regionID then
+        return regionTable[currentRegion]
+    else
+        return regionTable[playerAccountInfo.gameAccountInfo.regionID]
+    end
+end
+
+function GetPortalByLocale()
+    local gameLocale = GetLocale()
+    local portalVal
+    if gameLocale == "zhTW" then
+        portalVal = 'TW'
+    elseif gameLocale == "zhCN" then
+        portalVal = 'CN'
+    else
+        portalVal = 'US'
+    end
+
+    return portalVal
+end
+
+function GetDungeonScoreRarityColor(score)
+    return C_ChallengeMode.GetDungeonScoreRarityColor(score) or
+        HIGHLIGHT_FONT_COLOR
+end
+
+function GetSpecificDungeonOverallScoreRarityColor(score)
+    return C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(score) or
+        HIGHLIGHT_FONT_COLOR
+end
+
+---@return string hexadecimal color string with alpha.
+function ColorMixin:GenerateHexColor() return "" end
+
+---Generates a hexadecimal color string without alpha.
+---@return string hexadecimal color string without alpha.
+function ColorMixin:GenerateHexColorNoAlpha() return "" end
+
+---Generates a hexadecimal color markup string.
+---@return string hexadecimal color markup string.
+function ColorMixin:GenerateHexColorMarkup() return "" end
+
+-- Function to convert RGB values to hexadecimal string
+function ColorMixin:RGBToHex(r, g, b)
+    -- Convert normalized RGB values to 0-255 range
+    local red = math.floor(r * 255 + 5)
+    local green = math.floor(g * 255 + 5)
+    local blue = math.floor(b * 255 + 5)
+
+    -- Ensure values are within range
+    red = math.max(0, math.min(255, red))
+    green = math.max(0, math.min(255, green))
+    blue = math.max(0, math.min(255, blue))
+
+    -- Convert to hexadecimal format
+    return string.format("%02X%02X%02X", red, green, blue)
+end
+
+---Wraps the given text in a color code using this color.
+---@param text string The text to wrap.
+---@return string The wrapped text with the color code.
+function ColorMixin:WrapTextInColorCode(text)
+    local color = CreateColor(self.r, self.g, self.b, 1)
+    local hex = color:GenerateHexColor()
+    return "|c" .. hex .. text .. "|r"
+end
+
+-- ****** Fix ColorMixin issue from 11.0 - End ****** --
+
 -- originally sourced from Blizzard_Deprecated/Deprecated_10_1_5.lua
 -- code from nga
 function GetTexCoordsForRoleSmallCircle(role)
