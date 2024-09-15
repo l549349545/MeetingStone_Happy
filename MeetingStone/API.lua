@@ -52,8 +52,7 @@ function UnitFullName(unit)
 end
 
 function IsActivityManager()
-    return UnitIsGroupLeader('player', LE_PARTY_CATEGORY_HOME) or
-               (IsInRaid(LE_PARTY_CATEGORY_HOME) and UnitIsGroupAssistant('player', LE_PARTY_CATEGORY_HOME))
+    return UnitIsGroupLeader('player', LE_PARTY_CATEGORY_HOME) or (IsInRaid(LE_PARTY_CATEGORY_HOME) and UnitIsGroupAssistant('player', LE_PARTY_CATEGORY_HOME))   
 end
 
 function ToggleCreatePanel(...)
@@ -124,30 +123,30 @@ function CodeCommentData(activity)
     local activityId = activity:GetActivityID()
     local customId = activity:GetCustomID()
     local data = format('(%s)',
-                        AceSerializer:Serialize(CompressNumber(customId), ADDON_VERSION_SHORT, activity:GetMode(),
-                                                activity:GetLoot(), GetPlayerClass(),
-                                                GetPlayerItemLevel(activity:IsUseHonorLevel()),
-                                                GetPlayerRaidProgression(activityId, customId),
-                                                GetPlayerPvPRating(activityId), CompressNumber(activity:GetMinLevel()),
-                                                CompressNumber(activity:GetMaxLevel()),
-                                                CompressNumber(activity:GetPvPRating()), GetAddonSource(),
-                                                GetPlayerFullName(), GetPlayerSavedInstance(customId), nil,
-                                                CompressNumber(
-                                                    activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)))
+        AceSerializer:Serialize(CompressNumber(customId), ADDON_VERSION_SHORT, activity:GetMode(),
+            activity:GetLoot(), GetPlayerClass(),
+            GetPlayerItemLevel(activity:IsUseHonorLevel()),
+            GetPlayerRaidProgression(activityId, customId),
+            GetPlayerPvPRating(activityId), CompressNumber(activity:GetMinLevel()),
+            CompressNumber(activity:GetMaxLevel()),
+            CompressNumber(activity:GetPvPRating()), GetAddonSource(),
+            GetPlayerFullName(), GetPlayerSavedInstance(customId), nil,
+            CompressNumber(
+                activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)))
     return data
 end
 
 function GetSafeSummaryLength(activityId, customId, mode, loot)
     local data = format('(%s)', AceSerializer:Serialize(customId, ADDON_VERSION_SHORT, mode, loot, GetPlayerClass(),
-                                                        GetPlayerItemLevel(IsUseHonorLevel(activityId)),
-                                                        GetPlayerRaidProgression(activityId, customId),
-                                                        GetPlayerPvPRating(activityId), 999, 999,
-                                                        IsUsePvPRating(activityId) and 9999 or nil, GetAddonSource(),
-                                                        GetPlayerFullName(), GetPlayerSavedInstance(customId), format(
-                                                            '%s-%s-%s', GetModeName(mode), GetLootName(loot),
-                                                            GetActivityName(activityId, customId)), CompressNumber(
-                                                            IsUseHonorLevel(activityId) and UnitHonorLevel('player') or
-                                                                nil)))
+        GetPlayerItemLevel(IsUseHonorLevel(activityId)),
+        GetPlayerRaidProgression(activityId, customId),
+        GetPlayerPvPRating(activityId), 999, 999,
+        IsUsePvPRating(activityId) and 9999 or nil, GetAddonSource(),
+        GetPlayerFullName(), GetPlayerSavedInstance(customId), format(
+            '%s-%s-%s', GetModeName(mode), GetLootName(loot),
+            GetActivityName(activityId, customId)), CompressNumber(
+            IsUseHonorLevel(activityId) and UnitHonorLevel('player') or
+            nil)))
     return min(MAX_MEETINGSTONE_SUMMARY_LETTERS, MAX_SUMMARY_LETTERS - strlenutf8(data))
 end
 
@@ -161,8 +160,8 @@ function CodeDescriptionData(activity)
     else
         local activityId = activity:GetActivityID()
         local data = format('(%s)',
-                            AceSerializer:Serialize(GetPlayerRaidProgression(activityId, activity:GetCustomID()),
-                                                    GetPlayerPvPRating(activityId), GetAddonSource()))
+            AceSerializer:Serialize(GetPlayerRaidProgression(activityId, activity:GetCustomID()),
+                GetPlayerPvPRating(activityId), GetAddonSource()))
         return data, strlenutf8(data)
     end
 end
@@ -200,6 +199,7 @@ function GetActivityCode(activityId, customId, categoryId, groupId)
     end
     return format('%d-%d-%d-%d', categoryId or 0, groupId or 0, activityId or 0, customId or 0)
 end
+
 --2022-11-17
 function IsUseHonorLevel(activityId)
     if activityId then
@@ -207,13 +207,15 @@ function IsUseHonorLevel(activityId)
         return activityId and activityInfo.useHonorLevel;
     end
 end
-function IsMythicPlusActivity (activityId)
+
+function IsMythicPlusActivity(activityId)
     if activityId then
         local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
         return activityId and activityInfo.isMythicActivity;
     end
 end
-function IsRatedPvpActivity (activityId)
+
+function IsRatedPvpActivity(activityId)
     if activityId then
         local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
         return activityId and activityInfo.isRatedPvpActivity;
@@ -287,7 +289,7 @@ function GetProgressionTex(value, bossIndex)
     local killed = bit.band(value, bit.lshift(1, bossIndex - 1)) > 0
 
     return killed and [[|TINTERFACE\FriendsFrame\StatusIcon-Online:16|t]] or
-               [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
+        [[|TINTERFACE\FriendsFrame\StatusIcon-Offline:16|t]]
 end
 
 function GetActivityName(activityId, customId)
@@ -312,7 +314,7 @@ end
 
 function CodeActivityTitle(activityId, customId, mode, loot)
     return format('%s-%s-%s-%s', L['集合石'], GetLootName(loot), GetModeName(mode),
-                  GetActivityName(activityId, customId))
+        GetActivityName(activityId, customId))
 end
 
 function GetFullVersion(version)
@@ -421,8 +423,8 @@ end
 
 function GetAddonSource()
     for line in gmatch(
-                    '\066\105\103\070\111\111\116\058\049\010\033\033\033\049\054\051\085\073\033\033\033\058\050\010\068\117\111\119\097\110\058\052\010\069\108\118\085\073\058\056',
-                    '[^\r\n]+') do
+        '\066\105\103\070\111\111\116\058\049\010\033\033\033\049\054\051\085\073\033\033\033\058\050\010\068\117\111\119\097\110\058\052\010\069\108\118\085\073\058\056',
+        '[^\r\n]+') do
         local n, v = line:match('^(.+):(%d+)$')
         if IsAddOnLoaded(n) then
             return tonumber(v)
@@ -489,7 +491,7 @@ GetAutoCompleteItem = setmetatable({}, {
     __index = function(t, activityId)
         --2022-11-17
         --local name, shortName, category, group, iLevel, filters, minLevel, maxMembers, displayType =
-           -- C_LFGList.GetActivityInfo(activityId)
+        -- C_LFGList.GetActivityInfo(activityId)
 
         local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
         local name = activityInfo.fullName;
@@ -538,7 +540,6 @@ function ApplyUrlButton(button, url)
         button.url = nil
     end
 end
-
 
 --------------------------
 -- NDui MOD
@@ -599,6 +600,7 @@ local function UpdateGroupRoles(self)
     local count = 0
     for i = 1, 5 do
         local role, class, classCN, spec = GetCorrectRoleInfo(self.__owner, i)
+
         local roleIndex = role and roleOrder[role]
         if roleIndex then
             count = count + 1
@@ -606,7 +608,7 @@ local function UpdateGroupRoles(self)
             roleCache[count][1] = roleIndex
             roleCache[count][2] = class
             roleCache[count][3] = i == 1
-			roleCache[count][4] = spec
+            roleCache[count][4] = spec
         end
     end
 
@@ -663,12 +665,12 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
 
 	local flagCheckShowSpecIcon = Profile:GetShowSpecIco()
 	local flagCheckShowSmRoleIcon = Profile:GetShowSmRoleIco()  
-	
+
     UpdateGroupRoles(self)
     for i = 1, 5 do
         local icon = self.Icons[i]
         if not icon.role then
-			icon.role = self:CreateTexture(nil, "OVERLAY")
+            icon.role = self:CreateTexture(nil, "OVERLAY")
             icon.role:SetSize(24, 24)
             if i == 1 then
                 icon.role:SetPoint("RIGHT", -5, -2)
@@ -676,17 +678,7 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
                 icon.role:ClearAllPoints()
                 icon.role:SetPoint("RIGHT", self.Icons[i - 1].role, "LEFT", 0, 0)
             end
-            --icon:SetSize(24, 24)
-
-            --icon.role = self:CreateTexture(nil, "OVERLAY")
-            --icon.role:SetSize(16, 16)
-            --icon.role:SetPoint("TOPLEFT", icon, -4, 5)
-			--icon:SetPoint("TOPLEFT", icon.role, -4, 5)
-            --icon:SetSize(18, 18)
-
             icon.leader = self:CreateTexture(nil, "OVERLAY")
-            --icon.leader:SetSize(16, 16)
-            --icon.leader:SetPoint("TOP", icon.role, 4, 8)
             icon.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
             icon.leader:SetRotation(rad(-15))
         end
@@ -708,36 +700,33 @@ local function ReplaceGroupRoles(self, numPlayers, _, disabled)
         local roleInfo = roleCache[i]
         if roleInfo then
             local icon = self.Icons[iconIndex]
-			
-			if flagCheckShowSmRoleIcon then
+            if flagCheckShowSmRoleIcon then
                 icon:SetSize(15, 15)
                 icon:SetPoint("TOPLEFT", icon.role, -4, 6)
-                icon.leader:SetSize(13, 13)     
+                icon.leader:SetSize(13, 13)
                 icon.leader:SetPoint("TOP", icon.role, 4, 8)
             else
                 icon:SetSize(18, 18)
                 icon:SetPoint("TOPLEFT", icon.role, -4, 5)
-                icon.leader:SetSize(16, 16)     
+                icon.leader:SetSize(16, 16)
                 icon.leader:SetPoint("TOP", icon.role, 4, 8)
             end
-            --icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
-			if roleInfo[4] and flagCheckShowSpecIcon then
-				--icon.role:SetTexture(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
-				local spec_id = classNameToSpecId[roleInfo[2]..roleInfo[4]]
-                if spec_id == nil then
-                    icon.role:SetTexture(classNameToSpecIcon[roleInfo[2]..roleInfo[4]])
-                else                     
-                    icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/SpellIcon/circular_"..spec_id)
-                end
-			else
-				icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" .. string.lower(roleInfo[2]) .. "_flatborder2")
-			end
 
-			if roleInfo[1] and RoleIconTextures[roleInfo[1]] then
-				-- icon.RoleIconWithBackground:SetTexture(RoleIconTextures[roleInfo[1]])
+            if roleInfo[4] and flagCheckShowSpecIcon then
+                local spec_id = classNameToSpecId[roleInfo[2] .. roleInfo[4]]
+                if spec_id == nil then
+                    icon.role:SetTexture(classNameToSpecIcon[roleInfo[2] .. roleInfo[4]])
+                else
+                    icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/SpellIcon/circular_" .. spec_id)
+                end
+            else
+                icon.role:SetTexture("Interface/AddOns/MeetingStone/Media/ClassIcon/" ..
+                    string.lower(roleInfo[2]) .. "_flatborder2")
+            end
+
+            if roleInfo[1] and RoleIconTextures[roleInfo[1]] then
                 icon.RoleIconWithBackground:SetAtlas(roleAtlas[roleInfo[1]])
-			end
-            --icon.role:SetAtlas(roleAtlas[roleInfo[1]])
+            end
             icon.leader:SetShown(roleInfo[3])
             iconIndex = iconIndex - 1
         end
@@ -800,6 +789,67 @@ function GetSpecificDungeonOverallScoreRarityColor(score)
         HIGHLIGHT_FONT_COLOR
 end
 
+-- ****** Fix ColorMixin issue from 11.0 - Start ****** --
+local CreateColor = CreateColor
+--- ColorMixin is a mixin that provides functionality for working with colors.
+---@class ColorMixin : table
+ColorMixin = {}
+
+---@class colorRGB : table, ColorMixin
+---@field r number
+---@field g number
+---@field b number
+
+---Sets the RGBA values of the color.
+---@param r number The red component of the color (0-1).
+---@param g number The green component of the color (0-1).
+---@param b number The blue component of the color (0-1).
+---@param a? number The alpha component of the color (0-1).
+function ColorMixin:SetRGBA(r, g, b, a) end
+
+---Sets the RGB values of the color.
+---@param r number The red component of the color (0-1).
+---@param g number The green component of the color (0-1).
+---@param b number The blue component of the color (0-1).
+function ColorMixin:SetRGB(r, g, b) end
+
+---Returns the RGB values of the color.
+---@return number r
+---@return number g
+---@return number b
+function ColorMixin:GetRGB() return 0, 0, 0 end
+
+---Returns the RGB values of the color as bytes (0-255).
+---@return number red
+---@return number green
+---@return number blue
+function ColorMixin:GetRGBAsBytes() return 0, 0, 0 end
+
+---Returns the RGBA values of the color.
+---@return number red
+---@return number green
+---@return number blue
+---@return number alpha
+function ColorMixin:GetRGBA() return 0, 0, 0, 0 end
+
+---Returns the RGBA values of the color as bytes (0-255).
+---@return number red
+---@return number green
+---@return number blue
+---@return number alpha
+function ColorMixin:GetRGBAAsBytes() return 0, 0, 0, 0 end
+
+---Checks if the RGB values of this color are equal to another color.
+---@param otherColor table The other color to compare with.
+---@return boolean bIsEqual if the RGB values are equal, false otherwise.
+function ColorMixin:IsRGBEqualTo(otherColor) return true end
+
+---Checks if this color is equal to another color.
+---@param otherColor table The other color to compare with.
+---@return boolean True if the RGB and alpha values are equal, false otherwise.
+function ColorMixin:IsEqualTo(otherColor) return true end
+
+---Generates a hexadecimal color string with alpha.
 ---@return string hexadecimal color string with alpha.
 function ColorMixin:GenerateHexColor() return "" end
 
@@ -838,8 +888,8 @@ end
 
 -- ****** Fix ColorMixin issue from 11.0 - End ****** --
 
--- originally sourced from Blizzard_Deprecated/Deprecated_10_1_5.lua
 -- code from nga
+-- originally sourced from Blizzard_Deprecated/Deprecated_10_1_5.lua
 function GetTexCoordsForRoleSmallCircle(role)
     if (role == 'TANK') then
         return 0, 19 / 64, 22 / 64, 41 / 64
