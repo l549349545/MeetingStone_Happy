@@ -166,7 +166,7 @@ function Activity:Update()
         self:SetKilledBossCount(completedEncounters and #completedEncounters or 0)
     end
 
-    fnn(self)
+    --fnn(self)
 
     self:UpdateSortValue()
 
