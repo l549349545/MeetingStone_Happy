@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20241117')
+	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20241219')
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -431,7 +431,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         tooltip:AddSepatator()
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_MEMBERS_SIMPLE, activity:GetNumMembers()))
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized, specLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            local role, class, classLocalized, specLocalized = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             local classColor                                 = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
             tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, specLocalized or _G[role]),
                 classColor.r,
@@ -443,7 +443,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         local roles = {}
         local classInfo = {}
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized, specLocalized = C_LFGList.GetSearchResultMemberInfo(activity:GetID(), i)
+            local role, class, classLocalized, specLocalized = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             if (class) then
                 classInfo[class .. specLocalized] = {
                     name = classLocalized,
