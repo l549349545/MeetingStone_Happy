@@ -34,6 +34,7 @@ function CurrentActivity:_FromAddon(data)
 end
 
 function CurrentActivity:UpdateBySystem(info)
+    info.activityID = info.activityIDs and info.activityIDs[1] or nil
     self:SetActivityID(info.activityID)
     self:SetItemLevel(info.requiredItemLevel)
     self:SetHonorLevel(info.requiredHonorLevel)
@@ -51,15 +52,18 @@ end
 
 function CurrentActivity:GetCreateArguments(autoAccept)
     local comment = CodeCommentData(self)
-    return  self:GetActivityID(),
-            self:GetItemLevel(),
-            self:GetHonorLevel(),
-            autoAccept,
-            self:GetPrivateGroup(),
-            self:GetQuestID(),
-            self:GetMythicPlusRating(),
-            self:GetPvpRating(),
-			1,
-            self:GetCrossFactionGroup()
-			
+
+    local createData = {
+		activityIDs = { self:GetActivityID() },
+		questID = self:GetQuestID(),
+		isAutoAccept = autoAccept,
+		isCrossFactionListing = self:GetCrossFactionGroup(),
+		isPrivateGroup = self:GetPrivateGroup(),
+		playstyle = 1,
+		requiredDungeonScore = self:GetMythicPlusRating(),
+		requiredItemLevel = self:GetItemLevel(),
+		requiredPvpRating = self:GetPvpRating(),
+	};
+    return createData	
 end
+  

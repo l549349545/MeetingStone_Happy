@@ -69,10 +69,10 @@ function Activity:Update()
     local numMembers = info.numMembers
     --9.1
     local leaderOverallDungeonScore = info.leaderOverallDungeonScore
-    local leaderDungeonScoreInfo = info.leaderDungeonScoreInfo
+    local leaderDungeonScoreInfo = info.leaderDungeonScoreInfo and info.leaderDungeonScoreInfo[1] or nil
 
 	--9.1.5
-	local leaderPvpRatingInfo = info.leaderPvpRatingInfo
+	local leaderPvpRatingInfo = info.leaderPvpRatingInfo and info.leaderPvpRatingInfo[1] or nil
 	local leaderPvpRating = 0
 	local requiredPvpRating = info.requiredPvpRating
 	if leaderPvpRatingInfo then

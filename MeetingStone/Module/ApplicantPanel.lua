@@ -286,13 +286,15 @@ local function _SortApplicants(applicant1, applicant2)
     end
     return applicant1:GetOrderID() < applicant2:GetOrderID()
 end
-
+  
 function ApplicantPanel:UpdateApplicantsList()
     local list = {}
     local applicants = C_LFGList.GetApplicants()
 
     if applicants and C_LFGList.HasActiveEntryInfo() then
-        local isMythicPlusActivity = C_LFGList.GetActiveEntryInfo().isMythicPlusActivity
+        local info = C_LFGList.GetActiveEntryInfo()
+        local isMythicPlusActivity = info.isMythicPlusActivity
+        local activityID  = info.activityIDs[1]
 		-- print(activityID)
 		-- --2022-11-17
 		-- local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
