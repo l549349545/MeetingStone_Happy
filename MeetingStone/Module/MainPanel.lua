@@ -7,7 +7,7 @@ function MainPanel:OnInitialize()
     GUI:Embed(self, 'Refresh', 'Help', 'Blocker')
 
     self:SetSize(922, 447)
-	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20241219')
+	self:SetText(L['集合石'] .. ' 开心快乐每一天 ' .. ADDON_VERSION .. ' 20250106')
     --self:SetIcon(ADDON_LOGO)
     self:EnableUIPanel(true)
     self:SetTabStyle('BOTTOM')
@@ -542,6 +542,9 @@ function MainPanel:OpenApplicantTooltip(applicant)
     local itemLevel = applicant:GetItemLevel()
     local comment = applicant:GetMsg()
     local useHonorLevel = applicant:IsUseHonorLevel()
+    local specId = applicant:GetSpecID()
+
+    
 
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)
@@ -549,7 +552,14 @@ function MainPanel:OpenApplicantTooltip(applicant)
     if name then
         local classTextColor = RAID_CLASS_COLORS[class]
         GameTooltip:AddHeader(name, classTextColor.r, classTextColor.g, classTextColor.b)
-        GameTooltip:AddLine(string.format(UNIT_TYPE_LEVEL_TEMPLATE, level, localizedClass), 1, 1, 1)
+        local classSpecializationName = localizedClass
+        if specId then
+            local specName = GetSpecNameBySpecID(specId)
+            if specName then
+                classSpecializationName = CLUB_FINDER_LOOKING_FOR_CLASS_SPEC:format(specName, classSpecializationName)
+            end
+        end    
+        GameTooltip:AddLine(string.format(UNIT_TYPE_LEVEL_TEMPLATE, level, classSpecializationName), 1, 1, 1)
     else
         GameTooltip:AddHeader(UnitName('none'), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
     end
@@ -640,4 +650,11 @@ function MainPanel:OpenRecentPlayerTooltip(player)
     tooltip:AddLine(player:GetNameText())
     tooltip:AddLine(player:GetNotes(), 1, 1, 1, true)
     tooltip:Show()
+end
+function GetSpecNameBySpecID(specID, playerSex)
+	playerSex = playerSex or UnitSex("player");
+	if playerSex then
+		return select(2, GetSpecializationInfoByID(specID, playerSex));
+	end
+	return "";
 end

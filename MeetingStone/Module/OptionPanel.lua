@@ -192,7 +192,7 @@ function SettingPanel:OnInitialize()
                 name = L['界面缩放比例'],
                 width = 'full',
                 order = order(),
-                min = 1.0,
+                min = 0.5,
                 max = 2.0,
                 step = 0.1,
                 get = function()
