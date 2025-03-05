@@ -27,6 +27,7 @@ function Profile:OnInitialize()
             spamWord          = {},
             searchProfiles    = {},
             enableIgnoreTitle = true,
+            globalPanelPos    = false,
             showclassico      = true,
 			showspecico      = false,
 			showSmRoleIco     = false,
@@ -161,6 +162,22 @@ function Profile:GetEnableIgnoreTitle()
     return self:GetGlobalOption('enableIgnoreTitle')
 end
 
+function Profile:GetGlobalPanelPos()
+    return self:GetGlobalOption('globalPanelPos')
+end
+
+function Profile:GetGlobalDataBrokerStorage()
+    if not self.gdb.global.dataBrokerStorage then
+        self.gdb.global.dataBrokerStorage = self.cdb.profile.settings.storage
+    end
+
+    return self.gdb.global.dataBrokerStorage
+end
+
+function Profile:GetProfileDataBrokerStorage()
+    return self.cdb.profile.settings.storage
+end
+
 function Profile:GetShowClassIco()
     return self:GetGlobalOption('showclassico')
 end
@@ -200,9 +217,17 @@ function Profile:SaveGlobalOption(key, value)
         ['classIcoMsOnly']   = true,
         ['showWindClassIco'] = true,
         ['useWindSkin']      = true,
+        ['globalPanelPos']    = true
     }
 
     self.gdb.global[key] = value
+    if key == 'globalPanelPos' then
+        if value == true then
+            self.gdb.global.dataBrokerStorage = { point = 'CENTER', x = 0, y = 0 }
+        else
+            self.cdb.profile.settings.storage = self.gdb.global.dataBrokerStorage
+        end
+    end
     return needReload[key] == true
 end
 

@@ -10,7 +10,10 @@ local TEXT_FORMAT = format('%s %%d   %s %%d', ICON1, ICON2)
 local TEXT_FORMAT_WITH_APP = format('%s %%d   %s %%d   %s %%d', ICON1, ICON2, ICON3)
 
 function DataBroker:OnInitialize()
-    self.db = Profile:GetCharacterDB()
+    --self.db = Profile:GetCharacterDB()
+    self.profile = Profile:GetCharacterDB().profile
+    self.globalStorage = Profile:GetGlobalDataBrokerStorage()
+    self.profileStorage = Profile:GetProfileDataBrokerStorage()
     local LDB = LibStub('LibDataBroker-1.1')
     local BrokerObject = LDB:NewDataObject('MeetingStone', {
         type = 'data source',
@@ -70,7 +73,12 @@ function DataBroker:OnInitialize()
             BrokerPanel:SetScript('OnClick', BrokerObject.OnClick)
             BrokerPanel:RegisterForClicks('anyUp')
         end
-        BrokerPanel:RegisterConfig(self.db.profile.settings.storage)
+        --BrokerPanel:RegisterConfig(self.db.profile.settings.storage)
+        if Profile:GetGlobalPanelPos() == true then
+            BrokerPanel:RegisterConfig(self.globalStorage)
+        else
+            BrokerPanel:RegisterConfig(self.profileStorage)
+        end
         BrokerPanel:MakeDraggable()
         BrokerPanel:RestorePosition()
     end
@@ -104,7 +112,8 @@ function DataBroker:OnInitialize()
     self.BrokerFlash = BrokerFlash
 
     LDB.RegisterCallback(self, 'LibDataBroker_AttributeChanged_MeetingStone', 'OnDataBrokerChanged')
-    LibStub('LibDBIcon-1.0'):Register('MeetingStone', BrokerObject, self.db.profile.minimap)
+    --LibStub('LibDBIcon-1.0'):Register('MeetingStone', BrokerObject, self.db.profile.minimap)
+    LibStub('LibDBIcon-1.0'):Register('MeetingStone', BrokerObject, self.profile.minimap)
 
     BrokerObject.text = L['集合石']
     BrokerObject.icon = [[Interface\AddOns\MeetingStone\Media\Mark\0]]

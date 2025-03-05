@@ -35,7 +35,8 @@ function SettingPanel:OnInitialize()
         ['showWindClassIco']  = true,
         ['useWindSkin']       = true,
         ['enableRaiderIO']    = true,
-        ['enableLeaderColor'] = true
+        ['enableLeaderColor'] = true,
+        ['globalPanelPos']    = true
     }
 
     local options = {
@@ -88,6 +89,15 @@ function SettingPanel:OnInitialize()
             panelLock = {
                 type = 'toggle',
                 name = L['锁定悬浮窗'],
+                width = 'full',
+                order = order(),
+                disabled = function()
+                    return not self.db.profile.settings.panel
+                end
+            },
+            globalPanelPos = {
+                type = 'toggle',
+                name = L['悬浮窗位置全角色统一(需要重载UI)'],
                 width = 'full',
                 order = order(),
                 disabled = function()
