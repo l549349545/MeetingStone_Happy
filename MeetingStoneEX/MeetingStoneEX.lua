@@ -51,10 +51,10 @@ end
 -- 2023-01-01 使用ID，避免台服文字不匹配
 ACTIVITY_NAMES = {}
 do
-    local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371}
-    for k, groupId in ipairs(Dungeons) do
-        local DeText = C_LFGList.GetActivityGroupInfo(groupId)
-        tinsert(ACTIVITY_NAMES, DeText)
+    local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550 }
+    for k, actId in ipairs(Activitys) do
+        local info = C_LFGList.GetActivityInfoTable(actId)
+        tinsert(ACTIVITY_NAMES, info.fullName)
     end
 end
 
@@ -404,15 +404,7 @@ function BrowsePanel:CreateExSearchPanel()
             if not self.MDSearchs then
                 self.MDSearchs = {}
             end
-            local activitytypeText7
-            if gameLocale == "zhCN" then
-                activitytypeText7 = '（史诗钥石）'
-            elseif gameLocale == "enUS" then
-                activitytypeText7 = ' (Mythic Keystone)'
-            else
-                activitytypeText7 = '(傳奇鑰石)'
-            end
-            self.MDSearchs[text .. activitytypeText7] = box.Check:GetChecked()
+            self.MDSearchs[text] = box.Check:GetChecked()
             if not box.Check:GetChecked() then
                 local clear = true
                 for k, v2 in pairs(self.MDSearchs) do
