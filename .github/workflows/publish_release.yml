@@ -1,0 +1,43 @@
+name: Publish Release
+
+on:
+  push:
+    branches:
+      - main # 推送到main分支时触发
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Install zip utility
+      run: sudo apt-get install zip -y
+      
+    - name: Create zip archive with date version
+      run: |
+        current_date=$(date +"%Y%m%d")
+        zip -r MeetingStone_Happy$current_date.zip ./
+      
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+      with:
+        tag_name: MeetingStone_Happy$current_date
+        release_name: MeetingStone_Happy$current_date
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing its ID to get its outputs object, which include a `upload_url`
+        asset_path: ./MeetingStone_Happy$current_date.zip
+        asset_name: MeetingStone_Happy$current_date.zip
+        asset_content_type: application/zip
