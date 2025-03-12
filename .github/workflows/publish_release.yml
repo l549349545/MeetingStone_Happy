@@ -27,14 +27,36 @@ jobs:
         current_version=${{ github.event.inputs.release_version }}
         zip -r MeetingStone_Happy$current_version.zip MeetingStone MeetingStoneEx
       
+    - name: Check for existing releases and generate unique tag name
+      id: check_release
+      run: |
+        base_tag="MeetingStone_Happy${{ github.event.inputs.release_version }}"
+        counter=0
+        while true; do
+          if [ $counter -eq 0 ]; then
+            tag_name=$base_tag
+          else
+            tag_name="${base_tag}${counter}"
+          fi
+          
+          response=$(curl -s -o /dev/null -w "%{http_code}" -u ":${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/releases/tags/$tag_name)
+          
+          if [ "$response" != "200" ]; then
+            echo "::set-output name=unique_tag::$tag_name"
+            break
+          fi
+          ((counter++))
+        done
+
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub自动提供
       with:
-        tag_name: MeetingStone_Happy${{ github.event.inputs.release_version }}
-        release_name: MeetingStone_Happy${{ github.event.inputs.release_version }}
+        tag_name: ${{ steps.check_release.outputs.unique_tag }}
+        release_name: ${{ steps.check_release.outputs.unique_tag }}
         draft: false
         prerelease: false
         
@@ -45,5 +67,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # 来自CREATE RELEASE步骤
         asset_path: ./MeetingStone_Happy${{ github.event.inputs.release_version }}.zip
-        asset_name: MeetingStone_Happy${{ github.event.inputs.release_version }}.zip
+        asset_name: ${{ steps.check_release.outputs.unique_tag }}.zip
         asset_content_type: application/zip
