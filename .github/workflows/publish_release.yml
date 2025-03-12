@@ -22,9 +22,10 @@ jobs:
     - name: Install zip utility
       run: sudo apt-get install zip -y
       
-    - name: Create zip archive with custom version
+    - name: Create zip archive with custom version for specific folders
       run: |
-        zip -r MeetingStone_Happy${{ github.event.inputs.release_version }}.zip ./
+        current_version=${{ github.event.inputs.release_version }}
+        zip -r MeetingStone_Happy$current_version.zip MeetingStone MeetingStoneEx
       
     - name: Create GitHub Release
       id: create_release
