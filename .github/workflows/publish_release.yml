@@ -25,7 +25,10 @@ jobs:
     - name: Create zip archive with custom version for specific folders
       run: |
         current_version=${{ github.event.inputs.release_version }}
-        zip -r MeetingStone_Happy$current_version.zip MeetingStone MeetingStoneEx
+        zip -r MeetingStone_Happy$current_version.zip MeetingStone MeetingStoneEx || {
+          echo "Failed to include both MeetingStone and MeetingStoneEx folders."
+          exit 1
+        }
       
     - name: Check for existing releases and generate unique tag name
       id: check_release
