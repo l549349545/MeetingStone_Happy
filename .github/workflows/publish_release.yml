@@ -27,23 +27,23 @@ jobs:
     - name: Create zip archive with custom version for specific folders
       run: |
         current_version=${{ github.event.inputs.release_version }}
-        zip -r MeetingStone_Happy$current_version.zip ./MeetingStone ./MeetingStoneEx || {
-          echo "Failed to include both MeetingStone and MeetingStoneEx folders."
+        zip -r MeetingStone_Happy$current_version.zip ./MeetingStone ./MeetingStoneEX || {
+          echo "Failed to include both MeetingStone and MeetingStoneEX folders."
           exit 1
         }
 
     - name: Verify included folders
       run: |
         current_version=${{ github.event.inputs.release_version }}
-        zip_info=$(zipinfo -1 MeetingStone_Happy$current_version.zip | grep -E '^(MeetingStone|MeetingStoneEx)/')
+        zip_info=$(zipinfo -1 MeetingStone_Happy$current_version.zip | grep -E '^(MeetingStone|MeetingStoneEX)/')
         
         if ! echo "$zip_info" | grep -q "MeetingStone/"; then
           echo "Error: MeetingStone folder is missing in the zip file."
           exit 1
         fi
         
-        if ! echo "$zip_info" | grep -q "MeetingStoneEx/"; then
-          echo "Error: MeetingStoneEx folder is missing in the zip file."
+        if ! echo "$zip_info" | grep -q "MeetingStoneEX/"; then
+          echo "Error: MeetingStoneEX folder is missing in the zip file."
           exit 1
         fi
       
