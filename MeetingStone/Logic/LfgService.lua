@@ -150,8 +150,10 @@ function LfgService:Search(categoryId, baseFilter, activityId)
     self.ourSearch = true
     self.activityId = activityId
     local filterVal = 0
+    local advFilter
     if categoryId == 2 then
         filterVal = 1
+        advFilter = C_LFGList.GetAdvancedFilter()
     end
 
     -- if activityId then
@@ -162,7 +164,7 @@ function LfgService:Search(categoryId, baseFilter, activityId)
     -- end
 
     local languages = C_LFGList.GetLanguageSearchFilter();
-    C_LFGList.Search(categoryId, filterVal, baseFilterVal, languages)
+    C_LFGList.Search(categoryId, filterVal, baseFilterVal, languages ,nil ,advFilter)
     self.ourSearch = false
     self.dirty = false
 end

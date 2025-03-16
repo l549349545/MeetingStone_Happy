@@ -411,8 +411,11 @@ function ListOfDungeons(menuType)
     -- local Activitys = { 1288, 1287, 1285, 1284,1290,703,713,534 }
 
     -- 11.1 S2
-    local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371}
-    local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550}
+    --local Dungeons = { 322, 324, 325, 327, 371,266,140,257} 
+    --local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550}
+    
+    local Dungeons =  C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE));
+    local Activitys = { 1282, 1281, 1283, 1286, 1550,717, 510, 683} 
   
     -- C_MythicPlus.IsMythicPlusActive()
     -- C_LFGList.GetActivityInfoTable(i)
