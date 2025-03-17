@@ -323,6 +323,13 @@ local function defaultcvar()
                   if child.Check then
                       S:ESProxy("HandleCheckBox", child.Check)
                   end
+                  if child.Check and child.MaxBox and child.MinBox then
+                    S:ESProxy("HandleCheckBox", child.Check)
+                    child.MaxBox:StripTextures()
+                    S:ESProxy("HandleEditBox", child.MaxBox)
+                    child.MinBox:StripTextures()
+                    S:ESProxy("HandleEditBox", child.MinBox)
+                 end
               end
           end
           if BrowsePanel.ExFilterPanel then
@@ -345,6 +352,13 @@ local function defaultcvar()
                 if child.Check then
                     S:ESProxy("HandleCheckBox", child.Check)
                 end
+                if child.Check and child.MaxBox and child.MinBox then
+                  S:ESProxy("HandleCheckBox", child.Check)
+                  child.MaxBox:StripTextures()
+                  S:ESProxy("HandleEditBox", child.MaxBox)
+                  child.MinBox:StripTextures()
+                  S:ESProxy("HandleEditBox", child.MinBox)
+               end
             end
         end
       end
