@@ -325,6 +325,28 @@ local function defaultcvar()
                   end
               end
           end
+          if BrowsePanel.ExFilterPanel then
+            local panel = BrowsePanel.ExFilterPanel
+            S:ESProxy("HandlePortraitFrame", panel)
+            S:CreateShadow(panel)
+            for _, child in pairs {panel:GetChildren()} do
+                if child.GetObjectType and child:GetObjectType() == "Button" then
+                    if child.GetText and child:GetText() ~= "" and child:GetText() ~= nil then
+                        S:ESProxy("HandleButton", child, nil, nil, nil, true, "Transparent")
+                        child.backdrop:ClearAllPoints()
+                        child.backdrop:SetOutside(child, -1, 0)
+                    else
+                        S:ESProxy("HandleCloseButton", child)
+                    end
+                end
+            end
+            
+            for _, child in pairs {panel.Inset:GetChildren()} do
+                if child.Check then
+                    S:ESProxy("HandleCheckBox", child.Check)
+                end
+            end
+        end
       end
       
       -- Manager Panel (管理活动)

@@ -288,17 +288,20 @@ function GetActivitesMenuTable(menuType)
     MakeMenuTable(list, Enum.LFGListFilter.PvP, menuType)
 
     if menuType == ACTIVITY_FILTER_BROWSE or menuType == ACTIVITY_FILTER_CREATE then
-        tinsert(list, 1, {
+        
+		 tinsert(list, 1, {
+            text = L['|cffffff00赛季大秘境|r'],
+            notClickable = false,
+            hasArrow = false,
+            value =  'mplus',
+            categoryId = 2
+            --menuTable = ListOfDungeons(menuType),
+        })
+        tinsert(list, 2, {
             text = menuType == ACTIVITY_FILTER_CREATE and L['|cff00ff00最近创建|r'] or L['|cff00ff00最近搜索|r'],
             notClickable = true,
             hasArrow = true,
             menuTable = RefreshHistoryMenuTable(menuType),
-        })
-		 tinsert(list, 2, {
-            text = L['|cffffff00当前版本地下城|r'],
-            notClickable = true,
-            hasArrow = true,
-            menuTable = ListOfDungeons(menuType),
         })
     end
 

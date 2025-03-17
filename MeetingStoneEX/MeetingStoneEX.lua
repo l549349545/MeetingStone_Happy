@@ -184,7 +184,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             activitytypeText4 = '竞技场'
             activitytypeText5 = '竞技场（2v2）'
             activitytypeText6 = '竞技场（3v3）'
-            activitytypeText7 = '（史诗钥石）'
+            --activitytypeText7 = '（史诗钥石）'
         elseif gameLocale == "enUS" then
             activitytypeText1 = 'Dungeons'
             activitytypeText2 = 'Raids'
@@ -192,7 +192,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             activitytypeText4 = 'Arenas'
             activitytypeText5 = 'Arena (2v2)'
             activitytypeText6 = 'Arena (3v3)'
-            activitytypeText7 = ' (Mythic Keystone)'
+            --activitytypeText7 = ' (Mythic Keystone)'
         else
             activitytypeText1 = '地城'
             activitytypeText2 = '團隊副本'
@@ -200,7 +200,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
             activitytypeText4 = '競技場'
             activitytypeText5 = '競技場(2v2)'
             activitytypeText6 = '競技場(3v3)'
-            activitytypeText7 = '(傳奇鑰石)'
+            --activitytypeText7 = '(傳奇鑰石)'
         end
         if activitytype == activitytypeText1 then
             if not CheckJobsFilter(data, 1, 1, 3, true, activity) then
@@ -227,15 +227,6 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
                     return false
                 end
             end
-        else
-            --9.2.71 尝试修复部分插件地下城分类不一致导致的职责过滤失效问题
-            -- for i, v in ipairs(ACTIVITY_NAMES) do
-            --     if activity:GetName() == v .. activitytypeText7 then
-            --         if not CheckJobsFilter(data, 1, 1, 3, true, activity) then
-            --             return false
-            --         end
-            --     end
-            -- end
         end
     end
 
@@ -323,21 +314,14 @@ function BrowsePanel:CreateExSearchPanel()
 	
     do
         GUI:Embed(ExSearchPanel, 'Refresh')
-        --by 易安玥 调整筛选框大小
-        ExSearchPanel:SetSize(200, 380)
-        ExSearchPanel:SetPoint('TOPLEFT', MainPanel, 'TOPRIGHT', 0, -30)
+        ExSearchPanel:SetSize(200, 395)
+        ExSearchPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, -10)
         ExSearchPanel:SetFrameLevel(self.ActivityList:GetFrameLevel() + 5)
         ExSearchPanel:EnableMouse(true)
-
-        local closeButton = CreateFrame('Button', nil, ExSearchPanel, 'UIPanelCloseButton')
-        do
-            closeButton:SetPoint('TOPRIGHT', 0, -1)
-        end
-
         local Label = ExSearchPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
         do
-            Label:SetPoint('TOPLEFT', 5, -10)
-            Label:SetText('大秘境-精确搜索')
+            Label:SetPoint('TOP', 0, -10)
+            Label:SetText('赛季大秘境')
         end
     end
     self.ExSearchPanel = ExSearchPanel
@@ -368,13 +352,12 @@ function BrowsePanel:CreateExSearchPanel()
     function createCheckBox(index,text,checked,value,cbEvent,cbFunc) 
         local Box = Addon:GetClass('CheckBox'):New(ExSearchPanel.Inset)
         Box.Check:SetText(text)
-        print(text)
         Box.Check:SetChecked(checked)
         Box.dataValue = value
         Box:SetCallback(cbEvent,cbFunc)
         if index == 1 then
-            Box:SetPoint('TOPLEFT', 10, 0)
-            Box:SetPoint('TOPRIGHT', -10, 0)
+            Box:SetPoint('TOPLEFT', 10, -10)
+            Box:SetPoint('TOPRIGHT', -10, -10)
         else
             if index == #Dungeons+1 then
                 Box:SetPoint('TOPLEFT', self.MD[index-1], 'BOTTOMLEFT', 0, -10)
@@ -418,7 +401,6 @@ function BrowsePanel:CreateExSearchPanel()
             end
         end)        
     end
-
     local availTank, availHealer, availDPS = C_LFGList.GetAvailableRoles();
     function roleFunc(box)
         local value = box.Check:GetChecked()
@@ -460,98 +442,95 @@ function BrowsePanel:CreateExSearchPanel()
             end
             C_LFGList.SaveAdvancedFilter(enabled)
             C_LFGList.ClearSearchTextFields()
+            self.ActivityDropdown:SetValue('2-0-0-0')
             self:DoSearch()
         end)
     end
 	
 end
 
-local function CreateMemberFilter(self, point, MainPanel, x, text, DB_Name, tooltip)
-    if MEETINGSTONE_UI_DB[DB_Name] == nil then
-        MEETINGSTONE_UI_DB[DB_Name] = false
-    end
+ 
 
+-- local function CreateScoreFilter(self, text, score)
+--     local DB_Name = 'SCORE'
+--     if MEETINGSTONE_UI_DB[DB_Name] == nil then
+--         MEETINGSTONE_UI_DB[DB_Name] = false
+--     end
 
-    local TCount = GUI:GetClass('CheckBox'):New(self)
+--     local filterScoreCheckBox = GUI:GetClass('CheckBox'):New(self)
+--     do
+--         filterScoreCheckBox:SetSize(24, 24)
+--         filterScoreCheckBox:SetPoint('TOPLEFT', self.SearchBox, 'TOPLEFT', 0, 26)
+--         filterScoreCheckBox:SetText(text)
+--         filterScoreCheckBox:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
+--         filterScoreCheckBox:SetScript("OnClick", function()
+--             if MEETINGSTONE_UI_DB[DB_Name] then
+--                 MEETINGSTONE_UI_DB[DB_Name] = nil
+--             else
+--                 MEETINGSTONE_UI_DB[DB_Name] = score
+--             end
+--             self.ActivityList:Refresh()
+--         end)
+--         GUI:Embed(filterScoreCheckBox, 'Tooltip')
+--         filterScoreCheckBox:SetTooltip("说明", "过滤队长是0分的队伍, 可能有助于减少广告")
+--         filterScoreCheckBox:SetTooltipAnchor("ANCHOR_TOPLEFT")
+--     end
+-- end
+
+function BrowsePanel:CreateExSearchButton()
+
+    local ExFilterPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate')
+	
     do
-        TCount:SetSize(24, 24)
-        TCount:SetPoint(point, MainPanel, x, 3)
-        TCount:SetText(text)
-        TCount:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
-        TCount:SetScript('OnClick', function()
+        GUI:Embed(ExFilterPanel, 'Refresh')
+        ExFilterPanel:SetSize(200, 180)
+        ExFilterPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, -10)
+        ExFilterPanel:SetFrameLevel(self.ActivityList:GetFrameLevel() + 5)
+        ExFilterPanel:EnableMouse(true)
+        local Label = ExFilterPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+        do
+            Label:SetPoint('TOPLEFT', 15, -10)
+            Label:SetText('组队过滤器')
+        end
+    end
+    self.ExFilterPanel = ExFilterPanel
+    ExFilterPanel:SetShown(false)
+
+
+    function CreateMemberFilter(text, DB_Name, tooltip,index)
+        if MEETINGSTONE_UI_DB[DB_Name] == nil then
+            MEETINGSTONE_UI_DB[DB_Name] = false
+        end
+        local Box = Addon:GetClass('CheckBox'):New(ExFilterPanel.Inset)
+        Box.Check:SetText(text)
+        Box.Check:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
+        Box:SetPoint('TOPLEFT', 10, 10-20*index)
+        Box:SetPoint('TOPRIGHT', -10, 10-20*index)
+        Box:SetCallback('OnChanged', function()
             MEETINGSTONE_UI_DB[DB_Name] = not MEETINGSTONE_UI_DB[DB_Name]
             self.ActivityList:Refresh()
         end)
-    end
-    if tooltip then
-        GUI:Embed(TCount, 'Tooltip')
-        TCount:SetTooltip("说明", tooltip)
-        TCount:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
-    end
-end
 
-local function CreateScoreFilter(self, text, score)
-    local DB_Name = 'SCORE'
-    if MEETINGSTONE_UI_DB[DB_Name] == nil then
-        MEETINGSTONE_UI_DB[DB_Name] = false
+        if tooltip then
+            GUI:Embed(Box.Check, 'Tooltip')
+            Box.Check:SetTooltip("说明", tooltip)
+            Box.Check:SetTooltipAnchor("ANCHOR_BOTTOMRIGHT")
+        end
     end
 
-    local filterScoreCheckBox = GUI:GetClass('CheckBox'):New(self)
-    do
-        filterScoreCheckBox:SetSize(24, 24)
-        filterScoreCheckBox:SetPoint('TOPLEFT', self.SearchBox, 'TOPLEFT', 0, 26)
-        filterScoreCheckBox:SetText(text)
-        filterScoreCheckBox:SetChecked(MEETINGSTONE_UI_DB[DB_Name])
-        filterScoreCheckBox:SetScript("OnClick", function()
-            if MEETINGSTONE_UI_DB[DB_Name] then
-                MEETINGSTONE_UI_DB[DB_Name] = nil
-            else
-                MEETINGSTONE_UI_DB[DB_Name] = score
-            end
-            self.ActivityList:Refresh()
-        end)
-        GUI:Embed(filterScoreCheckBox, 'Tooltip')
-        filterScoreCheckBox:SetTooltip("说明", "过滤队长是0分的队伍, 可能有助于减少广告")
-        filterScoreCheckBox:SetTooltipAnchor("ANCHOR_TOPLEFT")
-    end
-end
-
-function BrowsePanel:CreateExSearchButton()
-    self.RefreshButton:SetPoint('TOPRIGHT', MainPanel, 'TOPRIGHT', -180, -38)
-    local ExSearchButton = CreateFrame('Button', nil, self, 'UIMenuButtonStretchTemplate')
-    do
-        GUI:Embed(ExSearchButton, 'Tooltip')
-        ExSearchButton:SetTooltipAnchor('ANCHOR_RIGHT')
-        ExSearchButton:SetTooltip('大秘搜索')
-        ExSearchButton:SetSize(83, 31)
-        ExSearchButton:SetPoint('LEFT', self.RefreshButton, 'RIGHT', 0, 0)
-        ExSearchButton:SetText('大秘搜索')
-        ExSearchButton:SetNormalFontObject('GameFontNormal')
-        ExSearchButton:SetHighlightFontObject('GameFontHighlight')
-        ExSearchButton:SetDisabledFontObject('GameFontDisable')
-
-        ExSearchButton:SetScript('OnClick', function()
-            self:SwitchPanel(self.ExSearchPanel)
-        end)
-    end
-    self.ExSearchButton = ExSearchButton
-    self.AdvButton:SetPoint('LEFT', ExSearchButton, 'RIGHT', 0, 0)
-    self.AdvButton:SetScript('OnClick', function()
-        self:SwitchPanel(self.AdvFilterPanel)
-    end)
-
-    CreateMemberFilter(self, 'BOTTOMLEFT', MainPanel, 70, '坦克', 'FILTER_TANK', "隐藏已有坦克职业的队伍，允许多选")
-    CreateMemberFilter(self, 'BOTTOMLEFT', MainPanel, 130, '治疗', 'FILTER_HEALTH', "隐藏已有治疗职业的队伍，允许多选")
-    CreateMemberFilter(self, 'BOTTOMLEFT', MainPanel, 190, '输出', 'FILTER_DAMAGE', "隐藏输出职业满的队伍，允许多选")
-    CreateMemberFilter(self, 'BOTTOMLEFT', MainPanel, 250, '多选-"或"条件', 'FILTER_MULTY',
-        '左侧几项多选时，将过滤出同时满足所有条件的队伍\n而多选的同时再勾选本项后，将过滤出满足勾选的任意一项条件的队伍\n一般而言，用于玩家想同时以多个职责加入队伍的时候\n例如战士想查找缺T或DPS的队伍')
+    
+    CreateMemberFilter( '坦克', 'FILTER_TANK', "隐藏已有坦克职业的队伍，允许多选",1)
+    CreateMemberFilter('治疗', 'FILTER_HEALTH', "隐藏已有治疗职业的队伍，允许多选",2)
+    CreateMemberFilter( '输出', 'FILTER_DAMAGE', "隐藏输出职业满的队伍，允许多选",3)
+    CreateMemberFilter('多选-"或"条件', 'FILTER_MULTY',
+        '左侧几项多选时，将过滤出同时满足所有条件的队伍\n而多选的同时再勾选本项后，将过滤出满足勾选的任意一项条件的队伍\n一般而言，用于玩家想同时以多个职责加入队伍的时候\n例如战士想查找缺T或DPS的队伍',4)
 
     -- CreateMemberFilter(self, 'BOTTOM', MainPanel, 80, '同职过滤', 'FILTER_JOB',
     --     "五人副本时，隐藏已有同职责" .. UnitClass("player") .. "的队伍")
     -- CreateScoreFilter(self, '过滤队长0分队伍', 1)
 
-    CreateMemberFilter(self, 'BOTTOM', MainPanel, 200, '显示屏蔽提示', 'IGNORE_TIPS_LOG',
-        "屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息")
+    CreateMemberFilter( '显示屏蔽提示', 'IGNORE_TIPS_LOG',
+        "屏蔽了队长或同标题玩家时，聊天框里显示一次提示信息",5)
 end
 
 --添加大秘境过滤功能
@@ -642,20 +621,6 @@ function BrowsePanel:GetExSearchs()
         }
     end
     return filters
-end
-
-function BrowsePanel:SwitchPanel(panel)
-    local list = {
-        self.ExSearchPanel,
-        self.AdvFilterPanel,
-    }
-    for i, v in ipairs(list) do
-        if v == panel then
-            v:SetShown(not v:IsShown())
-        else
-            v:SetShown(false)
-        end
-    end
 end
 
 BrowsePanel:EX_INIT()
