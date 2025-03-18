@@ -328,15 +328,14 @@ function BrowsePanel:CreateExSearchPanel()
     ExSearchPanel:SetShown(false)
 
     local enabled = C_LFGList.GetAdvancedFilter()
-    enabled.needsTank = false
-    enabled.needsHealer = false
-    enabled.needsDamage = false
-    enabled.needsMyClass = false
-    enabled.hasTank = false
-    enabled.hasHealer = false
-    enabled.minimumRating = 1
-    enabled.activities = Dungeons
-    C_LFGList.SaveAdvancedFilter(enabled)
+    -- enabled.needsTank = false
+    -- enabled.needsHealer = false
+    -- enabled.needsDamage = false
+    -- enabled.needsMyClass = false
+    -- enabled.hasTank = false
+    -- enabled.hasHealer = false
+    -- enabled.activities = Dungeons
+    -- C_LFGList.SaveAdvancedFilter(enabled)
     
     self.MD = {}
 
@@ -434,6 +433,9 @@ function BrowsePanel:CreateExSearchPanel()
             enabled.difficultyHeroic = false
             enabled.difficultyMythic = false
             enabled.difficultyMythicPlus = true
+            if enabled.minimumRating == 0 then
+               enabled.minimumRating = 1
+            end    
             for i,v in ipairs(enabled.activities) do
                 local stats,index = containsValue(Dungeons,v)
                 if not stats then
