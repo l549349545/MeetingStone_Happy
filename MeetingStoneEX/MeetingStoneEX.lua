@@ -441,8 +441,8 @@ function BrowsePanel:CreateExSearchPanel()
                 end    
             end
             C_LFGList.SaveAdvancedFilter(enabled)
-            C_LFGList.ClearSearchTextFields()
-            self.ActivityDropdown:SetValue('2-0-0-0')
+            --C_LFGList.ClearSearchTextFields()
+            --self.ActivityDropdown:SetValue('2-0-0-0')
             self:DoSearch()
         end)
     end

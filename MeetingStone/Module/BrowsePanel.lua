@@ -1030,8 +1030,7 @@ function BrowsePanel:DoSearch()
     self.RefreshFilterButton:Disable()
     self:Search()
     self:CancelTimer(self.disableRefreshTimer)
-    --移除3秒的刷新等待时间
-    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 0)
+    self.disableRefreshTimer = self:ScheduleTimer('OnRefreshTimer', 3)
 end
 
 function BrowsePanel:Search()
