@@ -403,7 +403,7 @@ function BrowsePanel:CreateBlzFilterPanel()
             for i,v in ipairs(enabled.activities) do
                 local stats,index = containsValue(Dungeons,v)
                 if not stats then
-                    table.remove(enabled.activitie,index)
+                    table.remove(enabled.activities,index)
                 end    
             end
             C_LFGList.SaveAdvancedFilter(enabled)
