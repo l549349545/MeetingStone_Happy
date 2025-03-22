@@ -303,8 +303,8 @@ local function defaultcvar()
           end
           
           -- Meeting Stone EX element (大秘境过滤)
-          if BrowsePanel.ExSearchPanel then
-              local panel = BrowsePanel.ExSearchPanel
+          if BrowsePanel.BlzFilterPanel then
+              local panel = BrowsePanel.BlzFilterPanel
               S:ESProxy("HandlePortraitFrame", panel)
               S:CreateShadow(panel)
               for _, child in pairs {panel:GetChildren()} do

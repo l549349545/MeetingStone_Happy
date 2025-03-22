@@ -449,15 +449,15 @@ function BrowsePanel:OnInitialize()
                     C_LFGList.ClearSearchTextFields()
                 end
                 if data.value == 'mplus' or data.value == '2-0-0-0' then
-                    if self.ExSearchPanel then
-                        self.ExSearchPanel:Show()
+                    if self.BlzFilterPanel then
+                        self.BlzFilterPanel:Show()
                     end 
                     if self.ExFilterPanel then
                         self.ExFilterPanel:Hide()
                     end 
                 else
-                    if self.ExSearchPanel then
-                        self.ExSearchPanel:Hide()
+                    if self.BlzFilterPanel then
+                        self.BlzFilterPanel:Hide()
                     end
                     if self.ExFilterPanel then
                         self.ExFilterPanel:Show()

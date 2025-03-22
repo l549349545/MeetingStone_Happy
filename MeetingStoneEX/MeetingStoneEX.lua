@@ -161,73 +161,37 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
         end
         return false
     end
-
-    local activitytypeText1
-    local activitytypeText2
-    local activitytypeText3
-    local activitytypeText4
-    local activitytypeText5
-    local activitytypeText6
-    local activitytypeText7
+   
     local data = C_LFGList.GetSearchResultMemberCounts(activity:GetID())
     if data then
-        local tcount, hcount, dcount = 1, 1, 3
-        local activitytype = BrowsePanel.ActivityDropdown:GetText()
-        local arenatype = activity:GetName()
-        -- print(activitytype)
-        -- print(arenatype)
-
-        if gameLocale == "zhCN" then
-            activitytypeText1 = '地下城'
-            activitytypeText2 = '团队副本'
-            activitytypeText3 = '评级战场'
-            activitytypeText4 = '竞技场'
-            activitytypeText5 = '竞技场（2v2）'
-            activitytypeText6 = '竞技场（3v3）'
-            --activitytypeText7 = '（史诗钥石）'
-        elseif gameLocale == "enUS" then
-            activitytypeText1 = 'Dungeons'
-            activitytypeText2 = 'Raids'
-            activitytypeText3 = 'Rated Battlegrounds'
-            activitytypeText4 = 'Arenas'
-            activitytypeText5 = 'Arena (2v2)'
-            activitytypeText6 = 'Arena (3v3)'
-            --activitytypeText7 = ' (Mythic Keystone)'
-        else
-            activitytypeText1 = '地城'
-            activitytypeText2 = '團隊副本'
-            activitytypeText3 = '積分戰場'
-            activitytypeText4 = '競技場'
-            activitytypeText5 = '競技場(2v2)'
-            activitytypeText6 = '競技場(3v3)'
-            --activitytypeText7 = '(傳奇鑰石)'
+        local activityItem = BrowsePanel.ActivityDropdown:GetItem()
+        if not activityItem then
+            return
         end
-        if activitytype == activitytypeText1 then
-            if not CheckJobsFilter(data, 1, 1, 3, true, activity) then
-                return false
-            end
-        elseif activitytype == activitytypeText2 then
+        local categoryId = activityItem.categoryId
+        local activityId = activityItem.activityId
+        --任务1 地下堡121 地下城2 团队3 jjc4 评级9 自定义6
+        if categoryId == 2 then
+            --if not CheckJobsFilter(data, 1, 1, 3, true, activity) then
+                --return false
+            --end
+        elseif categoryId == 3 then
             if not CheckJobsFilter(data, 2, 6, 22) then
                 return false
+            end   
+        elseif categoryId == 4 then 
+            if activityId == 6 and (not CheckPVPJobsFilter(data, 1, 2)) then
+                return false
             end
-        elseif activitytype == activitytypeText3 then
+            if activityId == 7 and (not CheckPVPJobsFilter(data, 1, 3)) then
+                return false
+            end
+        elseif categoryId == 9 then   
             if not CheckPVPJobsFilter(data, 3, 7) then
                 return false
             end
-        elseif activitytype == activitytypeText4 then
-            --来自白描MeetingStone_Happy的修改
-            local arenatype = activity:GetName()
-            if arenatype == activitytypeText5 then
-                if not CheckPVPJobsFilter(data, 1, 2) then
-                    return false
-                end
-            end
-            if arenatype == activitytypeText6 then
-                if not CheckPVPJobsFilter(data, 1, 3) then
-                    return false
-                end
-            end
-        end
+        end    
+            
     end
 
     if Profile:GetEnableIgnoreTitle() then
@@ -308,24 +272,24 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
 end)
 
 
-function BrowsePanel:CreateExSearchPanel()
+function BrowsePanel:CreateBlzFilterPanel()
     -- body
-    local ExSearchPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate')
+    local BlzFilterPanel = CreateFrame('Frame', nil, self, 'SimplePanelTemplate')
 	
     do
-        GUI:Embed(ExSearchPanel, 'Refresh')
-        ExSearchPanel:SetSize(200, 395)
-        ExSearchPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, -10)
-        ExSearchPanel:SetFrameLevel(self.ActivityList:GetFrameLevel() + 5)
-        ExSearchPanel:EnableMouse(true)
-        local Label = ExSearchPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+        GUI:Embed(BlzFilterPanel, 'Refresh')
+        BlzFilterPanel:SetSize(200, 395)
+        BlzFilterPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, -10)
+        BlzFilterPanel:SetFrameLevel(self.ActivityList:GetFrameLevel() + 5)
+        BlzFilterPanel:EnableMouse(true)
+        local Label = BlzFilterPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
         do
             Label:SetPoint('TOP', 0, -10)
             Label:SetText('赛季大秘境')
         end
     end
-    self.ExSearchPanel = ExSearchPanel
-    ExSearchPanel:SetShown(false)
+    self.BlzFilterPanel = BlzFilterPanel
+    BlzFilterPanel:SetShown(false)
 
     local enabled = C_LFGList.GetAdvancedFilter()
     -- enabled.needsTank = false
@@ -349,7 +313,7 @@ function BrowsePanel:CreateExSearchPanel()
     end
     
     function createCheckBox(index,text,checked,value,cbEvent,cbFunc) 
-        local Box = Addon:GetClass('CheckBox'):New(ExSearchPanel.Inset)
+        local Box = Addon:GetClass('CheckBox'):New(BlzFilterPanel.Inset)
         Box.Check:SetText(text)
         Box.Check:SetChecked(checked)
         Box.dataValue = value
@@ -370,8 +334,8 @@ function BrowsePanel:CreateExSearchPanel()
 
         return Box
     end
-    function createFilterBox(index,text,min,cbEvent,cbFunc)
-        local Box = Addon:GetClass('FilterBox'):New(ExSearchPanel.Inset)
+    function createFilterBox(index,text,min,cbEvent,cbFunc,DB_Name)
+        local Box = Addon:GetClass('FilterBox'):New(BlzFilterPanel.Inset)
         Box.Check:SetText(text)
         Box.MinBox:SetMinMaxValues(min, 9999)
         Box.MaxBox:SetText(9999)
@@ -405,12 +369,12 @@ function BrowsePanel:CreateExSearchPanel()
         local value = box.Check:GetChecked()
         local key = box.dataValue
         enabled[key] = value
-    end
+    end  
     if availTank then 
         createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_TANK,enabled.needsTank,"needsTank",'OnChanged', roleFunc)
     end  
     if availHealer then 
-        createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_HEALER,enabled.needsHealer,"needsHealer",'OnChanged',roleFunc )
+        createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_HEALER,enabled.needsHealer,"needsHealer",'OnChanged',roleFunc)
     end  
     if availDPS then 
         createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_DAMAGE,enabled.needsDamage,"needsDamage",'OnChanged', roleFunc)
@@ -423,10 +387,10 @@ function BrowsePanel:CreateExSearchPanel()
     end)
     
 
-    local ResetFilterButton = CreateFrame('Button', nil, ExSearchPanel, 'UIPanelButtonTemplate')
+    local ResetFilterButton = CreateFrame('Button', nil, BlzFilterPanel, 'UIPanelButtonTemplate')
     do
         ResetFilterButton:SetSize(160, 22)
-        ResetFilterButton:SetPoint('BOTTOM', ExSearchPanel, 'BOTTOM', 0, 3)
+        ResetFilterButton:SetPoint('BOTTOM', BlzFilterPanel, 'BOTTOM', 0, 3)
         ResetFilterButton:SetText('搜索')
         ResetFilterButton:SetScript('OnClick', function()
             enabled.difficultyNormal = false
@@ -537,7 +501,7 @@ end
 
 --添加大秘境过滤功能
 function BrowsePanel:EX_INIT()
-    self:CreateExSearchPanel()
+    self:CreateBlzFilterPanel()
     self:CreateExSearchButton()
 end
 
