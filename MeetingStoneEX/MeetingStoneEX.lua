@@ -4,7 +4,6 @@ local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
 
 
 debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
-
 Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
 GUI = LibStub('NetEaseGUI-2.0')
 
@@ -15,7 +14,6 @@ function GetSearchResultMemberInfo(...)
 	end
 end    
 
-local Dungeons =  C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE));
 
 local gameLocale = GetLocale()
 
@@ -26,6 +24,13 @@ local Profile = Addon:GetModule('Profile')
 if not MEETINGSTONE_UI_DB.IGNORE_LIST then
     MEETINGSTONE_UI_DB.IGNORE_LIST = {}
 end
+
+local _dungeon = C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE))
+if #_dungeon > 0 then
+    MEETINGSTONE_UI_DB.Dungeon_LIST = _dungeon
+elseif  not MEETINGSTONE_UI_DB.Dungeon_LIST then   
+    MEETINGSTONE_UI_DB.Dungeon_LIST = { 322, 324, 325, 327, 140, 257, 266, 371}
+end    
 
 -- if not MEETINGSTONE_UI_DB.CLEAR_IGNORE_LIST_V1 then
 --     MEETINGSTONE_UI_DB.CLEAR_IGNORE_LIST_V1 = false
@@ -291,6 +296,9 @@ function BrowsePanel:CreateBlzFilterPanel()
     self.BlzFilterPanel = BlzFilterPanel
     BlzFilterPanel:SetShown(false)
 
+
+    local Dungeons = MEETINGSTONE_UI_DB.Dungeon_LIST
+
     local enabled = C_LFGList.GetAdvancedFilter()
     -- enabled.needsTank = false
     -- enabled.needsHealer = false
@@ -347,7 +355,7 @@ function BrowsePanel:CreateBlzFilterPanel()
         Box:SetPoint('TOPRIGHT', self.MD[index-1], 'BOTTOMRIGHT', 0, -10)    
         table.insert(self.MD, Box)
     end    
-
+    
     for i, id in ipairs(Dungeons) do
         local name = C_LFGList.GetActivityGroupInfo(id)
         createCheckBox(i,name,containsValue(enabled.activities,id),id,'OnChanged',function(box)
@@ -588,5 +596,6 @@ function BrowsePanel:GetExSearchs()
     end
     return filters
 end
+
 
 BrowsePanel:EX_INIT()

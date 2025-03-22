@@ -945,6 +945,7 @@ function BrowsePanel:OnShow()
     self.SearchBox:SetParent(self)
     self.SearchBox:SetPoint('LEFT', self.ActivityDropdown, 'RIGHT', 20, 0)
     self.SearchBox:SetWidth(220)
+
 end
 
 -- Modification begin
