@@ -7,19 +7,12 @@ debug = IsAddOnLoaded('!!!!!tdDevTools') and print or nop
 Addon = LibStub('AceAddon-3.0'):GetAddon('MeetingStone')
 GUI = LibStub('NetEaseGUI-2.0')
 
-function GetSearchResultMemberInfo(...)
-    local info = C_LFGList.GetSearchResultPlayerInfo(...)
-	if (info) then
-		return info.assignedRole, info.classFilename, info.className, info.specName, info.isLeader;
-	end
-end    
-
-
 local gameLocale = GetLocale()
 
 local BrowsePanel = Addon:GetModule('BrowsePanel')
 local MainPanel = Addon:GetModule('MainPanel')
 local Profile = Addon:GetModule('Profile')
+local LfgService = Addon:GetModule('LfgService')
 
 if not MEETINGSTONE_UI_DB.IGNORE_LIST then
     MEETINGSTONE_UI_DB.IGNORE_LIST = {}
@@ -97,7 +90,7 @@ local function CheckJobsFilter(data, tcount, hcount, dcount, ignore_same_job, ac
     if ignore_same_job and MEETINGSTONE_UI_DB.FILTER_JOB then
         local _, myclass, _2 = UnitClass("player")
         for i = 1, activity:GetNumMembers() do
-            local role, class = GetSearchResultMemberInfo(activity:GetID(), i)
+            local role, class = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             if role == 'DAMAGER' and class == myclass then
                 return false
             end
@@ -250,7 +243,7 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
 
 
 	for i = 1, activity:GetNumMembers() do
-		local role, class, classLocalized, specLocalized = GetSearchResultMemberInfo(activity:GetID(), i)
+		local role, class, classLocalized, specLocalized = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
 		if MEETINGSTONE_UI_DB[class] == true  then
 			if MEETINGSTONE_UI_DB.ClassNeed then
 				classFilter = true
@@ -319,6 +312,24 @@ function BrowsePanel:CreateBlzFilterPanel()
         end
         return false,i        
     end
+
+    
+    function saveAdvFilter()
+        enabled.difficultyNormal = false
+        enabled.difficultyHeroic = false
+        enabled.difficultyMythic = false
+        enabled.difficultyMythicPlus = true
+        if enabled.minimumRating == 0 then
+           enabled.minimumRating = 1
+        end    
+        for i,v in ipairs(enabled.activities) do
+            local stats,index = containsValue(Dungeons,v)
+            if not stats then
+                table.remove(enabled.activities,index)
+            end    
+        end
+        C_LFGList.SaveAdvancedFilter(enabled)
+    end   
     
     function createCheckBox(index,text,checked,value,cbEvent,cbFunc) 
         local Box = Addon:GetClass('CheckBox'):New(BlzFilterPanel.Inset)
@@ -356,6 +367,15 @@ function BrowsePanel:CreateBlzFilterPanel()
         table.insert(self.MD, Box)
     end    
     
+    function roleFunc(box)
+        local value = box.Check:GetChecked()
+        local key = box.dataValue
+        enabled[key] = value
+        saveAdvFilter()
+    end  
+
+
+    
     for i, id in ipairs(Dungeons) do
         local name = C_LFGList.GetActivityGroupInfo(id)
         createCheckBox(i,name,containsValue(enabled.activities,id),id,'OnChanged',function(box)
@@ -370,14 +390,10 @@ function BrowsePanel:CreateBlzFilterPanel()
                     table.remove(enabled.activities,index)
                 end    
             end
+            C_LFGList.SaveAdvancedFilter(enabled)
         end)        
     end
     local availTank, availHealer, availDPS = C_LFGList.GetAvailableRoles();
-    function roleFunc(box)
-        local value = box.Check:GetChecked()
-        local key = box.dataValue
-        enabled[key] = value
-    end  
     if availTank then 
         createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_TANK,enabled.needsTank,"needsTank",'OnChanged', roleFunc)
     end  
@@ -393,31 +409,21 @@ function BrowsePanel:CreateBlzFilterPanel()
     createFilterBox(#self.MD + 1, LFG_LIST_MINIMUM_RATING,enabled.minimumRating,'OnChanged',function(box) 
         enabled.minimumRating = box.MinBox:GetNumber()
     end)
-    
-
+     
     local ResetFilterButton = CreateFrame('Button', nil, BlzFilterPanel, 'UIPanelButtonTemplate')
     do
         ResetFilterButton:SetSize(160, 22)
         ResetFilterButton:SetPoint('BOTTOM', BlzFilterPanel, 'BOTTOM', 0, 3)
         ResetFilterButton:SetText('搜索')
-        ResetFilterButton:SetScript('OnClick', function()
-            enabled.difficultyNormal = false
-            enabled.difficultyHeroic = false
-            enabled.difficultyMythic = false
-            enabled.difficultyMythicPlus = true
-            if enabled.minimumRating == 0 then
-               enabled.minimumRating = 1
-            end    
-            for i,v in ipairs(enabled.activities) do
-                local stats,index = containsValue(Dungeons,v)
-                if not stats then
-                    table.remove(enabled.activities,index)
-                end    
-            end
-            C_LFGList.SaveAdvancedFilter(enabled)
+        ResetFilterButton:SetScript('OnClick', function(button)
+            saveAdvFilter()
             --C_LFGList.ClearSearchTextFields()
             --self.ActivityDropdown:SetValue('2-0-0-0')
+            button:Disable()
             self:DoSearch()
+            C_Timer.After(3,function()
+                button:Enable()
+            end)
         end)
     end
 	

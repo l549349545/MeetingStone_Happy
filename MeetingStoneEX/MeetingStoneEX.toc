@@ -13,6 +13,7 @@
 CheckBox.lua
 MeetingStoneEX.lua
 IgnoreListPanel.lua
+MysticRemark.lua
 
 
 ## X-Vendor: AbyUI
