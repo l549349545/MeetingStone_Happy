@@ -88,7 +88,7 @@ end
 --职责过滤
 local function CheckJobsFilter(data, tcount, hcount, dcount, activity, hasDungeon)
     local enabled = C_LFGList.GetAdvancedFilter()
-    local isSeasonDungeon = containsValue(enabled.activities,activity:GetGroupID())
+    local isSeasonDungeon = activity and containsValue(enabled.activities,activity:GetGroupID()) or false
     if not hasDungeon and isSeasonDungeon then
         local enabled = C_LFGList.GetAdvancedFilter()
         if enabled.needsMyClass then
