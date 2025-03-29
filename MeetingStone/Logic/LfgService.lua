@@ -149,22 +149,11 @@ end
 function LfgService:Search(categoryId, baseFilter, activityId)
     self.ourSearch = true
     self.activityId = activityId
-    local filterVal = 0
-    local advFilter
-    if categoryId == 2 then
-        filterVal = 1
-        advFilter = C_LFGList.GetAdvancedFilter()
-    end
-
-    -- if activityId then
-    --     local activityInfo = C_LFGList.GetActivityInfoTable(activityId);
-    --     print(activityInfo.fullName)
-    --     print(activityInfo.shortName)
-    --     print(activityInfo.groupFinderActivityGroupID)
-    -- end
-
+    local filterVal = categoryId == GROUP_FINDER_CATEGORY_ID_DUNGEONS and 1 or 0
+    local advFilter = categoryId == GROUP_FINDER_CATEGORY_ID_DUNGEONS and (not activityId) and C_LFGList.GetAdvancedFilter() or nil
+   
     local languages = C_LFGList.GetLanguageSearchFilter();
-    C_LFGList.Search(categoryId, filterVal, baseFilterVal, languages ,nil ,advFilter)
+    C_LFGList.Search(categoryId, filterVal, baseFilter, languages ,nil ,advFilter)
     self.ourSearch = false
     self.dirty = false
 end

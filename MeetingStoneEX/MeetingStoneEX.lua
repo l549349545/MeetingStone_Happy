@@ -86,42 +86,38 @@ if MEETINGSTONE_UI_DB.FILTER_MULTY == nil then
 end
 
 --职责过滤
-local function CheckJobsFilter(data, tcount, hcount, dcount, ignore_same_job, activity)
-    if ignore_same_job and MEETINGSTONE_UI_DB.FILTER_JOB then
-        local _, myclass, _2 = UnitClass("player")
-        for i = 1, activity:GetNumMembers() do
-            local role, class = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
-            if role == 'DAMAGER' and class == myclass then
-                return false
+local function CheckJobsFilter(data, tcount, hcount, dcount, activity, hasDungeon)
+    local enabled = C_LFGList.GetAdvancedFilter()
+    local isSeasonDungeon = containsValue(enabled.activities,activity:GetGroupID())
+    if not hasDungeon and isSeasonDungeon then
+        local enabled = C_LFGList.GetAdvancedFilter()
+        if enabled.needsMyClass then
+            local _, myclass, _2 = UnitClass("player")
+            for i = 1, activity:GetNumMembers() do
+                local _, class = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
+                if class == myclass then
+                    return false
+                end
             end
+        end 
+        return (not enabled.needsHealer and not enabled.needsDamage or (enabled.needsHealer and data.HEALER < hcount) or (enabled.needsDamage and data.DAMAGER < dcount)) 
+            and (not enabled.hasTank or data.TANK >= tcount )
+            and (not enabled.hasHealer or data.HEALER >= hcount )
+            or false
+             
+    else  
+        if MEETINGSTONE_UI_DB.FILTER_MULTY then
+            return (not MEETINGSTONE_UI_DB.FILTER_TANK and not MEETINGSTONE_UI_DB.FILTER_HEALTH and not MEETINGSTONE_UI_DB.FILTER_DAMAGE)
+                or (MEETINGSTONE_UI_DB.FILTER_TANK and data.TANK < tcount)
+                or (MEETINGSTONE_UI_DB.FILTER_HEALTH and data.HEALER < hcount)
+                or (MEETINGSTONE_UI_DB.FILTER_DAMAGE and data.DAMAGER < dcount)
+                or false
+        else
+            return (not MEETINGSTONE_UI_DB.FILTER_TANK or data.TANK < tcount)
+            and (not MEETINGSTONE_UI_DB.FILTER_HEALTH or data.HEALER < hcount)
+            and (not MEETINGSTONE_UI_DB.FILTER_DAMAGE or data.DAMAGER < dcount)
+            or false
         end
-    end
-    if MEETINGSTONE_UI_DB.FILTER_MULTY then
-        local show = false
-        if not MEETINGSTONE_UI_DB.FILTER_TANK and not MEETINGSTONE_UI_DB.FILTER_HEALTH and not MEETINGSTONE_UI_DB.FILTER_DAMAGE then
-            show = true
-        end
-        if MEETINGSTONE_UI_DB.FILTER_TANK and data.TANK < tcount then
-            show = true
-        end
-        if MEETINGSTONE_UI_DB.FILTER_HEALTH and data.HEALER < hcount then
-            show = true
-        end
-        if MEETINGSTONE_UI_DB.FILTER_DAMAGE and data.DAMAGER < dcount then
-            show = true
-        end
-        return show
-    else
-        if MEETINGSTONE_UI_DB.FILTER_TANK and data.TANK >= tcount then
-            return false
-        end
-        if MEETINGSTONE_UI_DB.FILTER_HEALTH and data.HEALER >= hcount then
-            return false
-        end
-        if MEETINGSTONE_UI_DB.FILTER_DAMAGE and data.DAMAGER >= dcount then
-            return false
-        end
-        return true
     end
 end
 --PVP职责过滤
@@ -168,11 +164,17 @@ BrowsePanel.ActivityList:RegisterFilter(function(activity, ...)
         end
         local categoryId = activityItem.categoryId
         local activityId = activityItem.activityId
+
+        --修复自定义搜索文本时会有不对应的内容出现
+        if categoryId ~= activity:GetCategoryID() then
+            return false
+        end    
+
         --任务1 地下堡121 地下城2 团队3 jjc4 评级9 自定义6
         if categoryId == 2 then
-            --if not CheckJobsFilter(data, 1, 1, 3, true, activity) then
-                --return false
-            --end
+            if not CheckJobsFilter(data, 1, 1, 3, activity, activityId ~= nil)then
+                return false
+            end
         elseif categoryId == 3 then
             if not CheckJobsFilter(data, 2, 6, 22) then
                 return false
@@ -276,14 +278,14 @@ function BrowsePanel:CreateBlzFilterPanel()
 	
     do
         GUI:Embed(BlzFilterPanel, 'Refresh')
-        BlzFilterPanel:SetSize(200, 395)
-        BlzFilterPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, -10)
+        BlzFilterPanel:SetSize(200, 480)
+        BlzFilterPanel:SetPoint('TOPRIGHT', MainPanel, 'TOPLEFT', 0, 0)
         BlzFilterPanel:SetFrameLevel(self.ActivityList:GetFrameLevel() + 5)
         BlzFilterPanel:EnableMouse(true)
         local Label = BlzFilterPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
         do
             Label:SetPoint('TOP', 0, -10)
-            Label:SetText('赛季大秘境')
+            Label:SetText('地下城搜索')
         end
     end
     self.BlzFilterPanel = BlzFilterPanel
@@ -315,10 +317,10 @@ function BrowsePanel:CreateBlzFilterPanel()
 
     
     function saveAdvFilter()
-        enabled.difficultyNormal = false
-        enabled.difficultyHeroic = false
-        enabled.difficultyMythic = false
-        enabled.difficultyMythicPlus = true
+        -- enabled.difficultyNormal = false
+        -- enabled.difficultyHeroic = false
+        -- enabled.difficultyMythic = false
+        -- enabled.difficultyMythicPlus = true
         if enabled.minimumRating == 0 then
            enabled.minimumRating = 1
         end    
@@ -338,8 +340,8 @@ function BrowsePanel:CreateBlzFilterPanel()
         Box.dataValue = value
         Box:SetCallback(cbEvent,cbFunc)
         if index == 1 then
-            Box:SetPoint('TOPLEFT', 10, -10)
-            Box:SetPoint('TOPRIGHT', -10, -10)
+            Box:SetPoint('TOPLEFT', 10, 0)
+            Box:SetPoint('TOPRIGHT', -10, 0)
         else
             if index == #Dungeons+1 then
                 Box:SetPoint('TOPLEFT', self.MD[index-1], 'BOTTOMLEFT', 0, -10)
@@ -370,7 +372,7 @@ function BrowsePanel:CreateBlzFilterPanel()
     function roleFunc(box)
         local value = box.Check:GetChecked()
         local key = box.dataValue
-        enabled[key] = value
+        enabled[key] = value        
         saveAdvFilter()
     end  
 
@@ -390,9 +392,17 @@ function BrowsePanel:CreateBlzFilterPanel()
                     table.remove(enabled.activities,index)
                 end    
             end
-            C_LFGList.SaveAdvancedFilter(enabled)
+            saveAdvFilter()
         end)        
     end
+
+
+    createCheckBox(#self.MD + 1, PLAYER_DIFFICULTY1,enabled.difficultyNormal,"difficultyNormal",'OnChanged', roleFunc)
+    createCheckBox(#self.MD + 1, PLAYER_DIFFICULTY2,enabled.difficultyHeroic,"difficultyHeroic",'OnChanged', roleFunc)
+    createCheckBox(#self.MD + 1, PLAYER_DIFFICULTY6,enabled.difficultyMythic,"difficultyMythic",'OnChanged', roleFunc)
+    createCheckBox(#self.MD + 1, PLAYER_DIFFICULTY_MYTHIC_PLUS,enabled.difficultyMythicPlus,"difficultyMythicPlus",'OnChanged', roleFunc)
+
+
     local availTank, availHealer, availDPS = C_LFGList.GetAvailableRoles();
     if availTank then 
         createCheckBox(#self.MD + 1, LFG_LIST_NEEDS_TANK,enabled.needsTank,"needsTank",'OnChanged', roleFunc)
@@ -406,6 +416,8 @@ function BrowsePanel:CreateBlzFilterPanel()
     createCheckBox(#self.MD + 1, string.format(LFG_LIST_CLASS_AVAILABLE, PlayerUtil.GetClassName()),enabled.needsMyClass,"needsMyClass",'OnChanged', roleFunc)
     createCheckBox(#self.MD + 1, LFG_LIST_HAS_TANK,enabled.hasTank,"hasTank",'OnChanged', roleFunc)
     createCheckBox(#self.MD + 1, LFG_LIST_HAS_HEALER,enabled.hasHealer,"hasHealer",'OnChanged', roleFunc)
+
+
     createFilterBox(#self.MD + 1, LFG_LIST_MINIMUM_RATING,enabled.minimumRating,'OnChanged',function(box) 
         enabled.minimumRating = box.MinBox:GetNumber()
     end)
@@ -503,7 +515,7 @@ function BrowsePanel:CreateExSearchButton()
     CreateMemberFilter('治疗', 'FILTER_HEALTH', "隐藏已有治疗职业的队伍，允许多选",2)
     CreateMemberFilter( '输出', 'FILTER_DAMAGE', "隐藏输出职业满的队伍，允许多选",3)
     CreateMemberFilter('多选-"或"条件', 'FILTER_MULTY',
-        '左侧几项多选时，将过滤出同时满足所有条件的队伍\n而多选的同时再勾选本项后，将过滤出满足勾选的任意一项条件的队伍\n一般而言，用于玩家想同时以多个职责加入队伍的时候\n例如战士想查找缺T或DPS的队伍',4)
+        '上方几项多选时，将过滤出同时满足所有条件的队伍\n而多选的同时再勾选本项后，将过滤出满足勾选的任意一项条件的队伍\n一般而言，用于玩家想同时以多个职责加入队伍的时候\n例如战士想查找缺T或DPS的队伍',4)
 
     -- CreateMemberFilter(self, 'BOTTOM', MainPanel, 80, '同职过滤', 'FILTER_JOB',
     --     "五人副本时，隐藏已有同职责" .. UnitClass("player") .. "的队伍")

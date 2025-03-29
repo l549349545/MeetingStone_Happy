@@ -53,7 +53,7 @@ local PerformCompare = function(self)
         local groupMemberUnitGUID = UnitGUID(groupMemberUnitID)
         for index, line in pairs(roster) do
             local regionName, projectId, charactarGUID, charactarWantedLevel, charactarRemark = unpack(decode(line, ","))
-            if regionName == GetCurrentRegionName() and tonumber(projectId) == WOW_PROJECT_ID and tonumber(charactarWantedLevel) < 3 then
+            if regionName == GetCurrentRegionName() and tonumber(projectId) == WOW_PROJECT_ID and tonumber(charactarWantedLevel) < 3 and groupMemberUnitGUID then
                 for groupMemberCharactarGUID in string.gmatch(groupMemberUnitGUID, "Player-.*-(.*)") do
                     if groupMemberCharactarGUID == charactarGUID then
                         local message = string.format("集合石提醒: %s(%s) %s", groupMemberUnitName, groupMemberUnitGUID, charactarRemark)
