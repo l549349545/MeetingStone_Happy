@@ -440,7 +440,7 @@ function BrowsePanel:OnInitialize()
                     self.ActivityDropdown:SetValue(data.value)
                     self:EndSet()  
                 else
-                    if data.value == 'mplus' or data.categoryId == '2-0-0-0' then
+                    if data.value == 'mplus' or data.value == '2-0-0-0' then
                         self:StartSet()
                         self.ActivityDropdown:SetValue('2-0-0-0')
                         self:EndSet()  
@@ -1056,7 +1056,7 @@ function BrowsePanel:Search()
     end
 
     if self.SearchBox:GetText() ~= activityItem.fullName then
-       -- activityId = nil
+       activityId = nil
     end
 
     Profile:SetLastSearchCode(searchCode)
